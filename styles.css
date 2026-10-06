@@ -1,7 +1,759 @@
+/* ==========================================================
+   WorkHub Friluftsliv – gemensam design för alla sidor
+   ========================================================== */
+
+/* ---------- Färger och typografi (designvariabler) ---------- */
 :root {
-    --background: #f2e8d5;
-    --foreground:  #1b1b1f;
-    --accent-orange: #ff6a00;
-    --accent-purple: #5a2a82;
-    --accent-green: #2f6b3a;
+  --spruce: #173430;      /* mörk granskog: rubriker, sidhuvud */
+  --spruce-light: #2c5a50;/* skogsrad längre bort */
+  --lake: #2f5f6e;        /* sjövatten */
+  --sky: #dce8ea;         /* disig himmel */
+  --birch: #f6f8f7;       /* sidans bakgrund */
+  --moss: #74844a;        /* detaljer */
+  --lingon: #b4233c;      /* knappar och markeringar */
+  --lingon-dark: #8e1a2f;
+  --ink: #14231f;         /* brödtext */
+  --muted: #4a5b56;       /* sekundär text */
+  --line: #c9d5d2;        /* tunna linjer */
+
+  --font: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+
+  --radius-small: 4px;
+  --radius-button: 999px;
+  --content-width: 68rem;
+}
+
+/* ---------- Grundinställningar ---------- */
+/* Element med attributet hidden ska alltid döljas, även om en klass sätter display */
+[hidden] {
+  display: none !important;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--birch);
+}
+
+h1, h2, h3 {
+  color: var(--spruce);
+  line-height: 1.15;
+  margin: 0 0 0.6em;
+}
+
+h2 {
+  font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+p {
+  margin: 0 0 1em;
+  max-width: 65ch;
+}
+
+a {
+  color: var(--lake);
+}
+
+:focus-visible {
+  outline: 3px solid var(--lingon);
+  outline-offset: 3px;
+}
+
+.container {
+  width: min(100% - 2.5rem, var(--content-width));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: clamp(3rem, 7vw, 5.5rem);
+}
+
+.section-intro {
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--spruce);
+  color: #fff;
+  padding: 0.6rem 1rem;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ---------- Knappar ---------- */
+.button {
+  display: inline-block;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius-button);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.button-primary {
+  background: var(--lingon);
+  color: #fff;
+}
+
+.button-primary:hover {
+  background: var(--lingon-dark);
+}
+
+.button-secondary {
+  background: transparent;
+  color: var(--spruce);
+  border-color: var(--spruce);
+}
+
+.button-secondary:hover {
+  background: var(--spruce);
+  color: #fff;
+}
+
+/* ---------- Sidhuvud och navigering ---------- */
+.site-header {
+  background: var(--spruce);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-inner {
+  width: min(100% - 2.5rem, var(--content-width));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  padding-block: 0.9rem;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.logo-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.logo-sub {
+  font-weight: 500;
+  color: var(--sky);
+}
+
+.site-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+}
+
+.site-nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding-block: 0.3rem;
+  border-bottom: 2px solid transparent;
+}
+
+.site-nav a:hover {
+  border-bottom-color: var(--sky);
+}
+
+/* Aktuell sida markeras av app.js med aria-current="page" */
+.site-nav a[aria-current="page"] {
+  border-bottom-color: var(--lingon);
+}
+
+.nav-toggle {
+  display: none;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  background: transparent;
+  border: 2px solid var(--sky);
+  border-radius: var(--radius-button);
+  padding: 0.35rem 1rem;
+  cursor: pointer;
+}
+
+/* Mobil: menyn fälls ihop, men bara när JavaScript är igång (klassen .js) */
+@media (max-width: 760px) {
+  .js .nav-toggle {
+    display: block;
+  }
+
+  .js .site-nav {
+    display: none;
+    width: 100%;
+  }
+
+  .js .site-nav.is-open {
+    display: block;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    padding-block: 0.5rem 0.75rem;
+  }
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  background: var(--sky);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.hero-text {
+  width: min(100% - 2.5rem, var(--content-width));
+  margin-inline: auto;
+  padding-top: clamp(3rem, 9vw, 6.5rem);
+  padding-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.6rem, 8vw, 5.6rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  max-width: none;
+}
+
+.hero-lead {
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  color: var(--spruce);
+  max-width: 44ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.landscape {
+  display: block;
+  width: 100%;
+  height: clamp(170px, 26vw, 300px);
+  margin-top: -1rem;
+}
+
+.mountain { fill: #9fb4b7; }
+.mountain-snow { fill: var(--birch); }
+.tree-back { fill: var(--spruce-light); }
+.tree-front { fill: var(--spruce); }
+.water { fill: var(--lake); }
+
+.ripples line {
+  stroke: var(--sky);
+  stroke-width: 2;
+  stroke-linecap: round;
+  opacity: 0.35;
+}
+
+.canoe-hull { fill: var(--lingon); }
+.canoe-paddler,
+.canoe-paddle {
+  stroke: var(--birch);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.canoe-paddler-head { fill: var(--birch); }
+
+/* Den enda automatiska rörelsen: kanoten glider in en gång vid sidladdning */
+.canoe {
+  animation: glide 3.5s ease-out both;
+}
+
+@keyframes glide {
+  from { transform: translate(380px, 206px); opacity: 0; }
+  to   { transform: translate(640px, 206px); opacity: 1; }
+}
+
+/* ---------- Om företaget ---------- */
+.about-grid {
+  display: grid;
+  gap: 1.5rem 4rem;
+}
+
+@media (min-width: 860px) {
+  .about-grid {
+    grid-template-columns: 1fr 1.6fr;
+  }
+}
+
+/* ---------- Länkar till bokningssidor ---------- */
+.booking-links {
+  background: #fff;
+  border-block: 1px solid var(--line);
+}
+
+.offer-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 2px solid var(--spruce);
+}
+
+.offer-row {
+  display: grid;
+  gap: 0.5rem 2rem;
+  align-items: center;
+  padding-block: 1.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.offer-row h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.offer-row p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.offer-row .button {
+  justify-self: start;
+}
+
+@media (min-width: 760px) {
+  .offer-row {
+    grid-template-columns: 12rem 1fr auto;
+  }
+}
+
+/* ---------- Bokningsflödet ---------- */
+.steps {
+  list-style: none;
+  counter-reset: step;
+  margin: 2rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 760px) {
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding-top: 3.2rem;
+}
+
+/* Stegnummer – innehållet är verkligen en ordningsföljd */
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid var(--moss);
+  color: var(--moss);
+  font-weight: 700;
+}
+
+.steps p {
+  color: var(--muted);
+}
+
+/* ---------- Sidfot ---------- */
+.site-footer {
+  background: var(--spruce);
+  color: var(--sky);
+  padding-block: 2.5rem;
+  font-size: 0.95rem;
+}
+
+.site-footer strong {
+  color: #fff;
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 4rem;
+}
+
+.footer-note {
+  margin-left: auto;
+  align-self: end;
+  opacity: 0.8;
+}
+
+
+/* ==========================================================
+   Bokningssidor
+   ========================================================== */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Sidans inledning ---------- */
+.page-intro {
+  background: var(--sky);
+  border-bottom: 8px solid var(--lake);
+  padding-block: clamp(2.2rem, 6vw, 4rem) clamp(1.8rem, 4vw, 2.8rem);
+}
+
+.page-intro h1 {
+  font-size: clamp(2.2rem, 6vw, 3.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.4em;
+}
+
+.page-lead {
+  font-size: 1.15rem;
+  color: var(--spruce);
+  margin: 0;
+}
+
+.breadcrumb {
+  margin-bottom: 0.8rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- Formulärets uppbyggnad ---------- */
+/* Formuläret linjerar till vänster med rubriken men blir inte för brett */
+.booking-layout > * {
+  max-width: 48rem;
+}
+
+.booking-fields {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.form-step {
+  border: 0;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  min-width: 0;
+}
+
+.form-step > legend,
+.step-title {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--spruce);
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.step-number {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 2px solid var(--moss);
+  color: var(--moss);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* ---------- Erbjudandekort ---------- */
+.offer-cards {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .offer-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.offer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-small);
+  padding: 1rem 1rem 1.1rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.offer-card:hover {
+  border-color: var(--lake);
+}
+
+.offer-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--spruce);
+  padding-right: 1.8rem;
+}
+
+.offer-description {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  flex: 1;
+}
+
+.offer-price {
+  font-weight: 600;
+  color: var(--lake);
+}
+
+/* Valt kort: lingonröd ram, ljus bakgrund och en bock */
+.offer-card.is-selected {
+  border-color: var(--lingon);
+  background: #fbeff1;
+  box-shadow: inset 0 0 0 1px var(--lingon);
+}
+
+.offer-card.is-selected::after {
+  content: "✓";
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--lingon);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.offer-card:disabled {
+  cursor: default;
+}
+
+.offer-card:disabled:not(.is-selected) {
+  opacity: 0.5;
+}
+
+.selected-offer {
+  margin: 0.9rem 0 0;
+  font-weight: 500;
+}
+
+/* ---------- Fält ---------- */
+.field {
+  margin-bottom: 1.25rem;
+}
+
+.field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.field input {
+  width: 100%;
+  max-width: 26rem;
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+  border: 2px solid var(--line);
+  border-radius: var(--radius-small);
+  padding: 0.6rem 0.75rem;
+}
+
+#quantity {
+  max-width: 6rem;
+}
+
+.field input:focus-visible {
+  border-color: var(--lake);
+}
+
+.field input[aria-invalid="true"] {
+  border-color: var(--lingon);
+}
+
+.field input:disabled {
+  background: #eef2f1;
+  color: var(--muted);
+}
+
+/* ---------- Felmeddelanden ---------- */
+.field-error {
+  color: var(--lingon-dark);
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin: 0.4rem 0 0;
+  padding-left: 0.7rem;
+  border-left: 3px solid var(--lingon);
+}
+
+.offer-cards[aria-invalid="true"] .offer-card {
+  border-color: var(--lingon);
+}
+
+/* ---------- Prisvisning ---------- */
+.price-output {
+  margin: 0;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius-small);
+  background: #eef2f1;
+  color: var(--muted);
+  max-width: none;
+}
+
+.price-output.is-warning {
+  background: #fbeff1;
+  color: var(--lingon-dark);
+}
+
+.price-output.is-total {
+  background: var(--spruce);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+/* ---------- Knappar under formuläret ---------- */
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Bekräftelse ---------- */
+.confirmation {
+  margin-top: 2.5rem;
+  padding: clamp(1.5rem, 4vw, 2.2rem);
+  background: #fff;
+  border: 2px solid var(--moss);
+  border-left-width: 10px;
+  border-radius: var(--radius-small);
+}
+
+.confirmation:focus {
+  outline: none;
+}
+
+.confirmation:focus-visible {
+  outline: 3px solid var(--lingon);
+  outline-offset: 3px;
+}
+
+.confirmation h2 {
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1.5rem;
+  margin: 0 0 1.5rem;
+}
+
+.summary dt {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.summary dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+#summary-total {
+  font-weight: 700;
+  color: var(--spruce);
+}
+
+@media (max-width: 480px) {
+  .summary {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+
+  .summary dd {
+    margin-bottom: 0.6rem;
+  }
+}
+
+/* ---------- Respektera inställningen "minska rörelse" ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .canoe {
+    animation: none;
+  }
+
+  .button {
+    transition: none;
+  }
 }

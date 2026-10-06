@@ -1,26 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorkHub Friluftsliv – kanot, fyrhjuling, klättring och mountainbike</title>
+  <meta name="description" content="WorkHub Friluftsliv ordnar paddling, fyrhjulingsturer, klättring och mountainbike vid Stora Kroksjön.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
 </head>
 <body>
-    <main>
-        <header>
-            <nav class="main-nav">
-                <a href="index.html" class="nav-logo">WorkHub</a>
-                <ul class="nav-links">
-                    <li><a href="">1escaperoom</a></li>
-                    <li><a href="">2escaperoom</a></li>
-                    <li><a href="">3escaperoom</a></li>
-                    <li><a href="">4escaperoom</a></li>
-                </ul>
-            </nav>
-        </header>
-        <section></section>
-    </main>
-    
+  <a class="skip-link" href="#main">Hoppa till innehållet</a>
+
+  <!-- Gemensamt sidhuvud: samma på alla sidor -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html">
+        <span class="logo-name">WorkHub</span>
+        <span class="logo-sub">Friluftsliv</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        Meny
+      </button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Huvudmeny">
+        <ul>
+          <li><a href="index.html">Startsida</a></li>
+          <li><a href="boka-kanot.html">Kanot</a></li>
+          <li><a href="boka-fyrhjuling.html">Fyrhjuling</a></li>
+          <li><a href="boka-klattring.html">Klättring</a></li>
+          <li><a href="boka-mountainbike.html">Mountainbike</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-text">
+        <h1 id="hero-title">Ut på sjön.<br> Upp på berget.</h1>
+        <p class="hero-lead">
+          WorkHub Friluftsliv ordnar paddling, fyrhjulingsturer, klättring och
+          mountainbike runt Stora Kroksjön. Välj ditt äventyr och skicka en
+          bokningsförfrågan direkt här.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#boka">Välj aktivitet</a>
+          <a class="button button-secondary" href="#om-oss">Om oss</a>
+        </div>
+      </div>
+
+      <!-- Landskap: fjäll, granskog, sjö och en kanot (ren SVG, inga bildfiler) -->
+      <svg class="landscape" viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+
+        <path class="mountain" d="M700 200 L860 30 L915 78 L985 10 L1200 170 L1200 200 Z"/>
+        <path class="mountain-snow" d="M860 30 L888 60 L872 58 L860 70 L845 56 Z M985 10 L1018 36 L998 34 L985 46 L970 30 Z"/>
+
+        <path class="tree-back" d="M-14 99 L-1 130 L-6 130 L4 163 L-2 163 L10 202 L-38 202 L-26 163 L-32 163 L-22 130 L-27 130 Z M27 113 L38 140 L34 140 L43 168 L37 168 L47 202 L6 202 L16 168 L11 168 L20 140 L16 140 Z M58 114 L69 140 L65 140 L74 168 L69 168 L79 202 L38 202 L48 168 L43 168 L52 140 L47 140 Z M80 93 L93 126 L88 126 L99 161 L93 161 L105 202 L55 202 L67 161 L61 161 L71 126 L66 126 Z M116 94 L130 126 L124 126 L135 161 L129 161 L141 202 L91 202 L103 161 L97 161 L108 126 L103 126 Z M142 105 L154 134 L149 134 L159 165 L153 165 L164 202 L119 202 L130 165 L125 165 L134 134 L130 134 Z M180 85 L195 120 L189 120 L201 158 L194 158 L207 202 L153 202 L166 158 L160 158 L171 120 L166 120 Z M227 114 L238 141 L234 141 L243 169 L238 169 L248 202 L207 202 L217 169 L212 169 L221 141 L216 141 Z M249 109 L261 137 L256 137 L266 167 L260 167 L271 202 L228 202 L238 167 L233 167 L242 137 L237 137 Z M281 72 L297 111 L291 111 L304 153 L296 153 L311 202 L251 202 L266 153 L258 153 L271 111 L264 111 Z M318 82 L334 118 L328 118 L340 156 L333 156 L346 202 L291 202 L304 156 L297 156 L309 118 L303 118 Z M349 114 L361 140 L356 140 L365 168 L360 168 L370 202 L329 202 L339 168 L334 168 L343 140 L338 140 Z M383 80 L399 116 L392 116 L405 155 L398 155 L411 202 L355 202 L369 155 L362 155 L374 116 L368 116 Z M414 85 L429 120 L423 120 L435 157 L428 157 L442 202 L387 202 L401 157 L394 157 L406 120 L400 120 Z M448 73 L464 112 L458 112 L471 153 L463 153 L478 202 L418 202 L433 153 L426 153 L438 112 L432 112 Z M476 85 L491 120 L485 120 L497 158 L490 158 L503 202 L449 202 L462 158 L455 158 L467 120 L461 120 Z M513 77 L529 114 L523 114 L535 154 L528 154 L542 202 L484 202 L498 154 L491 154 L504 114 L497 114 Z M556 111 L568 138 L563 138 L573 167 L567 167 L578 202 L535 202 L546 167 L540 167 L550 138 L545 138 Z M595 109 L607 137 L602 137 L612 167 L606 167 L617 202 L574 202 L584 167 L579 167 L588 137 L584 137 Z M625 80 L641 117 L635 117 L647 156 L640 156 L653 202 L597 202 L611 156 L604 156 L616 117 L610 117 Z M655 69 L672 109 L665 109 L679 151 L671 151 L686 202 L624 202 L639 151 L632 151 L645 109 L638 109 Z M695 84 L710 120 L704 120 L716 157 L709 157 L723 202 L668 202 L682 157 L675 157 L687 120 L681 120 Z M733 71 L750 110 L743 110 L756 152 L749 152 L763 202 L703 202 L718 152 L710 152 L723 110 L717 110 Z M756 80 L771 117 L765 117 L778 156 L770 156 L784 202 L728 202 L742 156 L735 156 L747 117 L741 117 Z M804 81 L820 118 L814 118 L826 156 L819 156 L832 202 L777 202 L790 156 L783 156 L795 118 L789 118 Z M836 101 L849 132 L844 132 L854 164 L848 164 L860 202 L813 202 L825 164 L819 164 L829 132 L824 132 Z M874 116 L885 142 L880 142 L889 169 L884 169 L894 202 L854 202 L864 169 L859 169 L867 142 L863 142 Z M898 111 L909 138 L905 138 L914 167 L909 167 L919 202 L877 202 L887 167 L882 167 L891 138 L886 138 Z M938 110 L950 138 L945 138 L955 167 L949 167 L960 202 L917 202 L928 167 L922 167 L931 138 L927 138 Z M969 69 L985 109 L979 109 L992 151 L984 151 L999 202 L938 202 L953 151 L945 151 L959 109 L952 109 Z M1011 87 L1026 121 L1020 121 L1032 158 L1025 158 L1038 202 L985 202 L998 158 L991 158 L1003 121 L997 121 Z M1043 69 L1060 109 L1053 109 L1067 152 L1059 152 L1074 202 L1013 202 L1028 152 L1020 152 L1033 109 L1027 109 Z M1083 97 L1096 129 L1091 129 L1102 162 L1096 162 L1107 202 L1059 202 L1071 162 L1065 162 L1075 129 L1070 129 Z M1116 109 L1128 137 L1123 137 L1132 167 L1127 167 L1138 202 L1094 202 L1105 167 L1100 167 L1109 137 L1104 137 Z M1149 104 L1162 134 L1157 134 L1167 165 L1161 165 L1172 202 L1127 202 L1138 165 L1132 165 L1142 134 L1137 134 Z M1179 103 L1192 132 L1187 132 L1197 164 L1191 164 L1202 202 L1156 202 L1167 164 L1162 164 L1172 132 L1167 132 Z M1219 97 L1232 128 L1227 128 L1237 162 L1231 162 L1243 202 L1194 202 L1206 162 L1200 162 L1211 128 L1205 128 Z M0 175 H1200 V202 H0 Z"/>
+        <path class="tree-front" d="M10 97 L26 129 L20 129 L32 162 L25 162 L39 202 L-19 202 L-4 162 L-12 162 L1 129 L-5 129 Z M63 98 L78 129 L72 129 L84 163 L77 163 L91 202 L34 202 L48 163 L41 163 L53 129 L47 129 Z M135 93 L151 126 L145 126 L158 161 L150 161 L165 202 L105 202 L120 161 L112 161 L125 126 L118 126 Z M190 112 L203 139 L198 139 L209 168 L202 168 L214 202 L165 202 L177 168 L171 168 L182 139 L176 139 Z M235 100 L251 131 L245 131 L257 163 L250 163 L263 202 L207 202 L221 163 L214 163 L226 131 L220 131 Z M286 122 L298 146 L293 146 L303 171 L297 171 L308 202 L264 202 L274 171 L269 171 L278 146 L274 146 Z M337 129 L348 151 L344 151 L352 174 L347 174 L357 202 L317 202 L327 174 L322 174 L331 151 L326 151 Z M392 127 L403 149 L399 149 L408 173 L403 173 L413 202 L371 202 L381 173 L376 173 L385 149 L381 149 Z M443 88 L460 122 L454 122 L467 159 L459 159 L475 202 L412 202 L427 159 L420 159 L433 122 L426 122 Z M491 119 L503 144 L498 144 L508 171 L502 171 L513 202 L468 202 L479 171 L473 171 L483 144 L478 144 Z M550 126 L562 149 L557 149 L566 173 L561 173 L571 202 L529 202 L540 173 L534 173 L544 149 L539 149 Z M610 109 L624 137 L618 137 L630 167 L623 167 L636 202 L584 202 L597 167 L590 167 L602 137 L596 137 Z M658 127 L669 149 L664 149 L673 173 L668 173 L678 202 L637 202 L647 173 L642 173 L651 149 L646 149 Z M708 91 L724 124 L718 124 L731 160 L723 160 L738 202 L677 202 L692 160 L684 160 L698 124 L691 124 Z M760 84 L778 120 L771 120 L785 157 L777 157 L793 202 L728 202 L744 157 L736 157 L750 120 L743 120 Z M805 105 L819 134 L814 134 L825 165 L818 165 L832 202 L778 202 L791 165 L784 165 L796 134 L790 134 Z M871 83 L889 119 L882 119 L896 157 L888 157 L904 202 L839 202 L855 157 L846 157 L861 119 L853 119 Z M924 119 L937 144 L932 144 L942 170 L936 170 L947 202 L902 202 L913 170 L907 170 L917 144 L912 144 Z M977 93 L993 126 L987 126 L1000 161 L992 161 L1007 202 L947 202 L962 161 L954 161 L967 126 L961 126 Z M1034 116 L1047 141 L1042 141 L1052 169 L1046 169 L1058 202 L1010 202 L1022 169 L1016 169 L1026 141 L1021 141 Z M1102 83 L1120 119 L1113 119 L1127 157 L1119 157 L1135 202 L1070 202 L1086 157 L1077 157 L1092 119 L1085 119 Z M1162 91 L1179 124 L1172 124 L1185 160 L1177 160 L1192 202 L1131 202 L1146 160 L1139 160 L1152 124 L1145 124 Z M1209 106 L1223 135 L1218 135 L1229 166 L1222 166 L1235 202 L1183 202 L1196 166 L1189 166 L1200 135 L1195 135 Z M0 190 H1200 V202 H0 Z"/>
+
+        <rect x="0" y="198" width="1200" height="62" class="water"/>
+        <g class="ripples">
+          <line x1="120" y1="222" x2="260" y2="222"/>
+          <line x1="430" y1="238" x2="520" y2="238"/>
+          <line x1="880" y1="228" x2="1040" y2="228"/>
+          <line x1="300" y1="250" x2="360" y2="250"/>
+        </g>
+
+        <g class="canoe" transform="translate(640 206)">
+          <path class="canoe-hull" d="M0 6 Q50 22 100 6 Q90 18 50 20 Q10 18 0 6 Z"/>
+          <line class="canoe-paddler" x1="50" y1="10" x2="50" y2="-12"/>
+          <circle class="canoe-paddler-head" cx="50" cy="-17" r="5"/>
+          <line class="canoe-paddle" x1="34" y1="-6" x2="70" y2="22"/>
+        </g>
+      </svg>
+    </section>
+
+    <!-- Om företaget -->
+    <section id="om-oss" class="about section" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <h2 id="about-title">Det här är WorkHub Friluftsliv</h2>
+        <div class="about-text">
+          <p>
+            Vi är ett litet friluftsföretag med bas vid Stora Kroksjön. Runt sjön
+            finns tre mil paddlingsbart vatten, skogsvägar för fyrhjuling, branta
+            klippor att klättra på och stigar genom granskog och över hällmark.
+          </p>
+          <p>
+            All utrustning ingår, och våra instruktörer och guider hjälper dig
+            att välja något som passar – oavsett om det är första gången eller
+            om du redan är van.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Länkar till alla bokningssidor -->
+    <section id="boka" class="booking-links section" aria-labelledby="booking-title">
+      <div class="container">
+        <h2 id="booking-title">Boka hos oss</h2>
+        <p class="section-intro">Välj aktivitet. På varje sida ser du våra alternativ, räknar ut priset och skickar en bokningsförfrågan.</p>
+
+        <ul class="offer-list">
+          <li class="offer-row">
+            <h3>Kanot</h3>
+            <p>Hyr kanot eller kajak och paddla i egen takt. Priset räknas per dygn.</p>
+            <a class="button button-primary" href="boka-kanot.html">Boka kanot</a>
+          </li>
+          <li class="offer-row">
+            <h3>Fyrhjuling</h3>
+            <p>Kör skogsslingor och grusvägar med instruktör eller guide. Priset räknas per timme.</p>
+            <a class="button button-primary" href="boka-fyrhjuling.html">Boka fyrhjuling</a>
+          </li>
+          <li class="offer-row">
+            <h3>Klättring</h3>
+            <p>Prova på, klättra en hel dag på klippan eller gå via ferrata. Priset räknas per person.</p>
+            <a class="button button-primary" href="boka-klattring.html">Boka klättring</a>
+          </li>
+          <li class="offer-row">
+            <h3>Mountainbike</h3>
+            <p>Hyr cykel eller följ med på en guidad stigtur. Priset räknas per dag.</p>
+            <a class="button button-primary" href="boka-mountainbike.html">Boka mountainbike</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Bokningsflödet steg för steg -->
+    <section class="how section" aria-labelledby="how-title">
+      <div class="container">
+        <h2 id="how-title">Så går en bokning till</h2>
+        <ol class="steps">
+          <li>
+            <h3>Välj ett alternativ</h3>
+            <p>Klicka på det du vill boka. Ditt val markeras tydligt.</p>
+          </li>
+          <li>
+            <h3>Ange antal</h3>
+            <p>Välj mellan 1 och 5 så räknas totalpriset ut direkt.</p>
+          </li>
+          <li>
+            <h3>Skicka förfrågan</h3>
+            <p>Fyll i namn och e-post. Du ser en sammanfattning när förfrågan är skickad.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <!-- Gemensam sidfot: samma på alla sidor -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p><strong>WorkHub Friluftsliv</strong><br>Bryggvägen 4, Stora Kroksjön</p>
+      <p>info@workhub-friluftsliv.se<br>Öppet maj–september</p>
+      <p class="footer-note">Fiktivt företag i en kursuppgift. &copy; <span id="current-year">2026</span></p>
+    </div>
+  </footer>
 </body>
 </html>
