@@ -20,16 +20,28 @@ const rooms = [
 ];
 
 const roomsContainer = document.querySelector("#rooms-container");
+const selectedRoom = document.querySelector("#selected-room");
+
 function displayRooms() {
     rooms.forEach(function(room) {
 const roomCard = document.createElement("div");
+roomCard.classList.add("room-card");
+
 roomCard.innerHTML = `
         <h2>${room.name}</h2>
         <p>${room.description}</p>
         <p>Price: $${room.price}</p>
+        <button class="select-room" data-id="${room.id}">
+            Select Room
+        </button>
         `;
 
         roomsContainer.appendChild(roomCard);
+        const selectButton = roomCard.querySelector(".select-room");
+        selectButton.addEventListener("click", function() {
+            console.log(room.name);
+            selectedRoom.textContent = `You selected: ${room.name} - Price: $${room.price}`;
+        });
     });
 }
 

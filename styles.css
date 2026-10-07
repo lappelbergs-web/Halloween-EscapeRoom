@@ -5,3 +5,43 @@
     --accent-purple: #5a2a82;
     --accent-green: #2f6b3a;
 }
+.haunted-rooms {
+    background-color: var(--foreground);
+    color: var(--background);
+    min-height: 100vh;
+    padding: 40px;
+}
+
+.haunted-rooms .room-card {
+    background-color: var(--background);
+    color: var(--foreground);
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+.haunted-rooms #rooms-container > div {
+    padding: 20px;
+    border-radius: 12px;
+    background-color: var(--background);
+    border: 2px solid var(--accent-purple);
+}
+
+.haunted-rooms .select-room {
+    background-color: var(--accent-orange);
+    color: var(--background);
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.haunted-rooms .room-card h2 {
+    color: var(--accent-purple);
+}
+
+.haunted-rooms .select-room:hover {
+    background-color: var(--accent-purple);
+    color: var(--background);
+}
