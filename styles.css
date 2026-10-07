@@ -5,3 +5,29 @@
     --accent-purple: #5a2a82;
     --accent-green: #2f6b3a;
 }
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: Arial, sans-serif;
+}
+
+.creepy-clown-room {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    min-height: 100vh;
+}
+
+.booking-form-hidden {
+    display: none;
+}
+
+.booking-form-visible {
+    display: block;
+}
