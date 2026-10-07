@@ -13,17 +13,23 @@
 }
 
 .haunted-rooms .room-card {
-    background-color: var(--background);
-    color: var(--foreground);
+    background-color: #29252f;
+    color: var(--background);
     padding: 20px;
     margin: 20px 0;
     border-radius: 10px;
+    box-shadow: 0 0 12px rgba(90, 42, 130, 0.4);
+    display: flex;
 }
-
+.haunted-rooms .room-card img {
+    width: 300px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+}
 .haunted-rooms #rooms-container > div {
     padding: 20px;
     border-radius: 12px;
-    background-color: var(--background);
     border: 2px solid var(--accent-purple);
 }
 
@@ -44,4 +50,24 @@
 .haunted-rooms .select-room:hover {
     background-color: var(--accent-purple);
     color: var(--background);
+}
+
+.haunted-rooms .room-card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+}
+
+.haunted-rooms .selected-room-box {
+    border: 2px solid var(--accent-orange);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top:  25px;
+}
+
+.haunted-rooms .selected-room-box h2 {
+    color: var(--accent-orange);
+}
+
+.haunted-rooms .room-card.selected {
+    border: 3px solid var(--accent-orange);
 }
