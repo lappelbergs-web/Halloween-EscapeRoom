@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IM+Fell+English&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+  <title>The Possessed Doll – Haunted Rooms by WorkHub</title>
+</head>
+<!-- data-activity talar om för app.js vilka erbjudanden sidan ska visa -->
+<body data-activity="doll">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Gemensamt sidhuvud: samma på alla sidor -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html">
+        <span class="logo-name">WorkHub</span>
+        <span class="logo-sub">Haunted Rooms</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        Menu
+      </button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Main menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="haunted-mansion.html">Haunted Mansion</a></li>
+          <li><a href="possessed-doll.html">Possessed Doll</a></li>
+          <li><a href="abandoned-asylum.html">Abandoned Asylum</a></li>
+          <li><a href="creepy-clown.html">Creepy Clown Room</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="page-intro">
+      <div class="container">
+        <p class="breadcrumb"><a href="index.html">Home</a> / The Possessed Doll</p>
+        <h1>The Possessed Doll</h1>
+        <p class="page-lead">A cursed doll has awakened. Solve the mystery before she finds you.</p>
+      </div>
+    </section>
+
+    <section class="section booking" aria-label="Booking form">
+      <div class="container booking-layout">
+
+        <!-- novalidate stänger av webbläsarens inbyggda validering -->
+        <form id="booking-form" class="booking-form" novalidate>
+          <!-- Hela fieldset:en låses efter bekräftelse -->
+          <fieldset id="booking-fields" class="booking-fields">
+            <legend class="visually-hidden">Booking details</legend>
+
+            <!-- Steg 1: erbjudanden ritas ut av app.js -->
+            <fieldset class="form-step offer-group">
+              <legend><span class="step-number">1</span> Choose an experience</legend>
+              <div id="offer-list" class="offer-cards"></div>
+              <p id="selected-offer" class="selected-offer" aria-live="polite">No experience selected yet.</p>
+              <p id="offer-error" class="field-error" hidden></p>
+            </fieldset>
+
+            <!-- Steg 2: antal och pris -->
+            <div class="form-step">
+              <h2 class="step-title"><span class="step-number">2</span> Count your players</h2>
+              <div class="field">
+                <label for="quantity">Number of players (1–5)</label>
+                <input id="quantity" name="quantity" type="text" inputmode="numeric" value="1" autocomplete="off" aria-describedby="quantity-error">
+                <p id="quantity-error" class="field-error" hidden></p>
+              </div>
+              <p id="price-output" class="price-output" aria-live="polite">Choose an experience to see the price.</p>
+            </div>
+
+            <!-- Steg 3: kontaktuppgifter -->
+            <div class="form-step">
+              <h2 class="step-title"><span class="step-number">3</span> Your details</h2>
+              <div class="field">
+                <label for="customer-name">Name</label>
+                <input id="customer-name" name="name" type="text" autocomplete="name" aria-describedby="name-error">
+                <p id="name-error" class="field-error" hidden></p>
+              </div>
+              <div class="field">
+                <label for="customer-email">Email address</label>
+                <!-- type="text" i stället för "email": webbläsaren tar annars bort blanksteg i början och slutet innan vår validering ser värdet -->
+                <input id="customer-email" name="email" type="text" inputmode="email" autocomplete="email" aria-describedby="email-error">
+                <p id="email-error" class="field-error" hidden></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Knapparna ligger utanför fieldset:en så att Start over fungerar även efter bekräftelse -->
+          <div class="form-actions">
+            <button id="submit-button" type="submit" class="button button-primary">Send booking request</button>
+            <button id="restart-button" type="button" class="button button-secondary">Start over</button>
+          </div>
+        </form>
+
+        <!-- Bekräftelse: visas av app.js utan omladdning -->
+        <section id="confirmation" class="confirmation" tabindex="-1" aria-labelledby="confirmation-title" hidden>
+          <h2 id="confirmation-title">Your booking request has been sent</h2>
+          <dl class="summary">
+            <dt>Name</dt>
+            <dd id="summary-name"></dd>
+            <dt>Email address</dt>
+            <dd id="summary-email"></dd>
+            <dt>Experience</dt>
+            <dd id="summary-offer"></dd>
+            <dt>Players</dt>
+            <dd id="summary-quantity"></dd>
+            <dt>Total price</dt>
+            <dd id="summary-total"></dd>
+          </dl>
+          <p>We'll contact you by email. Want to make a new request? Choose Start over.</p>
+        </section>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Gemensam sidfot: samma på alla sidor -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p><strong>WorkHub Haunted Rooms</strong><br>Cemetery Lane 13</p>
+      <p>book@workhub-haunted.example<br>Open every night until the last team escapes</p>
+      <p class="footer-note">Fictional company in a course assignment. &copy; <span id="current-year">2026</span></p>
+    </div>
+  </footer>
+</body>
+</html>
