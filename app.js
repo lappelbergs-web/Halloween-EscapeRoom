@@ -1,11 +1,11 @@
 "use strict";
 
 /*
- * WorkHub Friluftsliv – gemensam JavaScript för alla sidor.
+ * WorkHub Haunted Rooms – gemensam JavaScript för alla sidor.
  *
  * 1. Navigering och sidfot (alla sidor)
  * 2. Bokning (bara sidor med <body data-activity="...">):
- *    erbjudanden, prisberäkning, validering, bekräftelse och Börja om.
+ *    erbjudanden, prisberäkning, validering, bekräftelse och Start over.
  */
 
 // Talar om för CSS att JavaScript är igång (används för mobilmenyn).
@@ -19,40 +19,40 @@ const MIN_QUANTITY = 1;
 const MAX_QUANTITY = 5;
 
 const ACTIVITIES = {
-  kanot: {
-    unitSingular: "dygn",
-    unitPlural: "dygn",
+  mansion: {
+    unitSingular: "player",
+    unitPlural: "players",
     offers: [
-      { id: "kanot-kanadensare", name: "Kanadensare för två", description: "Stabil kanot för två vuxna, perfekt för en lugn dag på sjön.", pricePerUnit: 350 },
-      { id: "kanot-kajak", name: "Kajak för en", description: "Smidig och snabb för dig som vill paddla på egen hand.", pricePerUnit: 300 },
-      { id: "kanot-familj", name: "Familjekanot", description: "Rymlig kanot för två vuxna och ett barn, med extra packutrymme.", pricePerUnit: 450 }
+      { id: "mansion-classic", name: "Classic Haunting", description: "60 minutes with hints whenever you need them. A good first scare.", pricePerUnit: 250 },
+      { id: "mansion-candlelight", name: "Candlelight Only", description: "The power is out. One candle per team, and every shadow moves.", pricePerUnit: 300 },
+      { id: "mansion-seance", name: "Midnight Séance", description: "Starts at the stroke of midnight, with a live actor in the house.", pricePerUnit: 380 }
     ]
   },
-  fyrhjuling: {
-    unitSingular: "timme",
-    unitPlural: "timmar",
+  doll: {
+    unitSingular: "player",
+    unitPlural: "players",
     offers: [
-      { id: "fyrhjuling-nyborjare", name: "Nybörjarslinga", description: "En lugn skogsslinga efter en kort genomgång med instruktör.", pricePerUnit: 600 },
-      { id: "fyrhjuling-grusvag", name: "Grusvägstur med guide", description: "Följ guiden längs grusvägar och höjder med utsikt över sjön.", pricePerUnit: 750 },
-      { id: "fyrhjuling-kvall", name: "Kvällstur med fika", description: "Kör i kvällsljuset och avsluta med fika vid elden.", pricePerUnit: 850 }
+      { id: "doll-playroom", name: "The Playroom", description: "60 minutes in the nursery where it all began. Hints included.", pricePerUnit: 250 },
+      { id: "doll-hide-and-seek", name: "Hide and Seek", description: "She is looking for you. Make a sound and the clock speeds up.", pricePerUnit: 320 },
+      { id: "doll-night", name: "Night of the Doll", description: "No hints and no lights. She only moves when you look away.", pricePerUnit: 360 }
     ]
   },
-  klattring: {
-    unitSingular: "person",
-    unitPlural: "personer",
+  asylum: {
+    unitSingular: "player",
+    unitPlural: "players",
     offers: [
-      { id: "klattring-prova", name: "Prova på klättring", description: "Två timmar på lätta leder med instruktör. Ingen erfarenhet behövs.", pricePerUnit: 450 },
-      { id: "klattring-klippdag", name: "Heldag på klippan", description: "En hel dag på klippan vid sjön, med lunch och all utrustning.", pricePerUnit: 950 },
-      { id: "klattring-via-ferrata", name: "Via ferrata", description: "Klättra säkrad längs stålvajrar och stegpinnar hela vägen upp.", pricePerUnit: 1200 }
+      { id: "asylum-intake", name: "Patient Intake", description: "60 minutes to escape the admissions ward. Hints included.", pricePerUnit: 260 },
+      { id: "asylum-isolation", name: "Isolation Ward", description: "Your team starts locked in separate cells and must find each other.", pricePerUnit: 330 },
+      { id: "asylum-lockdown", name: "Full Lockdown", description: "90 minutes, no hints, and the night staff are still doing their rounds.", pricePerUnit: 420 }
     ]
   },
-  mountainbike: {
-    unitSingular: "dag",
-    unitPlural: "dagar",
+  clown: {
+    unitSingular: "player",
+    unitPlural: "players",
     offers: [
-      { id: "mountainbike-hyra", name: "Cykelhyra", description: "Fulldämpad mountainbike med hjälm och karta över stigarna.", pricePerUnit: 400 },
-      { id: "mountainbike-el", name: "Elcykel för terräng", description: "Mountainbike med elassistans för längre turer och tuffa backar.", pricePerUnit: 650 },
-      { id: "mountainbike-guidad", name: "Guidad stigtur", description: "Cykla de bästa stigarna med en guide som visar vägen.", pricePerUnit: 800 }
+      { id: "clown-funhouse", name: "Funhouse", description: "60 minutes among crooked mirrors and laughter from nowhere. Hints included.", pricePerUnit: 250 },
+      { id: "clown-red-balloon", name: "Red Balloon", description: "Follow the balloons to find the way out. Just don't follow them too far.", pricePerUnit: 310 },
+      { id: "clown-showtime", name: "Showtime", description: "90 minutes with a live clown. He decides when the show is over.", pricePerUnit: 400 }
     ]
   }
 };
@@ -228,8 +228,8 @@ function updateOfferMarking() {
 
   const offer = getSelectedOffer();
   ui.selectedOffer.textContent = offer
-    ? `Valt erbjudande: ${offer.name}`
-    : "Inget erbjudande valt ännu.";
+    ? `Selected: ${offer.name}`
+    : "No experience selected yet.";
 }
 
 function getSelectedOffer() {
@@ -270,18 +270,18 @@ function updatePriceDisplay() {
   output.classList.remove("is-total", "is-warning");
 
   if (!offer) {
-    output.textContent = "Välj ett erbjudande för att se priset.";
+    output.textContent = "Choose an experience to see the price.";
     return;
   }
 
   if (quantity === null) {
-    output.textContent = `Ange antal ${activity.unitPlural} som ett heltal mellan ${MIN_QUANTITY} och ${MAX_QUANTITY} för att se priset.`;
+    output.textContent = `Enter the number of ${activity.unitPlural} as a whole number between ${MIN_QUANTITY} and ${MAX_QUANTITY} to see the price.`;
     output.classList.add("is-warning");
     return;
   }
 
   const total = calculateTotalPrice(offer.pricePerUnit, quantity);
-  output.textContent = `Totalpris: ${formatPrice(total)} (${formatQuantity(quantity)} × ${formatPrice(offer.pricePerUnit)})`;
+  output.textContent = `Total: ${formatPrice(total)} (${formatQuantity(quantity)} × ${formatPrice(offer.pricePerUnit)})`;
   output.classList.add("is-total");
 }
 
@@ -289,54 +289,54 @@ function updatePriceDisplay() {
 // Varje funktion returnerar ett felmeddelande, eller tom sträng om värdet är giltigt.
 
 function validateOffer() {
-  return getSelectedOffer() ? "" : "Välj ett av erbjudandena ovan innan du skickar förfrågan.";
+  return getSelectedOffer() ? "" : "Choose one of the experiences above before you send your request.";
 }
 
 function validateQuantity(value) {
   if (value.trim() === "") {
-    return `Fyll i antal ${activity.unitPlural}.`;
+    return `Enter the number of ${activity.unitPlural}.`;
   }
   if (parseQuantity(value) === null) {
-    return `Antal ${activity.unitPlural} måste vara ett heltal mellan ${MIN_QUANTITY} och ${MAX_QUANTITY}.`;
+    return `The number of ${activity.unitPlural} must be a whole number between ${MIN_QUANTITY} and ${MAX_QUANTITY}.`;
   }
   return "";
 }
 
 function validateName(value) {
   if (value.trim() === "") {
-    return "Fyll i ditt namn. Fältet får inte vara tomt eller bara innehålla mellanslag.";
+    return "Enter your name. The field can't be empty or contain only spaces.";
   }
   return "";
 }
 
 function validateEmail(value) {
   if (value === "") {
-    return "Fyll i din e-postadress.";
+    return "Enter your email address.";
   }
 
   const hasWhitespace = [...value].some((char) => char.trim() === "");
   if (hasWhitespace) {
-    return "E-postadressen får inte innehålla mellanslag.";
+    return "The email address can't contain spaces.";
   }
 
   const parts = value.split("@");
   if (parts.length !== 2) {
-    return "E-postadressen måste innehålla exakt ett @, till exempel namn@exempel.se.";
+    return "The email address must contain exactly one @, for example name@example.com.";
   }
 
   const [localPart, domain] = parts;
   if (localPart === "") {
-    return "Det saknas text före @ i e-postadressen.";
+    return "There must be text before the @ in the email address.";
   }
   if (domain === "") {
-    return "Det saknas text efter @ i e-postadressen.";
+    return "There must be text after the @ in the email address.";
   }
 
   // Domänen ska ha minst en punkt, och varje del runt punkterna måste innehålla text.
   const domainParts = domain.split(".");
   const hasEmptyPart = domainParts.some((part) => part === "");
   if (domainParts.length < 2 || hasEmptyPart) {
-    return "Delen efter @ måste innehålla en punkt med text på båda sidor, till exempel exempel.se.";
+    return "The part after @ needs a dot with text on both sides, for example example.com.";
   }
 
   return "";
@@ -448,7 +448,7 @@ function showConfirmation(booking) {
   ui.confirmation.focus();
 }
 
-/* ---------- Börja om ---------- */
+/* ---------- Start over ---------- */
 
 function restartBooking() {
   isConfirmed = false;
@@ -477,7 +477,7 @@ function restartBooking() {
 /* ---------- Hjälpfunktioner för text ---------- */
 
 function formatPrice(amount) {
-  return `${amount.toLocaleString("sv-SE")} kr`;
+  return `${amount.toLocaleString("en-US")} SEK`;
 }
 
 function formatQuantity(quantity) {
