@@ -44,7 +44,17 @@ abandoned-asylum.html    Bokningssida
 creepy-clown.html        Bokningssida
 styles.css               Gemensam design för alla sidor
 app.js                   Navigering och bokningslogik
+docs/
+  forklaring-app-js.md       Förklaring av koden i app.js
+  forklaring-styles-css.md   Förklaring av koden i styles.css
 ```
+
+## Dokumentation
+
+Mappen `docs/` innehåller utförligare förklaringar av koden:
+
+- [Förklaring av app.js](docs/forklaring-app-js.md): data, navigering, erbjudanden, prisberäkning, validering, bekräftelse och Start over, med exempel på hur en användarhandling leder till ett resultat på sidan.
+- [Förklaring av styles.css](docs/forklaring-styles-css.md): färgvariabler, layout, responsivitet, komponenterna på sidorna och tillgänglighet.
 
 ## Så fungerar en bokning
 
