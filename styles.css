@@ -43,6 +43,12 @@
 [data-activity="asylum"]  { --room-image: url("images/abandoned-asylum.jpg"); }
 [data-activity="clown"]   { --room-image: url("images/creepy-clown.jpg"); }
 
+/* Vilken del av bilden som visas när den beskärs, så att rummets motiv syns */
+[data-activity="mansion"] { --room-image-position: center 40%; }
+[data-activity="doll"]    { --room-image-position: 25% 30%; }
+[data-activity="asylum"]  { --room-image-position: center 45%; }
+[data-activity="clown"]   { --room-image-position: center 25%; }
+
 /* ---------- Grundinställningar ---------- */
 /* Element med attributet hidden ska alltid döljas, även om en klass sätter display */
 [hidden] {
@@ -502,24 +508,34 @@ a {
 .page-intro {
   color: var(--background);
   border-bottom: 10px solid var(--room-accent);
-  padding-block: clamp(3rem, 10vw, 8rem) clamp(2rem, 5vw, 3.5rem);
-  /* Ett mörkt lager ovanpå bilden gör att texten alltid går att läsa */
+  /* Texten ligger längst ned, så att den övre delen av bilden syns fritt */
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(22rem, 48vw, 36rem);
+  padding-block: 3rem clamp(2rem, 4vw, 3rem);
   background-color: var(--night);
+  /* Mörkt lager som börjar genomskinligt upptill och blir mörkt där texten ligger */
   background-image:
-    linear-gradient(90deg, rgba(18, 17, 22, 0.94) 0%, rgba(18, 17, 22, 0.78) 45%, rgba(18, 17, 22, 0.3) 100%),
+    linear-gradient(180deg,
+      rgba(18, 17, 22, 0.1) 0%,
+      rgba(18, 17, 22, 0.15) 40%,
+      rgba(18, 17, 22, 0.85) 78%,
+      rgba(18, 17, 22, 0.97) 100%),
     var(--room-image, none);
   background-size: cover;
-  background-position: center right;
+  background-position: var(--room-image-position, center);
 }
 
-/* På smala skärmar ligger texten över hela bilden, så lagret blir jämnt mörkt */
+/* På smala skärmar tar texten större del av höjden, så inledningen blir högre */
 @media (max-width: 640px) {
   .page-intro {
-    background-image:
-      linear-gradient(rgba(18, 17, 22, 0.8), rgba(18, 17, 22, 0.8)),
-      var(--room-image, none);
-    background-position: center;
+    min-height: 30rem;
   }
+}
+
+.page-intro .container {
+  /* Lätt skugga gör texten tydlig även där bilden är ljus */
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
 }
 
 .page-intro h1 {
