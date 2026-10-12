@@ -8,20 +8,20 @@ Projektet är en gruppuppgift i JavaScript och utvecklas löpande. README-filen 
 
 | Namn | Ansvar |
 |---|---|
-| Minna | _Fylls i_ |
-| Jon | _Fylls i_ |
-| Leo | _Fylls i_ |
-| Peter | _Fylls i_ |
+| Minna | The Haunted Mansion |
+| Jon | The Creepy Clown Room |
+| Leo | The Abandoned Asylum |
+| Peter | The Possessed Doll |
 
 ## Sidor
 
 | Sida | Fil | Ansvarig |
 |---|---|---|
 | Startsida | `index.html` | _Fylls i_ |
-| The Haunted Mansion | `haunted-mansion.html` | _Fylls i_ |
-| The Possessed Doll | `possessed-doll.html` | _Fylls i_ |
-| The Abandoned Asylum | `abandoned-asylum.html` | _Fylls i_ |
-| The Creepy Clown Room | `creepy-clown.html` | _Fylls i_ |
+| The Haunted Mansion | `haunted-mansion.html` | Minna |
+| The Possessed Doll | `possessed-doll.html` | Peter |
+| The Abandoned Asylum | `abandoned-asylum.html` | Leo |
+| The Creepy Clown Room | `creepy-clown.html` | Jon |
 
 Varje bokningssida går att öppna direkt, utan att man först behöver gå via startsidan eller någon annan bokningssida.
 
@@ -92,5 +92,5 @@ Färgerna ligger som variabler överst i `styles.css`. Gruppens gemensamma färg
 ## Att göra
 
 - [ ] Bestämma gemensamt färgtema
-- [ ] Fördela vem som ansvarar för vilken sida
+- [x] Fördela vem som ansvarar för vilken sida
 - [ ] Bestämma om JavaScript ska ligga i en gemensam fil eller en fil per sida
