@@ -32,6 +32,8 @@ roomCard.classList.add("room-card");
 
 roomCard.innerHTML = `
         <img src="${room.image}" alt="${room.name}" class="room-image">
+
+        <div class="room-info">
         <h2>${room.name}</h2>
         <p>${room.description}</p>
         <p>Price: $${room.price}</p>
@@ -39,6 +41,7 @@ roomCard.innerHTML = `
         <button class="select-room" data-id="${room.id}">
             Select Room
         </button>
+        </div>
         `;
 
         roomsContainer.appendChild(roomCard);
