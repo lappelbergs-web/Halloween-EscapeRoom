@@ -288,7 +288,8 @@ a {
 
 /* ---------- Hero ---------- */
 .hero {
-  background: var(--night);
+  /* Himlen ljusnar mot horisonten så att husets siluett syns tydligt */
+  background: linear-gradient(180deg, var(--night) 0%, #1d1a24 55%, #3a3346 100%);
   color: var(--background);
   display: flex;
   flex-direction: column;
@@ -330,17 +331,23 @@ a {
   margin-top: 1.75rem;
 }
 
+/* Höjden följer bredden (samma proportioner som bildens viewBox), så att
+   huset och månen syns hela på breda skärmar. På mobil hindrar min-height
+   att scenen blir för liten – då beskärs sidorna i stället. */
 .scene {
   display: block;
   width: 100%;
-  height: clamp(200px, 30vw, 360px);
+  height: auto;
+  aspect-ratio: 1200 / 400;
+  min-height: 220px;
+  max-height: 600px;
   margin-top: -3rem;
 }
 
 .moon { fill: var(--background); }
 .moon-crater { fill: #e2d4b8; }
-.bats path { fill: var(--night-soft); }
-.hills { fill: var(--night-soft); }
+.bats path { fill: #0a090c; }
+.hills { fill: #2a2633; }
 .house,
 .ground,
 .fence { fill: #0a090c; }
