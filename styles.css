@@ -5,6 +5,7 @@
     --accent-purple: #5a2a82;
     --accent-green: #2f6b3a;
 }
+
 .haunted-rooms {
     background: linear-gradient(135deg, #08050d, #21112f, #09050d);;
     color: var(--background);
@@ -178,4 +179,30 @@
 .haunted-rooms .room-card.selected {
     border: 2px solid #ff0000;
     box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: Arial, sans-serif;
+}
+
+.creepy-clown-room {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    min-height: 100vh;
+}
+
+.booking-form-hidden {
+    display: none;
+}
+
+.booking-form-visible {
+    display: block;
 }

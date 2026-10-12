@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creepy Clown Room</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="creepy-clown-room">
+        <section>
+            <a href="index.html">Back to home</a>
+            <h1>Creepy Clown Room</h1>
+            <p>Welcome to the Creepy Clown Room!</p>
+            <h2>Prices</h2>
+            <ul id="clown-prices"></ul>
+            <label for="package-select">Choose a package:</label>
+            <select name="package" id="package-select">
+                <option value="">--Please choose an option--</option>
+                <option value="1">Single</option>
+                <option value="2">Couple</option>
+                <option value="3">Family</option>
+            </select>
+            <label for="time-select">Choose Time:</label>
+            <select name="time" id="time-select">
+                <option value="1">1 hour</option>
+                <option value="2">2 hours</option>
+                <option value="3">3 hours</option>
+                <option value="4">4 hours</option>
+                <option value="5">5 hours</option>
+            </select>
+            <p id="total-price"></p>
+            <div>
+                <button id="book-now">Book Now</button>
+                <button id="reset-button">Reset</button>
+
+            </div>
+            <div class="booking-form-hidden">
+                <h2>Booking Form</h2>
+                <form id="booking-form">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email">
+                </form>
+            </div>
+        </section>
+    </main>
+    <script src="jons-script.js"></script>
+</body>
+</html>

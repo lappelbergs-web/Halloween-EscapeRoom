@@ -1,3 +1,0 @@
-// gemensam kod
-
-// individuell kod
