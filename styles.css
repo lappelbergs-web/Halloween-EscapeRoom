@@ -37,6 +37,12 @@
 [data-activity="asylum"],  [data-room="asylum"]  { --room-accent: var(--accent-green); }
 [data-activity="clown"],   [data-room="clown"]   { --room-accent: var(--accent-red); }
 
+/* Varje rum har en egen bild (används som bakgrund i bokningssidans inledning) */
+[data-activity="mansion"] { --room-image: url("images/haunted-mansion.jpg"); }
+[data-activity="doll"]    { --room-image: url("images/possessed-doll.jpg"); }
+[data-activity="asylum"]  { --room-image: url("images/abandoned-asylum.jpg"); }
+[data-activity="clown"]   { --room-image: url("images/creepy-clown.jpg"); }
+
 /* ---------- Grundinställningar ---------- */
 /* Element med attributet hidden ska alltid döljas, även om en klass sätter display */
 [hidden] {
@@ -386,11 +392,22 @@ a {
 
 .room-row {
   display: grid;
-  gap: 0.5rem 2rem;
+  gap: 0.75rem 2rem;
   align-items: center;
   padding: 1.6rem 0 1.6rem 1.25rem;
   border-bottom: 1px solid var(--line);
   border-left: 6px solid var(--room-accent);
+}
+
+/* Bilden behåller formatet 16:9 och beskärs i stället för att förvrängas */
+.room-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-small);
+  background: var(--night);
 }
 
 .room-row h3 {
@@ -409,9 +426,23 @@ a {
   justify-self: start;
 }
 
-@media (min-width: 800px) {
+@media (min-width: 640px) {
   .room-row {
-    grid-template-columns: 15rem 1fr auto;
+    grid-template-columns: 14rem 1fr;
+  }
+
+  .room-image {
+    grid-row: span 3;
+  }
+}
+
+@media (min-width: 1000px) {
+  .room-row {
+    grid-template-columns: 14rem 15rem 1fr auto;
+  }
+
+  .room-image {
+    grid-row: auto;
   }
 }
 
@@ -462,10 +493,26 @@ a {
 
 /* ---------- Sidans inledning ---------- */
 .page-intro {
-  background: var(--night);
   color: var(--background);
   border-bottom: 10px solid var(--room-accent);
-  padding-block: clamp(2.2rem, 6vw, 4rem) clamp(1.8rem, 4vw, 2.8rem);
+  padding-block: clamp(3rem, 10vw, 8rem) clamp(2rem, 5vw, 3.5rem);
+  /* Ett mörkt lager ovanpå bilden gör att texten alltid går att läsa */
+  background-color: var(--night);
+  background-image:
+    linear-gradient(90deg, rgba(18, 17, 22, 0.94) 0%, rgba(18, 17, 22, 0.78) 45%, rgba(18, 17, 22, 0.3) 100%),
+    var(--room-image, none);
+  background-size: cover;
+  background-position: center right;
+}
+
+/* På smala skärmar ligger texten över hela bilden, så lagret blir jämnt mörkt */
+@media (max-width: 640px) {
+  .page-intro {
+    background-image:
+      linear-gradient(rgba(18, 17, 22, 0.8), rgba(18, 17, 22, 0.8)),
+      var(--room-image, none);
+    background-position: center;
+  }
 }
 
 .page-intro h1 {
