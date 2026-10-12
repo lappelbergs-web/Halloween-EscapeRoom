@@ -37,17 +37,24 @@ Typsnitten hämtas från Google Fonts. Utan internetanslutning används reservty
 ## Filer
 
 ```
-index.html               Startsida: presenterar WorkHub och länkar till alla rum
-haunted-mansion.html     Bokningssida
-possessed-doll.html      Bokningssida
-abandoned-asylum.html    Bokningssida
-creepy-clown.html        Bokningssida
-styles.css               Gemensam design för alla sidor
-app.js                   Navigering och bokningslogik
+index.html                   Startsida: presenterar WorkHub och länkar till alla rum
+haunted-mansion.html         Bokningssida (Minna)
+possessed-doll.html          Bokningssida (Peter)
+abandoned-asylum.html        Bokningssida (Leo)
+creepy-clown.html            Bokningssida (Jon)
+styles.css                   Gemensam design för alla sidor
+app.js                       Gemensam JavaScript: mobilmeny, aktuell sida i menyn, årtal
+haunted-mansion.js           Bokningslogik och erbjudanden för The Haunted Mansion
+possessed-doll.js            Bokningslogik och erbjudanden för The Possessed Doll
+abandoned-asylum.js          Bokningslogik och erbjudanden för The Abandoned Asylum
+creepy-clown.js              Bokningslogik och erbjudanden för The Creepy Clown Room
+images/                      En bild per rum, används på startsidan och bokningssidorna
 docs/
-  forklaring-app-js.md       Förklaring av koden i app.js
+  forklaring-app-js.md       Förklaring av JavaScript-koden
   forklaring-styles-css.md   Förklaring av koden i styles.css
 ```
+
+Varje bokningssida laddar två JavaScript-filer: den gemensamma `app.js` och rummets egen fil. Var och en ändrar bara i sin egen fil, så att arbetet i olika grenar inte krockar.
 
 ## Dokumentation
 
@@ -67,9 +74,9 @@ Mappen `docs/` innehåller utförligare förklaringar av koden:
 ## Teknik
 
 - HTML, CSS och JavaScript utan ramverk eller bibliotek.
-- Erbjudandena ligger som arrayer av objekt i `app.js` och ritas ut på sidan med en loop.
+- Varje rums erbjudanden ligger som en array av objekt i rummets egen JavaScript-fil och ritas ut på sidan med en loop.
 - Webbläsarens inbyggda formulärvalidering är avstängd med `novalidate`. All validering görs i JavaScript.
-- Varje bokningssida anger sitt rum med `<body data-activity="...">`, så att samma JavaScript-kod kan användas på alla sidor.
+- Varje bokningssida anger sitt rum med `<body data-activity="...">`, som ger rummets accentfärg och bild i `styles.css`.
 
 ## Design
 
@@ -93,4 +100,5 @@ Färgerna ligger som variabler överst i `styles.css`. Gruppens gemensamma färg
 
 - [ ] Bestämma gemensamt färgtema
 - [x] Fördela vem som ansvarar för vilken sida
-- [ ] Bestämma om JavaScript ska ligga i en gemensam fil eller en fil per sida
+- [x] Bestämma om JavaScript ska ligga i en gemensam fil eller en fil per sida
+- [ ] Uppdatera förklaringen av JavaScript-koden i `docs/` efter uppdelningen i en fil per rum
