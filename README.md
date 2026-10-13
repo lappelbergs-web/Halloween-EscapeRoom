@@ -43,6 +43,7 @@ possessed-doll.html          Bokningssida (Peter)
 abandoned-asylum.html        Bokningssida (Leo)
 creepy-clown.html            Bokningssida (Jon)
 styles.css                   Gemensam design för alla sidor
+possessed-doll.css           Egen design för The Possessed Doll (runda erbjudanden)
 app.js                       Gemensam JavaScript: mobilmeny, aktuell sida i menyn, årtal
 haunted-mansion.js           Bokningslogik och erbjudanden för The Haunted Mansion
 possessed-doll.js            Bokningslogik och erbjudanden för The Possessed Doll
