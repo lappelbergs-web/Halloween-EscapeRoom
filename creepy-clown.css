@@ -1,0 +1,13 @@
+/* ==========================================================
+   The Creepy Clown Room – egen design för creepy-clown.html
+   Ansvarig: Jon
+
+   Laddas efter styles.css, så regler här går före de gemensamma.
+   Filen är tom så länge – sidan ser ut som de gemensamma
+   reglerna i styles.css gör.
+
+   Tips: använd gärna variablerna från styles.css, till exempel
+   var(--room-accent), var(--foreground) och var(--background),
+   så följer sidan med om gruppen byter färgtema.
+   Se possessed-doll.css för ett exempel på en egen design.
+   ========================================================== */
