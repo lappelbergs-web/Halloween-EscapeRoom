@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IM+Fell+English&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- Egen design för dockrummet, laddas efter den gemensamma -->
+  <link rel="stylesheet" href="possessed-doll.css">
   <script src="app.js" defer></script>
   <script src="possessed-doll.js" defer></script>
   <title>The Possessed Doll – Haunted Rooms by WorkHub</title>
@@ -60,7 +62,7 @@
             <!-- Steg 1: erbjudanden ritas ut av app.js -->
             <fieldset class="form-step offer-group">
               <legend><span class="step-number">1</span> Choose an experience</legend>
-              <div id="offer-list" class="offer-cards"></div>
+              <div id="offer-list" class="doll-offers"></div>
               <p id="selected-offer" class="selected-offer" aria-live="polite">No experience selected yet.</p>
               <p id="offer-error" class="field-error" hidden></p>
             </fieldset>
