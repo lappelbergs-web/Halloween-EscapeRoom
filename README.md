@@ -43,7 +43,10 @@ possessed-doll.html          Bokningssida (Peter)
 abandoned-asylum.html        Bokningssida (Leo)
 creepy-clown.html            Bokningssida (Jon)
 styles.css                   Gemensam design för alla sidor
+haunted-mansion.css          Egen design för The Haunted Mansion (tom än så länge)
 possessed-doll.css           Egen design för The Possessed Doll (runda erbjudanden)
+abandoned-asylum.css         Egen design för The Abandoned Asylum (tom än så länge)
+creepy-clown.css             Egen design för The Creepy Clown Room (tom än så länge)
 app.js                       Gemensam JavaScript: mobilmeny, aktuell sida i menyn, årtal
 haunted-mansion.js           Bokningslogik och erbjudanden för The Haunted Mansion
 possessed-doll.js            Bokningslogik och erbjudanden för The Possessed Doll
@@ -55,7 +58,7 @@ docs/
   forklaring-styles-css.md   Förklaring av koden i styles.css
 ```
 
-Varje bokningssida laddar två JavaScript-filer: den gemensamma `app.js` och rummets egen fil. Var och en ändrar bara i sin egen fil, så att arbetet i olika grenar inte krockar.
+Varje bokningssida laddar två CSS-filer och två JavaScript-filer: de gemensamma `styles.css` och `app.js`, och rummets egna filer. Rummets CSS-fil laddas efter den gemensamma, så att egna regler går före. Var och en ändrar bara i sina egna filer, så att arbetet i olika grenar inte krockar.
 
 ## Dokumentation
 
