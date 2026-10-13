@@ -4,74 +4,105 @@
  * The Possessed Doll – JavaScript för bokningssidan possessed-doll.html
  * Ansvarig: Peter
  *
- * Erbjudanden, prisberäkning, validering, bekräftelse och Start over.
+ * Samma funktioner som de andra rummen, men med ett eget upplägg:
+ * - Allt som ändras under bokningen ligger samlat i objektet state.
+ * - Valideringsreglerna ligger i objektet rules, med en regel per fält.
+ * - Erbjudandena har en gemensam klicklyssnare på listan (event delegation)
+ *   i stället för en lyssnare per erbjudande.
+ * - Prisvisningen är uppdelad i en funktion som bestämmer meddelandet
+ *   och en som skriver ut det på sidan.
+ *
  * Navigeringen ligger i den gemensamma filen app.js.
  */
 
 /* ==========================================================
-   Data: rummets erbjudanden
+   Data
    ========================================================== */
 
-const MIN_QUANTITY = 1;
-const MAX_QUANTITY = 5;
-
-const ROOM = {
-  unitSingular: "player",
-  unitPlural: "players",
-  offers: [
-    { id: "doll-playroom", name: "The Playroom", description: "60 minutes in the nursery where it all began. Hints included.", pricePerUnit: 250 },
-    { id: "doll-hide-and-seek", name: "Hide and Seek", description: "She is looking for you. Make a sound and the clock speeds up.", pricePerUnit: 320 },
-    { id: "doll-night", name: "Night of the Doll", description: "No hints and no lights. She only moves when you look away.", pricePerUnit: 360 }
-  ]
+// Allt som gäller antalet spelare samlat på ett ställe
+const PLAYERS = {
+  min: 1,
+  max: 5,
+  singular: "player",
+  plural: "players"
 };
 
+const MAX_FEAR_LEVEL = 3;
+
+const OFFERS = [
+  {
+    id: "doll-playroom",
+    name: "The Playroom",
+    description: "60 minutes in the nursery where it all began. Hints included.",
+    pricePerUnit: 190,
+    fearLevel: 1
+  },
+  {
+    id: "doll-hide-and-seek",
+    name: "Hide and Seek",
+    description: "She hunts by sound. Stay quiet or the clock speeds up.",
+    pricePerUnit: 340,
+    fearLevel: 2
+  },
+  {
+    id: "doll-night",
+    name: "Night of the Doll",
+    description: "No hints, no light. She moves when you look away.",
+    pricePerUnit: 490,
+    fearLevel: 3
+  }
+];
+
 /* ==========================================================
-   Start: körs när sidan har laddats
+   Tillstånd och element
    ========================================================== */
 
-document.addEventListener("DOMContentLoaded", setupBookingPage);
+// Allt som ändras medan besökaren använder sidan
+const state = {
+  selectedId: null,   // id för valt erbjudande, eller null
+  confirmed: false    // true när förfrågan är bekräftad och låst
+};
+
+// Referenser till element på sidan, fylls i init()
+const el = {};
+
+// Ordningen fälten kontrolleras i – samma ordning som på sidan
+const FIELD_ORDER = ["offer", "quantity", "name", "email"];
 
 /* ==========================================================
-   Bokning
+   Start
    ========================================================== */
 
-// Sidans tillstånd
-let selectedOfferId = null;   // id för valt erbjudande, eller null
-let isConfirmed = false;      // true när förfrågan är bekräftad och låst
+document.addEventListener("DOMContentLoaded", init);
 
-// Referenser till element på sidan, fylls i setupBookingPage
-const ui = {};
-
-function setupBookingPage() {
-  ui.form = document.getElementById("booking-form");
-
-  // Utan bokningsformulär finns inget att göra på sidan.
-  if (!ui.form) {
+function init() {
+  el.form = document.getElementById("booking-form");
+  if (!el.form) {
     return;
   }
 
-  ui.fields = document.getElementById("booking-fields");
-  ui.offerList = document.getElementById("offer-list");
-  ui.selectedOffer = document.getElementById("selected-offer");
-  ui.priceOutput = document.getElementById("price-output");
-  ui.submitButton = document.getElementById("submit-button");
-  ui.restartButton = document.getElementById("restart-button");
-  ui.confirmation = document.getElementById("confirmation");
+  el.fields = document.getElementById("booking-fields");
+  el.offers = document.getElementById("offer-list");
+  el.selectedText = document.getElementById("selected-offer");
+  el.price = document.getElementById("price-output");
+  el.submit = document.getElementById("submit-button");
+  el.restart = document.getElementById("restart-button");
+  el.confirmation = document.getElementById("confirmation");
 
-  // Fält som valideras: inmatningselement och tillhörande felmeddelande
-  ui.inputs = {
-    offer: ui.offerList,
+  el.inputs = {
+    offer: el.offers,
     quantity: document.getElementById("quantity"),
     name: document.getElementById("customer-name"),
     email: document.getElementById("customer-email")
   };
-  ui.errors = {
-    offer: document.getElementById("offer-error"),
-    quantity: document.getElementById("quantity-error"),
-    name: document.getElementById("name-error"),
-    email: document.getElementById("email-error")
-  };
-  ui.summary = {
+
+  // Hämtar felelementen med en loop: "offer" -> "offer-error" och så vidare
+  el.errors = {};
+  FIELD_ORDER.forEach((field) => {
+    el.errors[field] = document.getElementById(`${field}-error`);
+  });
+
+  el.summary = {
     name: document.getElementById("summary-name"),
     email: document.getElementById("summary-email"),
     offer: document.getElementById("summary-offer"),
@@ -80,325 +111,346 @@ function setupBookingPage() {
   };
 
   renderOffers();
-  updatePriceDisplay();
+  showPrice();
 
-  ui.form.addEventListener("submit", handleSubmit);
-  ui.restartButton.addEventListener("click", restartBooking);
+  // En enda lyssnare för alla erbjudanden
+  el.offers.addEventListener("click", onOfferClick);
+  el.form.addEventListener("submit", onSubmit);
+  el.restart.addEventListener("click", restart);
 
-  ui.inputs.quantity.addEventListener("input", () => {
-    updatePriceDisplay();
-    revalidateIfShowingError("quantity");
+  ["quantity", "name", "email"].forEach((field) => {
+    el.inputs[field].addEventListener("input", () => onFieldInput(field));
   });
-  ui.inputs.name.addEventListener("input", () => revalidateIfShowingError("name"));
-  ui.inputs.email.addEventListener("input", () => revalidateIfShowingError("email"));
 }
 
-/* ---------- Erbjudanden ---------- */
+/* ==========================================================
+   Erbjudanden
+   ========================================================== */
 
-// Ritar ut alla erbjudanden genom att iterera över arrayen.
+// Ritar ut erbjudandena som runda medaljonger.
 function renderOffers() {
-  ui.offerList.innerHTML = "";
+  el.offers.replaceChildren();
+  OFFERS.forEach((offer) => {
+    el.offers.append(createOfferElement(offer));
+  });
+}
 
-  for (const offer of ROOM.offers) {
-    const card = document.createElement("button");
-    card.type = "button";
-    card.className = "offer-card";
-    card.dataset.offerId = offer.id;
-    card.setAttribute("aria-pressed", "false");
+function createOfferElement(offer) {
+  const button = makeElement("button", "doll-offer");
+  button.type = "button";
+  button.dataset.offerId = offer.id;
+  button.setAttribute("aria-pressed", "false");
 
-    const name = document.createElement("span");
-    name.className = "offer-name";
-    name.textContent = offer.name;
+  const fear = makeElement("span", "doll-offer-fear");
+  const dots = makeElement("span", "", fearDots(offer.fearLevel));
+  dots.setAttribute("aria-hidden", "true");
+  const fearText = makeElement("span", "visually-hidden", `Fear level ${offer.fearLevel} of ${MAX_FEAR_LEVEL}`);
+  fear.append(dots, fearText);
 
-    const description = document.createElement("span");
-    description.className = "offer-description";
-    description.textContent = offer.description;
+  const price = makeElement("span", "doll-offer-price", formatSek(offer.pricePerUnit));
+  price.append(makeElement("small", "", ` per ${PLAYERS.singular}`));
 
-    const price = document.createElement("span");
-    price.className = "offer-price";
-    price.textContent = `${formatPrice(offer.pricePerUnit)} per ${ROOM.unitSingular}`;
+  button.append(
+    fear,
+    makeElement("span", "doll-offer-name", offer.name),
+    makeElement("span", "doll-offer-description", offer.description),
+    price
+  );
+  return button;
+}
 
-    card.append(name, description, price);
-    card.addEventListener("click", () => selectOffer(offer.id));
-    ui.offerList.append(card);
+// Skapar ett element med klass och text. Texten sätts med textContent.
+function makeElement(tag, className, text = "") {
+  const element = document.createElement(tag);
+  if (className) {
+    element.className = className;
   }
+  element.textContent = text;
+  return element;
+}
+
+// Fear level 2 av 3 blir "●●○"
+function fearDots(level) {
+  return "●".repeat(level) + "○".repeat(MAX_FEAR_LEVEL - level);
+}
+
+// Ett klick någonstans i listan: ta reda på vilken medaljong som klickades.
+function onOfferClick(event) {
+  const button = event.target.closest(".doll-offer");
+  if (!button || state.confirmed) {
+    return;
+  }
+  selectOffer(button.dataset.offerId);
 }
 
 function selectOffer(offerId) {
-  if (isConfirmed) {
-    return;
-  }
-  selectedOfferId = offerId;
-  updateOfferMarking();
-  updatePriceDisplay();
-  clearError("offer");
+  state.selectedId = offerId;
+  paintSelection();
+  showPrice();
+  setError("offer", "");
 }
 
-// Uppdaterar vilket kort som är markerat och texten "Valt erbjudande".
-function updateOfferMarking() {
-  const cards = ui.offerList.querySelectorAll(".offer-card");
-
-  cards.forEach((card) => {
-    const isSelected = card.dataset.offerId === selectedOfferId;
-    card.classList.toggle("is-selected", isSelected);
-    card.setAttribute("aria-pressed", String(isSelected));
+// Visar valet med klass, aria-pressed och text.
+function paintSelection() {
+  el.offers.querySelectorAll(".doll-offer").forEach((button) => {
+    const isSelected = button.dataset.offerId === state.selectedId;
+    button.classList.toggle("is-selected", isSelected);
+    button.setAttribute("aria-pressed", String(isSelected));
   });
 
-  const offer = getSelectedOffer();
-  ui.selectedOffer.textContent = offer
+  const offer = findOffer(state.selectedId);
+  el.selectedText.textContent = offer
     ? `Selected: ${offer.name}`
     : "No experience selected yet.";
 }
 
-function getSelectedOffer() {
-  return ROOM.offers.find((offer) => offer.id === selectedOfferId) || null;
+function findOffer(offerId) {
+  return OFFERS.find((offer) => offer.id === offerId) || null;
 }
 
-/* ---------- Pris ---------- */
+/* ==========================================================
+   Pris
+   ========================================================== */
 
 function calculateTotalPrice(pricePerUnit, quantity) {
   return pricePerUnit * quantity;
 }
 
-// Tolkar antal-fältet. Returnerar ett heltal 1–5, eller null om värdet är ogiltigt.
-function parseQuantity(text) {
+// Tolkar antal-fältet. Returnerar ett heltal inom gränserna, eller null.
+function toPlayerCount(text) {
   const trimmed = text.trim();
-  if (trimmed === "") {
+
+  // /^\d+$/ betyder: från början till slut bara siffror, minst en
+  if (!/^\d+$/.test(trimmed)) {
     return null;
   }
 
-  // Bara siffror tillåts – då stoppas t.ex. "2.5", "-1", "2a" och "1e2".
-  const onlyDigits = [...trimmed].every((char) => char >= "0" && char <= "9");
-  if (!onlyDigits) {
-    return null;
-  }
-
-  const quantity = Number(trimmed);
-  if (quantity < MIN_QUANTITY || quantity > MAX_QUANTITY) {
-    return null;
-  }
-  return quantity;
+  const count = Number(trimmed);
+  const withinLimits = count >= PLAYERS.min && count <= PLAYERS.max;
+  return withinLimits ? count : null;
 }
 
-function updatePriceDisplay() {
-  const offer = getSelectedOffer();
-  const quantity = parseQuantity(ui.inputs.quantity.value);
-  const output = ui.priceOutput;
-
-  output.classList.remove("is-total", "is-warning");
+// Bestämmer vad prisrutan ska visa, utan att röra sidan.
+function describePrice() {
+  const offer = findOffer(state.selectedId);
+  const count = toPlayerCount(el.inputs.quantity.value);
 
   if (!offer) {
-    output.textContent = "Choose an experience to see the price.";
-    return;
+    return { kind: "start", text: "Choose an experience to see the price." };
+  }
+  if (count === null) {
+    return {
+      kind: "warning",
+      text: `Enter the number of ${PLAYERS.plural} as a whole number between ${PLAYERS.min} and ${PLAYERS.max} to see the price.`
+    };
   }
 
-  if (quantity === null) {
-    output.textContent = `Enter the number of ${ROOM.unitPlural} as a whole number between ${MIN_QUANTITY} and ${MAX_QUANTITY} to see the price.`;
-    output.classList.add("is-warning");
-    return;
-  }
-
-  const total = calculateTotalPrice(offer.pricePerUnit, quantity);
-  output.textContent = `Total: ${formatPrice(total)} (${formatQuantity(quantity)} × ${formatPrice(offer.pricePerUnit)})`;
-  output.classList.add("is-total");
+  const total = calculateTotalPrice(offer.pricePerUnit, count);
+  return {
+    kind: "total",
+    text: `Total: ${formatSek(total)} (${formatPlayers(count)} × ${formatSek(offer.pricePerUnit)})`
+  };
 }
 
-/* ---------- Validering ---------- */
-// Varje funktion returnerar ett felmeddelande, eller tom sträng om värdet är giltigt.
-
-function validateOffer() {
-  return getSelectedOffer() ? "" : "Choose one of the experiences above before you send your request.";
+// Skriver ut det describePrice() har bestämt.
+function showPrice() {
+  const { kind, text } = describePrice();
+  el.price.textContent = text;
+  el.price.classList.toggle("is-warning", kind === "warning");
+  el.price.classList.toggle("is-total", kind === "total");
 }
 
-function validateQuantity(value) {
-  if (value.trim() === "") {
-    return `Enter the number of ${ROOM.unitPlural}.`;
+/* ==========================================================
+   Validering
+   ========================================================== */
+
+// En regel per fält. Varje regel returnerar ett felmeddelande, eller "" om allt är rätt.
+const rules = {
+  offer: () => {
+    return findOffer(state.selectedId)
+      ? ""
+      : "Choose one of the experiences above before you send your request.";
+  },
+
+  quantity: (value) => {
+    if (value.trim() === "") {
+      return `Enter the number of ${PLAYERS.plural}.`;
+    }
+    if (toPlayerCount(value) === null) {
+      return `The number of ${PLAYERS.plural} must be a whole number between ${PLAYERS.min} and ${PLAYERS.max}.`;
+    }
+    return "";
+  },
+
+  name: (value) => {
+    return value.trim() === ""
+      ? "Enter your name. The field can't be empty or contain only spaces."
+      : "";
+  },
+
+  email: (value) => {
+    if (value === "") {
+      return "Enter your email address.";
+    }
+    if (/\s/.test(value)) {
+      return "The email address can't contain spaces.";
+    }
+
+    const at = value.indexOf("@");
+    if (at === -1 || at !== value.lastIndexOf("@")) {
+      return "The email address must contain exactly one @, for example name@example.com.";
+    }
+
+    const localPart = value.slice(0, at);
+    const domain = value.slice(at + 1);
+    if (localPart === "") {
+      return "There must be text before the @ in the email address.";
+    }
+    if (domain === "") {
+      return "There must be text after the @ in the email address.";
+    }
+
+    // Domänen ska ha minst en punkt, och varje del runt punkterna ska innehålla text.
+    const domainParts = domain.split(".");
+    if (domainParts.length < 2 || domainParts.includes("")) {
+      return "The part after @ needs a dot with text on both sides, for example example.com.";
+    }
+    return "";
   }
-  if (parseQuantity(value) === null) {
-    return `The number of ${ROOM.unitPlural} must be a whole number between ${MIN_QUANTITY} and ${MAX_QUANTITY}.`;
-  }
-  return "";
+};
+
+// Hämtar värdet som regeln för ett fält ska kontrollera.
+function readValue(field) {
+  return field === "offer" ? state.selectedId : el.inputs[field].value;
 }
 
-function validateName(value) {
-  if (value.trim() === "") {
-    return "Enter your name. The field can't be empty or contain only spaces.";
-  }
-  return "";
+// Kontrollerar ett fält, visar resultatet och returnerar true om fältet är giltigt.
+function checkField(field) {
+  const message = rules[field](readValue(field));
+  setError(field, message);
+  return message === "";
 }
 
-function validateEmail(value) {
-  if (value === "") {
-    return "Enter your email address.";
-  }
+// Ett tomt meddelande tar bort felet, annars visas det.
+function setError(field, message) {
+  const error = el.errors[field];
+  const hasError = message !== "";
 
-  const hasWhitespace = [...value].some((char) => char.trim() === "");
-  if (hasWhitespace) {
-    return "The email address can't contain spaces.";
-  }
+  error.textContent = message;
+  error.hidden = !hasError;
 
-  const parts = value.split("@");
-  if (parts.length !== 2) {
-    return "The email address must contain exactly one @, for example name@example.com.";
-  }
-
-  const [localPart, domain] = parts;
-  if (localPart === "") {
-    return "There must be text before the @ in the email address.";
-  }
-  if (domain === "") {
-    return "There must be text after the @ in the email address.";
-  }
-
-  // Domänen ska ha minst en punkt, och varje del runt punkterna måste innehålla text.
-  const domainParts = domain.split(".");
-  const hasEmptyPart = domainParts.some((part) => part === "");
-  if (domainParts.length < 2 || hasEmptyPart) {
-    return "The part after @ needs a dot with text on both sides, for example example.com.";
-  }
-
-  return "";
-}
-
-// Validerar ett fält, visar eller tar bort felet och returnerar true om fältet är giltigt.
-function validateField(key) {
-  let message = "";
-
-  switch (key) {
-    case "offer":
-      message = validateOffer();
-      break;
-    case "quantity":
-      message = validateQuantity(ui.inputs.quantity.value);
-      break;
-    case "name":
-      message = validateName(ui.inputs.name.value);
-      break;
-    case "email":
-      message = validateEmail(ui.inputs.email.value);
-      break;
-  }
-
-  if (message) {
-    showError(key, message);
-    return false;
-  }
-  clearError(key);
-  return true;
-}
-
-// När ett fält redan visar ett fel kontrolleras det igen vid varje ändring,
-// så att meddelandet uppdateras eller försvinner när felet rättas.
-function revalidateIfShowingError(key) {
-  if (!ui.errors[key].hidden) {
-    validateField(key);
+  if (hasError) {
+    el.inputs[field].setAttribute("aria-invalid", "true");
+  } else {
+    el.inputs[field].removeAttribute("aria-invalid");
   }
 }
 
-function showError(key, message) {
-  ui.errors[key].textContent = message;
-  ui.errors[key].hidden = false;
-  ui.inputs[key].setAttribute("aria-invalid", "true");
+// Vid inmatning: uppdatera priset, och kontrollera fältet igen om det visar ett fel.
+function onFieldInput(field) {
+  if (field === "quantity") {
+    showPrice();
+  }
+  if (!el.errors[field].hidden) {
+    checkField(field);
+  }
 }
 
-function clearError(key) {
-  ui.errors[key].textContent = "";
-  ui.errors[key].hidden = true;
-  ui.inputs[key].removeAttribute("aria-invalid");
-}
+/* ==========================================================
+   Skicka och bekräfta
+   ========================================================== */
 
-/* ---------- Skicka och bekräfta ---------- */
-
-function handleSubmit(event) {
+function onSubmit(event) {
   event.preventDefault(); // Ingen omladdning och inget skickas till en server
 
-  if (isConfirmed) {
+  if (state.confirmed) {
     return;
   }
 
-  // Kontrollera alla fält i samma ordning som på sidan.
-  const fieldOrder = ["offer", "quantity", "name", "email"];
-  const invalidFields = fieldOrder.filter((key) => !validateField(key));
+  // map kontrollerar alla fält, så att alla fel visas på en gång
+  const results = FIELD_ORDER.map(checkField);
+  const firstInvalid = FIELD_ORDER[results.indexOf(false)];
 
-  if (invalidFields.length > 0) {
-    focusField(invalidFields[0]);
+  if (firstInvalid) {
+    focusField(firstInvalid);
     return;
   }
 
-  const offer = getSelectedOffer();
-  const quantity = parseQuantity(ui.inputs.quantity.value);
+  confirmBooking(buildBooking());
+}
 
-  // Spara en ögonblicksbild av det som bekräftas.
-  const booking = {
-    name: ui.inputs.name.value.trim(),
-    email: ui.inputs.email.value,
-    offerName: offer.name,
-    quantity: quantity,
-    total: calculateTotalPrice(offer.pricePerUnit, quantity)
+function focusField(field) {
+  const target = field === "offer"
+    ? el.offers.querySelector(".doll-offer")
+    : el.inputs[field];
+  target.focus();
+}
+
+// Ögonblicksbild av det som bekräftas, färdig att visa.
+function buildBooking() {
+  const offer = findOffer(state.selectedId);
+  const count = toPlayerCount(el.inputs.quantity.value);
+
+  return {
+    name: el.inputs.name.value.trim(),
+    email: el.inputs.email.value,
+    offer: offer.name,
+    quantity: formatPlayers(count),
+    total: formatSek(calculateTotalPrice(offer.pricePerUnit, count))
   };
-
-  showConfirmation(booking);
 }
 
-function focusField(key) {
-  if (key === "offer") {
-    ui.offerList.querySelector(".offer-card").focus();
-  } else {
-    ui.inputs[key].focus();
-  }
-}
+function confirmBooking(booking) {
+  state.confirmed = true;
 
-function showConfirmation(booking) {
-  isConfirmed = true;
-
-  // textContent skriver över – då blir det aldrig dubbla bekräftelser.
-  ui.summary.name.textContent = booking.name;
-  ui.summary.email.textContent = booking.email;
-  ui.summary.offer.textContent = booking.offerName;
-  ui.summary.quantity.textContent = formatQuantity(booking.quantity);
-  ui.summary.total.textContent = formatPrice(booking.total);
+  // Nycklarna i booking är desamma som i el.summary.
+  // textContent skriver över, så det kan aldrig bli dubbla bekräftelser.
+  Object.entries(booking).forEach(([key, value]) => {
+    el.summary[key].textContent = value;
+  });
 
   // Lås formuläret så att de bekräftade uppgifterna inte kan ändras.
-  ui.fields.disabled = true;
-  ui.submitButton.hidden = true;
+  el.fields.disabled = true;
+  el.submit.hidden = true;
 
-  ui.confirmation.hidden = false;
-  ui.confirmation.focus();
+  el.confirmation.hidden = false;
+  el.confirmation.focus();
 }
 
-/* ---------- Start over ---------- */
+/* ==========================================================
+   Start over
+   ========================================================== */
 
-function restartBooking() {
-  isConfirmed = false;
+function restart() {
+  state.selectedId = null;
+  state.confirmed = false;
 
-  ui.inputs.name.value = "";
-  ui.inputs.email.value = "";
-  ui.inputs.quantity.value = String(MIN_QUANTITY);
+  // Låser upp formuläret och tömmer det. reset() sätter varje fält till sitt
+  // värde i HTML-koden: namn och e-post blir tomma och antal blir 1 (value="1").
+  el.fields.disabled = false;
+  el.form.reset();
 
-  selectedOfferId = null;
-  updateOfferMarking();
+  paintSelection();
+  FIELD_ORDER.forEach((field) => setError(field, ""));
 
-  Object.keys(ui.errors).forEach(clearError);
-
-  Object.values(ui.summary).forEach((element) => {
+  Object.values(el.summary).forEach((element) => {
     element.textContent = "";
   });
-  ui.confirmation.hidden = true;
+  el.confirmation.hidden = true;
+  el.submit.hidden = false;
 
-  ui.fields.disabled = false;
-  ui.submitButton.hidden = false;
-
-  updatePriceDisplay();
-  ui.form.scrollIntoView({ block: "start" });
+  showPrice();
+  el.form.scrollIntoView({ block: "start" });
 }
 
-/* ---------- Hjälpfunktioner för text ---------- */
+/* ==========================================================
+   Hjälpfunktioner för text
+   ========================================================== */
 
-function formatPrice(amount) {
+function formatSek(amount) {
   return `${amount.toLocaleString("en-US")} SEK`;
 }
 
-function formatQuantity(quantity) {
-  const unit = quantity === 1 ? ROOM.unitSingular : ROOM.unitPlural;
-  return `${quantity} ${unit}`;
+function formatPlayers(count) {
+  return `${count} ${count === 1 ? PLAYERS.singular : PLAYERS.plural}`;
 }
