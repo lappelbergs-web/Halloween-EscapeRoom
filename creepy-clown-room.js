@@ -1,7 +1,7 @@
 function RenderCards(offer) {
   return `
     <article class="offer-card" data-offer-id="${offer.id}">
-      <p class="offer-card__tag">Erbjudande ${offer.id}</p>
+      <p class="offer-card__tag">${offer.name}</p>
       <h3 class="offer-card__title">${offer.name}</h3>
       <p class="offer-card__description">${offer.description}</p>
       <p class="offer-card__price">
@@ -16,6 +16,25 @@ function renderOfferCards(container, packages) {
   container.innerHTML = packages.map((offer) => RenderCards(offer)).join("");
 }
 
+function renderPackageSelect(select, packages) {
+  const placeholderText =
+    select.querySelector('option[value=""]')?.textContent ||
+    "--Välj erbjudande--";
+  select.innerHTML = "";
+
+  const emptyOption = document.createElement("option");
+  emptyOption.value = "";
+  emptyOption.textContent = placeholderText;
+  select.appendChild(emptyOption);
+
+  packages.forEach((offer) => {
+    const option = document.createElement("option");
+    option.value = offer.id;
+    option.textContent = offer.name;
+    select.appendChild(option);
+  });
+}
+
 function getOfferById(selectedId, prices) {
   if (!selectedId) {
     return null;
@@ -23,8 +42,8 @@ function getOfferById(selectedId, prices) {
   return prices.find((item) => String(item.id) === selectedId) || null;
 }
 
-function calculateTotalPrice(pricePerUnit, quantity) {
-  return pricePerUnit * quantity;
+function calculateTotalPrice(price, quantity) {
+  return price * quantity;
 }
 
 function isValidQuantity(value) {
@@ -65,31 +84,37 @@ function clearFieldErrors() {
 
 const clown_room_packages = [
   {
-    id: 1,
-    description: "A smaller package for a daring single soul",
-    name: "Single package",
+    id: "clown-funhouse",
+    name: "Funhouse",
+    description:
+      "60 minutes among crooked mirrors and laughter from nowhere. Hints included.",
     price: 250,
   },
   {
-    id: 2,
-    description: "A medium package for two daring people",
-    name: "Couple package",
-    price: 500,
+    id: "clown-red-balloon",
+    name: "Red Balloon",
+    description:
+      "Follow the balloons to find the way out. Just don't follow them too far.",
+    price: 310,
   },
   {
-    id: 3,
-    description: "A large package for the whole family",
-    name: "Family package",
-    price: 1000,
+    id: "clown-showtime",
+    name: "Showtime",
+    description:
+      "90 minutes with a live clown. He decides when the show is over.",
+    price: 400,
   },
 ];
 
 const clownOffers = document.getElementById("clown-prices");
+const packageSelect = document.getElementById("package-select");
+
 if (clownOffers) {
   renderOfferCards(clownOffers, clown_room_packages);
 }
-
-const packageSelect = document.getElementById("package-select");
+if (packageSelect) {
+  renderPackageSelect(packageSelect, clown_room_packages);
+}
 const quantityInput = document.getElementById("quantity-input");
 const totalPrice = document.getElementById("total-price");
 const bookingForm = document.getElementById("booking-form");
