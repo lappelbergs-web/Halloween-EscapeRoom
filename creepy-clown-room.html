@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,43 +8,71 @@
 </head>
 <body>
     <main class="creepy-clown-room">
-        <section>
-            <a href="index.html">Back to home</a>
-            <h1>Creepy Clown Room</h1>
-            <p>Welcome to the Creepy Clown Room!</p>
-            <h2>Prices</h2>
-            <ul id="clown-prices"></ul>
-            <label for="package-select">Choose a package:</label>
-            <select name="package" id="package-select">
-                <option value="">--Please choose an option--</option>
-                <option value="1">Single</option>
-                <option value="2">Couple</option>
-                <option value="3">Family</option>
-            </select>
-            <label for="time-select">Choose Time:</label>
-            <select name="time" id="time-select">
-                <option value="1">1 hour</option>
-                <option value="2">2 hours</option>
-                <option value="3">3 hours</option>
-                <option value="4">4 hours</option>
-                <option value="5">5 hours</option>
-            </select>
-            <p id="total-price"></p>
-            <div>
-                <button id="book-now">Book Now</button>
-                <button id="reset-button">Reset</button>
+        <section class="room-card">
+            <a class="back-link" href="index.html">← Tillbaka till startsidan</a>
 
+            <header class="room-header">
+                <p class="room-tag">Escape room</p>
+                <h1>Creepy Clown Room</h1>
+                <p class="room-intro">Välkommen in i cirkusens mörkaste sal. Välj paket, ange timmar och boka ditt äventyr.</p>
+            </header>
+
+            <div class="price-panel">
+                <h2>Priser</h2>
+                <ul id="clown-prices" class="price-list"></ul>
+                <p id="total-price" class="total-price"></p>
             </div>
-            <div class="booking-form-hidden">
-                <h2>Booking Form</h2>
-                <form id="booking-form">
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email">
+
+            <div class="booking-panel">
+                <h2>Bokning</h2>
+                <form id="booking-form" novalidate>
+                    <label for="name">Namn:</label>
+                    <input type="text" id="name" name="name" autocomplete="name">
+                    <p class="field-error" id="name-error"></p>
+
+                    <label for="email">E-postadress:</label>
+                    <input type="text" id="email" name="email" autocomplete="email">
+                    <p class="field-error" id="email-error"></p>
+
+                    <label for="package-select">Erbjudande:</label>
+                    <select name="package" id="package-select">
+                        <option value="">--Välj erbjudande--</option>
+                        <option value="1">Single</option>
+                        <option value="2">Couple</option>
+                        <option value="3">Family</option>
+                    </select>
+                    <p class="field-error" id="package-error"></p>
+
+                    <label for="quantity-input">Antal timmar:</label>
+                    <input type="text" id="quantity-input" name="quantity" inputmode="numeric" value="1">
+                    <p class="field-error" id="quantity-error"></p>
+
+                    <div class="form-actions">
+                        <button type="submit" id="confirm-booking">Bekräfta bokning</button>
+                        <button type="button" id="start-over">Börja om</button>
+                    </div>
                 </form>
             </div>
+
+            <div id="booking-summary" class="booking-summary booking-form-hidden">
+                <h2>Bokningsbekräftelse</h2>
+                <p><strong>Namn:</strong> <span id="summary-name"></span></p>
+                <p><strong>E-post:</strong> <span id="summary-email"></span></p>
+                <p><strong>Erbjudande:</strong> <span id="summary-offer"></span></p>
+                <p><strong>Antal timmar:</strong> <span id="summary-quantity"></span></p>
+                <p class="summary-total"><strong>Totalpris:</strong> <span id="summary-total"></span></p>
+            </div>
         </section>
+        <img
+            class="standing-clown-image"
+            src="https://png.pngtree.com/png-vector/20240611/ourmid/pngtree-scary-clown-cartoon-creepy-halloween-character-png-image_12686020.png"
+            alt=""
+        >
+        <img
+            class="floating-clown-image"
+            src="https://png.pngtree.com/png-vector/20230728/ourmid/pngtree-pennywise-face-vector-png-image_6899714.png"
+            alt=""
+        >
     </main>
     <script src="jons-script.js"></script>
 </body>

@@ -1,9 +1,11 @@
 :root {
     --background: #f2e8d5;
-    --foreground:  #1b1b1f;
+    --foreground: #1b1b1f;
     --accent-orange: #ff6a00;
     --accent-purple: #5a2a82;
     --accent-green: #2f6b3a;
+    --card: #fff8ec;
+    --border: #c9b896;
 }
 
 body {
@@ -11,23 +13,365 @@ body {
     padding: 0;
     background-color: var(--background);
     color: var(--foreground);
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
 }
 
-.creepy-clown-room {
-    background-color: var(--background);
-    color: var(--foreground);
-    font-family: Arial, sans-serif;
+a {
+    color: var(--accent-purple);
+}
+
+a:hover {
+    color: var(--accent-orange);
+}
+
+/* Startsida */
+/* .main-nav {
     display: flex;
-    flex-direction: column;
-    align-items:center;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--card);
+    border-bottom: 2px solid var(--border);
+}
+
+.nav-logo {
+    font-weight: bold;
+    font-size: 1.25rem;
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+} */
+
+/* Creepy Clown Room */
+.creepy-clown-room {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2.5rem 1rem 3rem;
     min-height: 100vh;
-}
+    box-sizing: border-box;
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 15% 10%, rgba(255, 106, 0, 0.18), transparent 40%),
+        radial-gradient(circle at 85% 20%, rgba(90, 42, 130, 0.35), transparent 45%),
+        linear-gradient(165deg, #1a0a12 0%, #2d1438 40%, #12080e 100%);
 
-.booking-form-hidden {
-    display: none;
-}
+    .standing-clown-image {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        z-index: 1;
+        width: min(320px, 42vw);
+        max-height: 55vh;
+        object-fit: contain;
+        object-position: left bottom;
+        pointer-events: none;
+        filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45));
+    }
 
-.booking-form-visible {
-    display: block;
+    .booking-form-hidden {
+        display: none;
+    }
+
+    .booking-form-visible {
+        display: block;
+    }
+
+    .room-card {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 560px;
+        background: linear-gradient(180deg, #fff9f0 0%, var(--card) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 16px;
+        padding: 0 0 1.75rem;
+        box-shadow:
+            0 20px 50px rgba(0, 0, 0, 0.45),
+            0 0 0 1px rgba(90, 42, 130, 0.15);
+        overflow: hidden;
+
+        &::before {
+            content: "";
+            display: block;
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--accent-orange) 0 14px,
+                var(--accent-purple) 14px 28px
+            );
+        }
+    }
+
+    .back-link {
+        display: inline-block;
+        margin: 1.25rem 1.75rem 0;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        background: rgba(90, 42, 130, 0.08);
+        color: var(--accent-purple);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: background 0.2s, color 0.2s;
+
+        &:hover {
+            background: var(--accent-purple);
+            color: #fff;
+        }
+    }
+
+    .room-header {
+        padding: 1rem 1.75rem 0.5rem;
+        text-align: center;
+    }
+
+    .room-tag {
+        display: inline-block;
+        margin: 0;
+        padding: 0.2rem 0.65rem;
+        border-radius: 999px;
+        background: #2a1038;
+        color: #f8e8ff;
+        font-size: 0.75rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    h1 {
+        margin: 0.65rem 0 0.5rem;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.85rem, 5vw, 2.35rem);
+        color: #2a1038;
+        letter-spacing: 0.02em;
+        text-shadow: 0 2px 0 rgba(255, 106, 0, 0.25);
+    }
+
+    .room-intro {
+        margin: 0 auto;
+        max-width: 42ch;
+        color: #4a3f52;
+        font-size: 0.95rem;
+    }
+
+    h2 {
+        margin: 0 0 1rem;
+        font-size: 1.1rem;
+        color: #2a1038;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+    }
+
+    .price-panel,
+    .booking-panel {
+        margin: 1.25rem 1.75rem 0;
+        padding: 1.25rem;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid var(--border);
+    }
+
+    .price-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.65rem;
+
+        li {
+            padding: 0.75rem 0.9rem;
+            border-radius: 8px;
+            background: #fff;
+            border-left: 4px solid var(--accent-orange);
+            box-shadow: 0 2px 6px rgba(27, 27, 31, 0.06);
+            font-size: 0.95rem;
+            line-height: 1.45;
+        }
+    }
+
+    .total-price {
+        margin: 1rem 0 0;
+        padding: 0.85rem 1rem;
+        text-align: center;
+        background: linear-gradient(135deg, #2f6b3a, #245530);
+        color: #f4fff6;
+        border-radius: 10px;
+        font-weight: bold;
+        font-size: 1.05rem;
+        letter-spacing: 0.02em;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .field-error {
+        color: #8b0000;
+        min-height: 1.25rem;
+        margin: 0 0 0.35rem;
+        font-size: 0.85rem;
+
+        &:not(:empty)::before {
+            content: "! ";
+            font-weight: bold;
+        }
+    }
+
+    #booking-form {
+        label {
+            display: block;
+            margin-top: 0.65rem;
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: #34283f;
+        }
+
+        input,
+        select {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 0.35rem;
+            padding: 0.55rem 0.7rem;
+            border: 1px solid #c4b08a;
+            border-radius: 8px;
+            font: inherit;
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--accent-purple);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(90, 42, 130, 0.2);
+        }
+    }
+
+    .form-actions {
+        margin-top: 1.35rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    button {
+        font: inherit;
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 0.6rem 1.1rem;
+        border: 2px solid transparent;
+        transition: transform 0.15s, background 0.2s, color 0.2s;
+
+        &:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+    }
+
+    #confirm-booking {
+        flex: 1;
+        min-width: 10rem;
+        background: linear-gradient(180deg, #ff7a1a, var(--accent-orange));
+        color: #fff;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(255, 106, 0, 0.35);
+
+        &:hover:not(:disabled) {
+            background: linear-gradient(180deg, #ff6a00, #e05500);
+        }
+
+        &:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+    }
+
+    #start-over {
+        background: #fff;
+        border-color: var(--accent-purple);
+        color: var(--accent-purple);
+
+        &:hover {
+            background: var(--accent-purple);
+            color: #fff;
+        }
+    }
+
+    .booking-summary {
+        margin: 1.25rem 1.75rem 0;
+        padding: 1.15rem 1.25rem;
+        border-radius: 12px;
+        border: 2px solid var(--accent-green);
+        background: linear-gradient(180deg, #f6fff8, #e8f5eb);
+        animation: clown-summary-in 0.35s ease-out;
+
+        h2 {
+            margin-top: 0;
+            color: var(--accent-green);
+        }
+
+        p {
+            margin: 0.45rem 0;
+            padding-bottom: 0.45rem;
+            border-bottom: 1px dashed rgba(47, 107, 58, 0.25);
+
+            &:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    .summary-total {
+        margin-top: 0.75rem;
+        padding: 0.65rem 0.75rem;
+        border-radius: 8px;
+        background: rgba(47, 107, 58, 0.12);
+        font-size: 1.05rem;
+    }
+
+    .standing-clown-image {
+        position:absolute;
+        bottom: 0;
+        left: 160px;
+        height: 60rem;
+        width: auto;
+    }
+    .floating-clown-image {
+        position:absolute;
+        top: 100px;
+        right: 180px;
+        width: 20rem;
+    }
+
+    @keyframes clown-summary-in {
+        from {
+            opacity: 0;
+            transform: translateY(6px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
 }
