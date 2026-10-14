@@ -1,11 +1,19 @@
-// gemensam kod
-function renderPrices(listElement, prices) {
-  prices.forEach((item) => {
-    const li = document.createElement("li");
-    li.textContent =
-      `${item.name}: ${item.price} kr per timme – ${item.description.trim()}`;
-    listElement.appendChild(li);
-  });
+function RenderCards(offer) {
+  return `
+    <article class="offer-card" data-offer-id="${offer.id}">
+      <p class="offer-card__tag">Erbjudande ${offer.id}</p>
+      <h3 class="offer-card__title">${offer.name}</h3>
+      <p class="offer-card__description">${offer.description}</p>
+      <p class="offer-card__price">
+        <span class="offer-card__amount">${offer.price}</span>
+        <span class="offer-card__unit">kr per timme</span>
+      </p>
+    </article>
+  `;
+}
+
+function renderOfferCards(container, packages) {
+  container.innerHTML = packages.map((offer) => RenderCards(offer)).join("");
 }
 
 function getOfferById(selectedId, prices) {
@@ -55,8 +63,7 @@ function clearFieldErrors() {
   setFieldError("quantity-error", "");
 }
 
-// individuell kod
-const clown_room_prices = [
+const clown_room_packages = [
   {
     id: 1,
     description: "A smaller package for a daring single soul",
@@ -77,9 +84,9 @@ const clown_room_prices = [
   },
 ];
 
-const clownList = document.getElementById("clown-prices");
-if (clownList) {
-  renderPrices(clownList, clown_room_prices);
+const clownOffers = document.getElementById("clown-prices");
+if (clownOffers) {
+  renderOfferCards(clownOffers, clown_room_packages);
 }
 
 const packageSelect = document.getElementById("package-select");
@@ -92,14 +99,13 @@ const startOverButton = document.getElementById("start-over");
 const bookingSummary = document.getElementById("booking-summary");
 
 function updatePriceDisplay() {
-  const offer = getOfferById(packageSelect.value, clown_room_prices);
+  const offer = getOfferById(packageSelect.value, clown_room_packages);
   if (!offer) {
     totalPrice.textContent = "Välj ett erbjudande för att se totalpriset.";
     return;
   }
   if (!isValidQuantity(quantityInput.value)) {
-    totalPrice.textContent =
-      "Ange antal timmar som ett heltal mellan 1 och 5.";
+    totalPrice.textContent = "Ange antal timmar som ett heltal mellan 1 och 5.";
     return;
   }
 
@@ -131,7 +137,7 @@ function validateBookingForm() {
     isValid = false;
   }
 
-  if (!getOfferById(packageSelect.value, clown_room_prices)) {
+  if (!getOfferById(packageSelect.value, clown_room_packages)) {
     setFieldError("package-error", "Välj ett giltigt erbjudande.");
     isValid = false;
   }
@@ -197,7 +203,7 @@ if (bookingForm) {
       return;
     }
 
-    const offer = getOfferById(packageSelect.value, clown_room_prices);
+    const offer = getOfferById(packageSelect.value, clown_room_packages);
     const quantity = Number(quantityInput.value);
     const total = calculateTotalPrice(offer.price, quantity);
 
