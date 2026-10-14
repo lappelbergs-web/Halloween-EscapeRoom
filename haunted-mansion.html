@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Haunted Mansion | Workhub</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./haunted-mansion.css?v=2">
 </head>
 <body>
     <main class="hanted-mansion">
@@ -14,6 +14,27 @@
             <h2>Choose Your Experience</h2>
             <div id="offers-container"></div>
         </section>
+        <label for="quantity">Number of players (1-5)</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="5" value="1">
+        <p id="total-price">Choose an experience to see the price.</p>
+        <form id="booking-form" novalidate>
+    <h2>Book Your Experience</h2>
+
+    <label for="customer-name">Your Name</label>
+    <input type="text" id="customer-name">
+    <p id="name-error"></p>
+
+    <label for="customer-email">Your Email</label>
+    <input type="email" id="customer-email">
+    <p id="email-error"></p>
+
+    <p id="booking-error"></p>
+
+    <button type="submit">Confirm Booking</button>
+    <button type="reset">Reset Booking</button>
+</form>
+
+<div id="booking-confirmation"></div>
     </main>
 
     <script src="haunted-mansion.js"></script>
