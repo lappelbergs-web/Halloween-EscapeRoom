@@ -250,18 +250,7 @@ a:hover {
         radial-gradient(circle at 85% 20%, rgba(90, 42, 130, 0.35), transparent 45%),
         linear-gradient(165deg, #1a0a12 0%, #2d1438 40%, #12080e 100%);
 
-    .standing-clown-image {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        z-index: 1;
-        width: min(320px, 42vw);
-        max-height: 55vh;
-        object-fit: contain;
-        object-position: left bottom;
-        pointer-events: none;
-        filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45));
-    }
+    
 
     .booking-form-hidden {
         display: none;
@@ -568,9 +557,9 @@ a:hover {
     .standing-clown-image {
         position:absolute;
         bottom: 0;
-        left: 160px;
-        height: 60rem;
-        width: auto;
+        left: 200px;
+        max-height: 60rem;
+        width: 20rem;
     }
     .floating-clown-image {
         position:absolute;
