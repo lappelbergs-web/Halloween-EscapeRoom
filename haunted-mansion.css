@@ -1,3 +1,4 @@
+
 /* THE HAUNTED MANSION */
 
 body:has(.haunted-mansion) {
@@ -5,14 +6,13 @@ body:has(.haunted-mansion) {
     background: #09060e;
 }
 
-body .haunted-mansion {
+.haunted-mansion {
     box-sizing: border-box;
     width: 100%;
     min-height: 100vh;
     padding: 80px 30px;
     background:
-        radial-gradient(ellipse at top, #51245c 0%, transparent 55%),
-        linear-gradient(135deg, #08060d, #1b1025, #08060d);
+        linear-gradient(rgba(5, 2, 9, 0.25), rgba(5, 2, 9, 0.55)), url("images/haunted-background.png") center top / cover no-repeat;
     color: #f5e9ff;
     font-family: Georgia, serif;
     text-align: center;
@@ -195,5 +195,113 @@ body .haunted-mansion #booking-confirmation:not(:empty) {
 
     body .haunted-mansion #booking-form {
         padding: 25px 20px;
+    }
+}
+
+.haunted-mansion {
+    background-color: #09060e;
+    color: white;
+}
+
+#offers-container > div {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+#offers-container > div:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(255, 140, 0, 0.6);;
+}
+
+#booking-form button {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#booking-form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.7);
+    filter: brightness(1.2);
+}
+
+#booking-form {
+    box-shadow: 0 0 30px rgba(170, 100, 255, 0.35);
+    transition: box-shadow 0.3s ease;
+}
+
+#booking-form:focus-within {
+    box-shadow: 0 0 40px rgba(190, 120, 255, 0.7);
+}
+
+#booking-form input:focus {
+    outline: none;
+    border-color: #d8a4ff;
+    box-shadow: 0 0 15px rgba(216, 164, 255, 0.7);
+    transition: all 0.3s ease;
+}
+
+@keyframes hauntedGlow {
+    0%, 100% {
+        text-shadow: 
+        0 0 10px rgba(200, 150, 255, 0.5), 
+        0 0 20px rgba(140, 50, 200, 0.4);
+    }
+    50% {
+        text-shadow: 
+        0 0 20px rgba(220, 170, 255, 0.9),
+        0 0 40px rgba(150, 50, 255, 0.7);
+    }
+}
+h1 {
+    animation: hauntedGlow 3s ease-in-out infinite;
+}
+
+.haunted-mansion {
+    position: relative;
+    isolation: isolate;
+}
+
+.haunted-mansion::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+
+    background: 
+    radial-gradient(
+        ellipse at 20% 90%,
+        rgba(220, 225, 240, 0.5), 
+        tranparent 45%
+    ),
+    radial-gradient(
+        ellipse at 75% 85%,
+        rgba(210, 215, 235, 0.45), 
+        transparent 50%
+    );
+
+    filter: blur(12px);
+    animation: movingFog 10s ease-in-out infinite alternate;
+}
+
+.haunted-mansion > * {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes movingFog {
+    0% {
+        transform: translateX(-25%);
+        opacity: 0.2;
+    }
+
+    50% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(25%);
+        opacity: 0.2;
     }
 }

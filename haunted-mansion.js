@@ -34,7 +34,7 @@ function updateTotalPrice() {
     }
 
     const total = selectedOffer.price * quantity;
-    totalPrice.textContent = `Total Price: $${total} SEK`;
+    totalPrice.textContent = `Total Price: ${total} SEK`;
 }
 offers.forEach(function(offer) {
     const offerCard = document.createElement("div");
@@ -48,12 +48,13 @@ offers.forEach(function(offer) {
     });
     offerCard.style.outline = "3px solid orange";
     console.log("Selected Offer:", selectedOffer.name);
+    updateTotalPrice();
     });
 
     offerCard.innerHTML = `
         <h3>${offer.name}</h3>
         <p>${offer.description}</p>
-        <p>Price: $${offer.price} SEK / person</p>
+        <p>Price: ${offer.price} SEK / person</p>
     `;
     
     offersContainer.appendChild(offerCard);
