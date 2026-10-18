@@ -1,13 +1,315 @@
-/* ==========================================================
-   The Haunted Mansion – egen design för haunted-mansion.html
-   Ansvarig: Minna
 
-   Laddas efter styles.css, så regler här går före de gemensamma.
-   Filen är tom så länge – sidan ser ut som de gemensamma
-   reglerna i styles.css gör.
+/* THE HAUNTED MANSION */
 
-   Tips: använd gärna variablerna från styles.css, till exempel
-   var(--room-accent), var(--foreground) och var(--background),
-   så följer sidan med om gruppen byter färgtema.
-   Se possessed-doll.css för ett exempel på en egen design.
-   ========================================================== */
+body:has(.haunted-mansion) {
+    margin: 0;
+    background: #09060e;
+}
+
+.haunted-mansion {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100vh;
+    padding: 80px 30px;
+    background:
+        linear-gradient(rgba(5, 2, 9, 0.25), rgba(5, 2, 9, 0.55)), url("images/haunted-background.jpg") center top / cover no-repeat;
+    color: #f5e9ff;
+    font-family: Georgia, serif;
+    text-align: center;
+}
+
+/* RUBRIK OCH INTRODUKTION */
+
+body .haunted-mansion h1 {
+    color: #f3d9ff;
+    font-family: Georgia, serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.2;
+    margin: 0 0 20px;
+    text-shadow: 0 0 30px #b54ce0;
+}
+
+body .haunted-mansion > p:not(#total-price) {
+    color: #d8c3df;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    margin: 0 auto 55px;
+}
+
+body .haunted-mansion h2 {
+    color: #f3d9ff;
+    font-size: 2rem;
+    margin: 0 0 35px;
+}
+
+/* ERBJUDANDEN */
+
+body .haunted-mansion #offers-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+    max-width: 1100px;
+    margin: 0 auto 55px;
+}
+
+body .haunted-mansion #offers-container > div {
+    box-sizing: border-box;
+    background: linear-gradient(145deg, #301b3b, #130c1c);
+    border: 1px solid #9357ae;
+    border-radius: 16px;
+    padding: 40px 25px;
+    min-height: 250px;
+    color: #f5e9ff;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+body .haunted-mansion #offers-container > div:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 30px rgba(181, 76, 224, 0.5);
+}
+
+body .haunted-mansion #offers-container h3 {
+    color: #f3d9ff;
+    font-size: 1.5rem;
+    margin: 0 0 20px;
+}
+
+body .haunted-mansion #offers-container p {
+    color: #d8c3df;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 0 15px;
+}
+
+/* ANTAL SPELARE OCH PRIS */
+
+body .haunted-mansion label {
+    display: inline-block;
+    color: #f5e9ff;
+    font-size: 1.05rem;
+    margin: 12px;
+}
+
+body .haunted-mansion input {
+    box-sizing: border-box;
+    padding: 12px;
+    border: 1px solid #9357ae;
+    border-radius: 8px;
+    background: #21142b;
+    color: white;
+    font-size: 1rem;
+}
+
+body .haunted-mansion #quantity {
+    width: 75px;
+}
+
+body .haunted-mansion #total-price {
+    color: #ffb86c;
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin: 30px 0 50px;
+}
+
+/* BOKNINGSFORMULÄR */
+
+body .haunted-mansion #booking-form {
+    box-sizing: border-box;
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 40px;
+    background: rgba(26, 14, 36, 0.95);
+    border: 1px solid #9357ae;
+    border-radius: 18px;
+    box-shadow: 0 0 35px rgba(181, 76, 224, 0.2);
+}
+
+body .haunted-mansion #booking-form h2 {
+    margin-bottom: 25px;
+}
+
+body .haunted-mansion #booking-form label {
+    display: block;
+    text-align: left;
+    margin: 18px 0 8px;
+}
+
+body .haunted-mansion #booking-form input {
+    display: block;
+    width: 100%;
+}
+
+body .haunted-mansion button {
+    padding: 14px 20px;
+    margin: 20px 5px 0;
+    background: #a64bc4;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+body .haunted-mansion button:hover {
+    background: #c268df;
+}
+
+body .haunted-mansion button[type="reset"] {
+    background: #48324f;
+}
+
+body .haunted-mansion #name-error,
+body .haunted-mansion #email-error,
+body .haunted-mansion #booking-error {
+    color: #ff9b79;
+    text-align: left;
+}
+
+/* BOKNINGSBEKRÄFTELSE */
+
+body .haunted-mansion #booking-confirmation:not(:empty) {
+    box-sizing: border-box;
+    max-width: 550px;
+    margin: 35px auto;
+    padding: 30px;
+    background: #201329;
+    border: 1px solid #ffb86c;
+    border-radius: 15px;
+    color: #f5e9ff;
+    box-shadow: 0 0 25px rgba(255, 184, 108, 0.15);
+}
+
+/* MOBILANPASSNING */
+
+@media (max-width: 768px) {
+    body .haunted-mansion {
+        padding: 45px 20px;
+    }
+
+    body .haunted-mansion #offers-container {
+        grid-template-columns: 1fr;
+        max-width: 450px;
+    }
+
+    body .haunted-mansion #booking-form {
+        padding: 25px 20px;
+    }
+}
+
+.haunted-mansion {
+    background-color: #09060e;
+    color: white;
+}
+
+#offers-container > div {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+#offers-container > div:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(255, 140, 0, 0.6);;
+}
+
+#booking-form button {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#booking-form button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px rgba(255, 140, 0, 0.7);
+    filter: brightness(1.2);
+}
+
+#booking-form {
+    box-shadow: 0 0 30px rgba(170, 100, 255, 0.35);
+    transition: box-shadow 0.3s ease;
+}
+
+#booking-form:focus-within {
+    box-shadow: 0 0 40px rgba(190, 120, 255, 0.7);
+}
+
+#booking-form input:focus {
+    outline: none;
+    border-color: #d8a4ff;
+    box-shadow: 0 0 15px rgba(216, 164, 255, 0.7);
+    transition: all 0.3s ease;
+}
+
+@keyframes hauntedGlow {
+    0%, 100% {
+        text-shadow: 
+        0 0 10px rgba(200, 150, 255, 0.5), 
+        0 0 20px rgba(140, 50, 200, 0.4);
+    }
+    50% {
+        text-shadow: 
+        0 0 20px rgba(220, 170, 255, 0.9),
+        0 0 40px rgba(150, 50, 255, 0.7);
+    }
+}
+h1 {
+    animation: hauntedGlow 3s ease-in-out infinite;
+}
+
+.haunted-mansion {
+    position: relative;
+    isolation: isolate;
+}
+
+.haunted-mansion::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+
+    background: 
+    radial-gradient(
+        ellipse at 20% 90%,
+        rgba(220, 225, 240, 0.5), 
+        transparent 45%
+    ),
+    radial-gradient(
+        ellipse at 75% 85%,
+        rgba(210, 215, 235, 0.45), 
+        transparent 50%
+    );
+
+    filter: blur(12px);
+    animation: movingFog 10s ease-in-out infinite alternate;
+}
+
+.haunted-mansion > * {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes movingFog {
+    0% {
+        transform: translateX(-25%);
+        opacity: 0.2;
+    }
+
+    50% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(25%);
+        opacity: 0.2;
+    }
+}
+
+/* ANPASSNING TILL GRUPPENS GEMENSAMMA styles.css */
+
+/* styles.css begränsar alla stycken till 65 tecken per rad. Här ska
+   styckena kunna vara centrerade över hela bredden, så gränsen tas bort. */
+body .haunted-mansion p {
+    max-width: none;
+}

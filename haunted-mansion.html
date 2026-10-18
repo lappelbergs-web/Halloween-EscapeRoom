@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Haunted Mansion | Workhub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IM+Fell+English&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <!-- Egen design för rummet, laddas efter den gemensamma -->
-  <link rel="stylesheet" href="haunted-mansion.css">
-  <script src="app.js" defer></script>
-  <script src="haunted-mansion.js" defer></script>
-  <title>The Haunted Mansion – Haunted Rooms by WorkHub</title>
+    <!-- Gemensam design för sidhuvud, meny och sidfot -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Minnas egen design, laddas efter den gemensamma -->
+    <link rel="stylesheet" href="haunted-mansion.css">
+    <!-- Gemensam JavaScript: mobilmenyn och markeringen av aktuell sida -->
+    <script src="app.js" defer></script>
 </head>
-<!-- data-activity ger sidan rummets accentfärg och bild i styles.css -->
 <body data-activity="mansion">
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -41,88 +41,36 @@
     </div>
   </header>
 
-  <main id="main">
-    <section class="page-intro">
-      <div class="container">
-        <p class="breadcrumb"><a href="index.html">Home</a> / The Haunted Mansion</p>
+
+    <main id="main" class="haunted-mansion">
         <h1>The Haunted Mansion</h1>
-        <p class="page-lead">Enter an abandoned mansion where the previous owners never truly left.</p>
-      </div>
-    </section>
-
-    <section class="section booking" aria-label="Booking form">
-      <div class="container booking-layout">
-
-        <!-- novalidate stänger av webbläsarens inbyggda validering -->
-        <form id="booking-form" class="booking-form" novalidate>
-          <!-- Hela fieldset:en låses efter bekräftelse -->
-          <fieldset id="booking-fields" class="booking-fields">
-            <legend class="visually-hidden">Booking details</legend>
-
-            <!-- Steg 1: erbjudanden ritas ut av app.js -->
-            <fieldset class="form-step offer-group">
-              <legend><span class="step-number">1</span> Choose an experience</legend>
-              <div id="offer-list" class="offer-cards"></div>
-              <p id="selected-offer" class="selected-offer" aria-live="polite">No experience selected yet.</p>
-              <p id="offer-error" class="field-error" hidden></p>
-            </fieldset>
-
-            <!-- Steg 2: antal och pris -->
-            <div class="form-step">
-              <h2 class="step-title"><span class="step-number">2</span> Count your players</h2>
-              <div class="field">
-                <label for="quantity">Number of players (1–5)</label>
-                <input id="quantity" name="quantity" type="text" inputmode="numeric" value="1" autocomplete="off" aria-describedby="quantity-error">
-                <p id="quantity-error" class="field-error" hidden></p>
-              </div>
-              <p id="price-output" class="price-output" aria-live="polite">Choose an experience to see the price.</p>
-            </div>
-
-            <!-- Steg 3: kontaktuppgifter -->
-            <div class="form-step">
-              <h2 class="step-title"><span class="step-number">3</span> Your details</h2>
-              <div class="field">
-                <label for="customer-name">Name</label>
-                <input id="customer-name" name="name" type="text" autocomplete="name" aria-describedby="name-error">
-                <p id="name-error" class="field-error" hidden></p>
-              </div>
-              <div class="field">
-                <label for="customer-email">Email address</label>
-                <!-- type="text" i stället för "email": webbläsaren tar annars bort blanksteg i början och slutet innan vår validering ser värdet -->
-                <input id="customer-email" name="email" type="text" inputmode="email" autocomplete="email" aria-describedby="email-error">
-                <p id="email-error" class="field-error" hidden></p>
-              </div>
-            </div>
-          </fieldset>
-
-          <!-- Knapparna ligger utanför fieldset:en så att Start over fungerar även efter bekräftelse -->
-          <div class="form-actions">
-            <button id="submit-button" type="submit" class="button button-primary">Send booking request</button>
-            <button id="restart-button" type="button" class="button button-secondary">Start over</button>
-          </div>
-        </form>
-
-        <!-- Bekräftelse: visas av app.js utan omladdning -->
-        <section id="confirmation" class="confirmation" tabindex="-1" aria-labelledby="confirmation-title" hidden>
-          <h2 id="confirmation-title">Your booking request has been sent</h2>
-          <dl class="summary">
-            <dt>Name</dt>
-            <dd id="summary-name"></dd>
-            <dt>Email address</dt>
-            <dd id="summary-email"></dd>
-            <dt>Experience</dt>
-            <dd id="summary-offer"></dd>
-            <dt>Players</dt>
-            <dd id="summary-quantity"></dd>
-            <dt>Total price</dt>
-            <dd id="summary-total"></dd>
-          </dl>
-          <p>We'll contact you by email. Want to make a new request? Choose Start over.</p>
+        <p>Welcome to the Haunted Mansion! Get ready for a spine-chilling adventure.</p>
+        <section id="offers">
+            <h2>Choose Your Experience</h2>
+            <div id="offers-container"></div>
         </section>
+        <label for="quantity">Number of players (1-5)</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="5" value="1">
+        <p id="total-price">Choose an experience to see the price.</p>
+        <form id="booking-form" novalidate>
+    <h2>Book Your Experience</h2>
 
-      </div>
-    </section>
-  </main>
+    <label for="customer-name">Your Name</label>
+    <input type="text" id="customer-name">
+    <p id="name-error"></p>
+
+    <label for="customer-email">Your Email</label>
+    <input type="email" id="customer-email">
+    <p id="email-error"></p>
+
+    <p id="booking-error"></p>
+
+    <button type="submit">Confirm Booking</button>
+    <button type="reset">Reset Booking</button>
+</form>
+
+<div id="booking-confirmation"></div>
+    </main>
 
   <!-- Gemensam sidfot: samma på alla sidor -->
   <footer class="site-footer">
@@ -132,5 +80,7 @@
       <p class="footer-note">Fictional company in a course assignment. &copy; <span id="current-year">2026</span></p>
     </div>
   </footer>
+
+    <script src="haunted-mansion.js"></script>
 </body>
 </html>
