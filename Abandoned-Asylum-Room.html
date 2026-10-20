@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,6 +68,17 @@
             gap: 0.25rem;
         }
 
+        .field-error {
+            min-height: 1.25em;
+            color: #8b1e1e;
+            font-size: 0.9rem;
+        }
+
+        .form-group input[aria-invalid="true"],
+        .form-group select[aria-invalid="true"] {
+            border: 2px solid #8b1e1e;
+        }
+
         /* Make inputs uniform */
         .form-group input,
         .form-group select,
@@ -111,28 +122,36 @@
     <form id="asylumBookingForm" novalidate>
       <div class="form-group">
         <label for="asylumOfferSelect">Välj erbjudande:</label>
-        <select id="asylumOfferSelect" name="offer">
+        <select id="asylumOfferSelect" name="offer" aria-describedby="asylumOfferError" aria-invalid="false">
           <option value="">Välj ett erbjudande</option>
         </select>
+        <span id="asylumOfferError" class="field-error" aria-live="polite"></span>
       </div>
 
       <div class="form-group">
         <label for="asylumQuantityInput">Antal paket (1-5):</label>
-        <input type="number" id="asylumQuantityInput" name="quantity" min="1" max="5" value="1">
+        <input type="number" id="asylumQuantityInput" name="quantity" min="1" max="5" value="1"
+          aria-describedby="asylumQuantityError" aria-invalid="false">
+        <span id="asylumQuantityError" class="field-error" aria-live="polite"></span>
       </div>
 
       <div class="form-group">
         <label for="asylumNameInput">Namn:</label>
-        <input type="text" id="asylumNameInput" name="name" placeholder="Ditt namn">
+        <input type="text" id="asylumNameInput" name="name" placeholder="Ditt namn"
+          aria-describedby="asylumNameError" aria-invalid="false">
+        <span id="asylumNameError" class="field-error" aria-live="polite"></span>
       </div>
 
       <div class="form-group">
         <label for="asylumEmailInput">E-post:</label>
-        <input type="email" id="asylumEmailInput" name="email" placeholder="din.epost@example.com">
+        <input type="email" id="asylumEmailInput" name="email" placeholder="din.epost@example.com"
+          aria-describedby="asylumEmailError" aria-invalid="false">
+        <span id="asylumEmailError" class="field-error" aria-live="polite"></span>
       </div>
 
-      <div id="asylumPriceDisplay" class="price-display">Totalpris: 0 kr</div>
-      <div id="asylumErrorMessage" class="error-message"></div>
+      <div id="asylumPriceDisplay" class="price-display" aria-live="polite">
+        Välj ett erbjudande för att se priset.
+      </div>
 
       <button type="submit" id="asylumSubmitBtn">Skicka förfrågan</button>
       <button type="button" id="asylumResetBtn">Börja om</button>
@@ -140,7 +159,8 @@
 
     <!-- Summary Section (Hidden initially) -->
     <section id="asylumSummarySection" class="summary-section hidden">
-      <h3>Bokningssammanfattning</h3>
+      <h3>Förfrågan bekräftad</h3>
+      <p>Din bokningsförfrågan är avslutad. Välj Börja om om du vill göra en ny.</p>
       <p><strong>Namn:</strong> <span id="asylumSummaryName"></span></p>
       <p><strong>E-post:</strong> <span id="asylumSummaryEmail"></span></p>
       <p><strong>Erbjudande:</strong> <span id="asylumSummaryOffer"></span></p>
