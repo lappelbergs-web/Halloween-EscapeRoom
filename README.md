@@ -45,14 +45,14 @@ creepy-clown.html            Bokningssida (Jon)
 styles.css                   Gemensam design för alla sidor
 haunted-mansion.css          Minnas design för The Haunted Mansion
 possessed-doll.css           Egen design för The Possessed Doll (runda erbjudanden)
-abandoned-asylum.css         Egen design för The Abandoned Asylum (tom än så länge)
+abandoned-asylum.css         Leos design för The Abandoned Asylum
 creepy-clown.css             Jons design för The Creepy Clown Room
 app.js                       Gemensam JavaScript: mobilmeny, aktuell sida i menyn, årtal
 haunted-mansion.js           Minnas bokningslogik och erbjudanden för The Haunted Mansion
 possessed-doll.js            Bokningslogik och erbjudanden för The Possessed Doll
-abandoned-asylum.js          Bokningslogik och erbjudanden för The Abandoned Asylum
+abandoned-asylum.js          Leos bokningslogik och erbjudanden för The Abandoned Asylum
 creepy-clown.js              Jons bokningslogik och erbjudanden för The Creepy Clown Room
-images/                      En bild per rum samt bakgrundsbilden till The Haunted Mansion
+images/                      En bild per rum samt bakgrundsbilderna till The Haunted Mansion och The Abandoned Asylum
 docs/
   forklaring-app-js.md       Förklaring av JavaScript-koden
   forklaring-styles-css.md   Förklaring av koden i styles.css

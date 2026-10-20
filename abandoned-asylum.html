@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Abandoned Asylum – Haunted Rooms by WorkHub</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IM+Fell+English&display=swap" rel="stylesheet">
+  <!-- Gemensam design för sidhuvud, meny och sidfot -->
   <link rel="stylesheet" href="styles.css">
-  <!-- Egen design för rummet, laddas efter den gemensamma -->
+  <!-- Leos egen design, laddas efter den gemensamma -->
   <link rel="stylesheet" href="abandoned-asylum.css">
+  <!-- Gemensam JavaScript: mobilmenyn och markeringen av aktuell sida -->
   <script src="app.js" defer></script>
   <script src="abandoned-asylum.js" defer></script>
-  <title>The Abandoned Asylum – Haunted Rooms by WorkHub</title>
 </head>
-<!-- data-activity ger sidan rummets accentfärg och bild i styles.css -->
 <body data-activity="asylum">
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -41,6 +42,7 @@
     </div>
   </header>
 
+
   <main id="main">
     <section class="page-intro">
       <div class="container">
@@ -52,59 +54,62 @@
 
     <section class="section booking" aria-label="Booking form">
       <div class="container booking-layout">
-
-        <!-- novalidate stänger av webbläsarens inbyggda validering -->
         <form id="booking-form" class="booking-form" novalidate>
-          <!-- Hela fieldset:en låses efter bekräftelse -->
           <fieldset id="booking-fields" class="booking-fields">
             <legend class="visually-hidden">Booking details</legend>
 
-            <!-- Steg 1: erbjudanden ritas ut av app.js -->
             <fieldset class="form-step offer-group">
               <legend><span class="step-number">1</span> Choose an experience</legend>
               <div id="offer-list" class="offer-cards"></div>
-              <p id="selected-offer" class="selected-offer" aria-live="polite">No experience selected yet.</p>
-              <p id="offer-error" class="field-error" hidden></p>
+              <p id="selected-offer" class="selected-offer" aria-live="polite">
+                No experience selected yet.
+              </p>
+              <p id="offer-error" class="field-error" aria-live="polite" hidden></p>
             </fieldset>
 
-            <!-- Steg 2: antal och pris -->
             <div class="form-step">
               <h2 class="step-title"><span class="step-number">2</span> Count your players</h2>
               <div class="field">
                 <label for="quantity">Number of players (1–5)</label>
-                <input id="quantity" name="quantity" type="text" inputmode="numeric" value="1" autocomplete="off" aria-describedby="quantity-error">
-                <p id="quantity-error" class="field-error" hidden></p>
+                <input id="quantity" name="quantity" type="text" inputmode="numeric" value="1"
+                  autocomplete="off" aria-describedby="quantity-error" aria-invalid="false">
+                <p id="quantity-error" class="field-error" aria-live="polite" hidden></p>
               </div>
-              <p id="price-output" class="price-output" aria-live="polite">Choose an experience to see the price.</p>
+              <p id="price-output" class="price-output" aria-live="polite">
+                Choose an experience to see the price.
+              </p>
             </div>
 
-            <!-- Steg 3: kontaktuppgifter -->
             <div class="form-step">
               <h2 class="step-title"><span class="step-number">3</span> Your details</h2>
               <div class="field">
                 <label for="customer-name">Name</label>
-                <input id="customer-name" name="name" type="text" autocomplete="name" aria-describedby="name-error">
-                <p id="name-error" class="field-error" hidden></p>
+                <input id="customer-name" name="name" type="text" autocomplete="name"
+                  aria-describedby="name-error" aria-invalid="false">
+                <p id="name-error" class="field-error" aria-live="polite" hidden></p>
               </div>
               <div class="field">
                 <label for="customer-email">Email address</label>
-                <!-- type="text" i stället för "email": webbläsaren tar annars bort blanksteg i början och slutet innan vår validering ser värdet -->
-                <input id="customer-email" name="email" type="text" inputmode="email" autocomplete="email" aria-describedby="email-error">
-                <p id="email-error" class="field-error" hidden></p>
+                <input id="customer-email" name="email" type="text" inputmode="email"
+                  autocomplete="email" aria-describedby="email-error" aria-invalid="false">
+                <p id="email-error" class="field-error" aria-live="polite" hidden></p>
               </div>
             </div>
           </fieldset>
 
-          <!-- Knapparna ligger utanför fieldset:en så att Start over fungerar även efter bekräftelse -->
           <div class="form-actions">
-            <button id="submit-button" type="submit" class="button button-primary">Send booking request</button>
-            <button id="restart-button" type="button" class="button button-secondary">Start over</button>
+            <button id="submit-button" type="submit" class="button button-primary">
+              Send booking request
+            </button>
+            <button id="restart-button" type="button" class="button button-secondary">
+              Start over
+            </button>
           </div>
         </form>
 
-        <!-- Bekräftelse: visas av app.js utan omladdning -->
-        <section id="confirmation" class="confirmation" tabindex="-1" aria-labelledby="confirmation-title" hidden>
-          <h2 id="confirmation-title">Your booking request has been sent</h2>
+        <section id="confirmation" class="confirmation" tabindex="-1"
+          aria-labelledby="confirmation-title" hidden>
+          <h2 id="confirmation-title">Your booking request has been confirmed</h2>
           <dl class="summary">
             <dt>Name</dt>
             <dd id="summary-name"></dd>
@@ -117,9 +122,8 @@
             <dt>Total price</dt>
             <dd id="summary-total"></dd>
           </dl>
-          <p>We'll contact you by email. Want to make a new request? Choose Start over.</p>
+          <p>Your request is complete. Choose Start over to make a new request.</p>
         </section>
-
       </div>
     </section>
   </main>
