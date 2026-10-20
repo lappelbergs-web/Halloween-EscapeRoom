@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creepy Clown Room</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IM+Fell+English&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <!-- Egen design för rummet, laddas efter den gemensamma -->
-  <link rel="stylesheet" href="creepy-clown.css">
-  <script src="app.js" defer></script>
-  <script src="creepy-clown.js" defer></script>
-  <title>The Creepy Clown Room – Haunted Rooms by WorkHub</title>
+    <!-- Gemensam design för sidhuvud, meny och sidfot -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Jons egen design, laddas efter den gemensamma -->
+    <link rel="stylesheet" href="creepy-clown.css">
+    <!-- Gemensam JavaScript: mobilmenyn och markeringen av aktuell sida -->
+    <script src="app.js" defer></script>
 </head>
-<!-- data-activity ger sidan rummets accentfärg och bild i styles.css -->
 <body data-activity="clown">
   <a class="skip-link" href="#main">Skip to content</a>
 
@@ -41,88 +41,68 @@
     </div>
   </header>
 
-  <main id="main">
-    <section class="page-intro">
-      <div class="container">
-        <p class="breadcrumb"><a href="index.html">Home</a> / The Creepy Clown Room</p>
-        <h1>The Creepy Clown Room</h1>
-        <p class="page-lead">The circus left town years ago. One clown stayed behind – and he still wants to play.</p>
-      </div>
-    </section>
 
-    <section class="section booking" aria-label="Booking form">
-      <div class="container booking-layout">
+    <main id="main" class="creepy-clown-room">
+        <section class="room-card">
+            <a class="back-link" href="index.html">← Tillbaka till startsidan</a>
 
-        <!-- novalidate stänger av webbläsarens inbyggda validering -->
-        <form id="booking-form" class="booking-form" novalidate>
-          <!-- Hela fieldset:en låses efter bekräftelse -->
-          <fieldset id="booking-fields" class="booking-fields">
-            <legend class="visually-hidden">Booking details</legend>
+            <header class="room-header">
+                <h1>Creepy Clown Room</h1>
+                <p class="room-intro">Välkommen in i cirkusens mörkaste sal. Välj paket, ange timmar och boka ditt äventyr.</p>
+            </header>
 
-            <!-- Steg 1: erbjudanden ritas ut av app.js -->
-            <fieldset class="form-step offer-group">
-              <legend><span class="step-number">1</span> Choose an experience</legend>
-              <div id="offer-list" class="offer-cards"></div>
-              <p id="selected-offer" class="selected-offer" aria-live="polite">No experience selected yet.</p>
-              <p id="offer-error" class="field-error" hidden></p>
-            </fieldset>
+            <div class="price-panel">
+                <h2>1. Välj erbjudande</h2>
+                <div id="clown-prices" class="offer-cards"></div>
+                <p class="field-error" id="package-error"></p>
 
-            <!-- Steg 2: antal och pris -->
-            <div class="form-step">
-              <h2 class="step-title"><span class="step-number">2</span> Count your players</h2>
-              <div class="field">
-                <label for="quantity">Number of players (1–5)</label>
-                <input id="quantity" name="quantity" type="text" inputmode="numeric" value="1" autocomplete="off" aria-describedby="quantity-error">
-                <p id="quantity-error" class="field-error" hidden></p>
-              </div>
-              <p id="price-output" class="price-output" aria-live="polite">Choose an experience to see the price.</p>
+                <h2 class="hours-heading">2. Antal timmar</h2>
+                <label for="hours">Antal timmar</label>
+                <input type="number" id="hours" name="hours" value="1">
+                <p class="hours-help">Ange ett heltal mellan 1 och 5.</p>
+                <p class="field-error" id="quantity-error"></p>
+
+                <p id="total-price" class="total-price"></p>
             </div>
 
-            <!-- Steg 3: kontaktuppgifter -->
-            <div class="form-step">
-              <h2 class="step-title"><span class="step-number">3</span> Your details</h2>
-              <div class="field">
-                <label for="customer-name">Name</label>
-                <input id="customer-name" name="name" type="text" autocomplete="name" aria-describedby="name-error">
-                <p id="name-error" class="field-error" hidden></p>
-              </div>
-              <div class="field">
-                <label for="customer-email">Email address</label>
-                <!-- type="text" i stället för "email": webbläsaren tar annars bort blanksteg i början och slutet innan vår validering ser värdet -->
-                <input id="customer-email" name="email" type="text" inputmode="email" autocomplete="email" aria-describedby="email-error">
-                <p id="email-error" class="field-error" hidden></p>
-              </div>
+            <div class="booking-panel">
+                <h2>3. Bokning</h2>
+                <form id="booking-form" novalidate>
+                    <label for="name">Namn:</label>
+                    <input type="text" id="name" name="name" autocomplete="name">
+                    <p class="field-error" id="name-error"></p>
+
+                    <label for="email">E-postadress:</label>
+                    <input type="text" id="email" name="email" autocomplete="email">
+                    <p class="field-error" id="email-error"></p>
+
+                    <div class="form-actions">
+                        <button type="submit" id="confirm-booking">Bekräfta bokning</button>
+                        <button type="button" id="start-over">Börja om</button>
+                    </div>
+                </form>
             </div>
-          </fieldset>
 
-          <!-- Knapparna ligger utanför fieldset:en så att Start over fungerar även efter bekräftelse -->
-          <div class="form-actions">
-            <button id="submit-button" type="submit" class="button button-primary">Send booking request</button>
-            <button id="restart-button" type="button" class="button button-secondary">Start over</button>
-          </div>
-        </form>
-
-        <!-- Bekräftelse: visas av app.js utan omladdning -->
-        <section id="confirmation" class="confirmation" tabindex="-1" aria-labelledby="confirmation-title" hidden>
-          <h2 id="confirmation-title">Your booking request has been sent</h2>
-          <dl class="summary">
-            <dt>Name</dt>
-            <dd id="summary-name"></dd>
-            <dt>Email address</dt>
-            <dd id="summary-email"></dd>
-            <dt>Experience</dt>
-            <dd id="summary-offer"></dd>
-            <dt>Players</dt>
-            <dd id="summary-quantity"></dd>
-            <dt>Total price</dt>
-            <dd id="summary-total"></dd>
-          </dl>
-          <p>We'll contact you by email. Want to make a new request? Choose Start over.</p>
+            <div id="booking-summary" class="booking-summary booking-form-hidden">
+                <h2>Bokningsbekräftelse</h2>
+                <p><strong>Namn:</strong> <span id="summary-name"></span></p>
+                <p><strong>E-post:</strong> <span id="summary-email"></span></p>
+                <p><strong>Erbjudande:</strong> <span id="summary-offer"></span></p>
+                <p><strong>Antal timmar:</strong> <span id="summary-quantity"></span></p>
+                <p class="summary-total"><strong>Totalpris:</strong> <span id="summary-total"></span></p>
+            </div>
         </section>
-
-      </div>
-    </section>
-  </main>
+        <img
+            class="standing-clown-image"
+            src="https://png.pngtree.com/png-vector/20240611/ourmid/pngtree-scary-clown-cartoon-creepy-halloween-character-png-image_12686020.png"
+            alt=""
+        >
+        <img
+            class="floating-clown-image"
+            src="https://png.pngtree.com/png-vector/20230728/ourmid/pngtree-pennywise-face-vector-png-image_6899714.png"
+            alt=""
+        >
+    </main>
 
   <!-- Gemensam sidfot: samma på alla sidor -->
   <footer class="site-footer">
@@ -132,5 +112,7 @@
       <p class="footer-note">Fictional company in a course assignment. &copy; <span id="current-year">2026</span></p>
     </div>
   </footer>
+
+    <script src="creepy-clown.js"></script>
 </body>
 </html>
