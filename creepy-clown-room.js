@@ -1,57 +1,121 @@
-function RenderCards(offer) {
+const MIN_HOURS = 1;
+const MAX_HOURS = 5;
+const HOURS_ERROR = `Ange ett heltal mellan ${MIN_HOURS} och ${MAX_HOURS} timmar.`;
+
+const clown_room_packages = [
+  {
+    id: "clown-funhouse",
+    name: "Funhouse",
+    description:
+      "60 minutes among crooked mirrors and laughter from nowhere. Hints included.",
+    pricePerHour: 250,
+  },
+  {
+    id: "clown-red-balloon",
+    name: "Red Balloon",
+    description:
+      "Follow the balloons to find the way out. Just don't follow them too far.",
+    pricePerHour: 310,
+  },
+  {
+    id: "clown-showtime",
+    name: "Showtime",
+    description:
+      "90 minutes with a live clown. He decides when the show is over.",
+    pricePerHour: 400,
+  },
+];
+
+const offersList = document.getElementById("clown-prices");
+const hoursInput = document.getElementById("hours");
+const totalPrice = document.getElementById("total-price");
+const bookingForm = document.getElementById("booking-form");
+const nameInput = document.getElementById("name");
+const emailInput = document.getElementById("email");
+const startOverButton = document.getElementById("start-over");
+const bookingSummary = document.getElementById("booking-summary");
+
+let selectedOfferId = null;
+
+if (hoursInput) {
+  hoursInput.min = MIN_HOURS;
+  hoursInput.max = MAX_HOURS;
+}
+
+function formatPrice(amount) {
+  return amount.toLocaleString("sv-SE") + " kr";
+}
+
+function createOfferCard(offer) {
   return `
-    <article class="offer-card" data-offer-id="${offer.id}">
-      <p class="offer-card__tag">${offer.name}</p>
-      <h3 class="offer-card__title">${offer.name}</h3>
-      <p class="offer-card__description">${offer.description}</p>
-      <p class="offer-card__price">
-        <span class="offer-card__amount">${offer.price}</span>
-        <span class="offer-card__unit">kr per timme</span>
-      </p>
-    </article>
+    <button
+      type="button"
+      class="offer-card"
+      data-id="${offer.id}"
+      aria-pressed="false"
+    >
+      <span class="offer-card__title">${offer.name}</span>
+      <span class="offer-card__description">${offer.description}</span>
+      <span class="offer-card__price">
+        <span class="offer-card__amount">${formatPrice(offer.pricePerHour)}</span>
+        <span class="offer-card__unit">/ timme</span>
+      </span>
+      <span class="offer-card__pick">Välj</span>
+      <span class="offer-card__picked">✓ Vald</span>
+    </button>
   `;
 }
 
-function renderOfferCards(container, packages) {
-  container.innerHTML = packages.map((offer) => RenderCards(offer)).join("");
+function renderOffers() {
+  if (!offersList) {
+    return;
+  }
+  offersList.innerHTML = clown_room_packages
+    .map((offer) => createOfferCard(offer))
+    .join("");
+  updateSelection();
 }
 
-function renderPackageSelect(select, packages) {
-  const placeholderText =
-    select.querySelector('option[value=""]')?.textContent ||
-    "--Välj erbjudande--";
-  select.innerHTML = "";
-
-  const emptyOption = document.createElement("option");
-  emptyOption.value = "";
-  emptyOption.textContent = placeholderText;
-  select.appendChild(emptyOption);
-
-  packages.forEach((offer) => {
-    const option = document.createElement("option");
-    option.value = offer.id;
-    option.textContent = offer.name;
-    select.appendChild(option);
-  });
+function updateSelection() {
+  if (!offersList) {
+    return;
+  }
+  for (const card of offersList.children) {
+    card.setAttribute("aria-pressed", card.dataset.id === selectedOfferId);
+  }
 }
 
-function getOfferById(selectedId, prices) {
-  if (!selectedId) {
+function getOfferById(id) {
+  if (!id) {
     return null;
   }
-  return prices.find((item) => String(item.id) === selectedId) || null;
+  return clown_room_packages.find((offer) => offer.id === id) || null;
 }
 
-function calculateTotalPrice(price, quantity) {
-  return price * quantity;
+function calculateTotalPrice(pricePerHour, hours) {
+  return pricePerHour * hours;
 }
 
-function isValidQuantity(value) {
-  if (value === "" || value.includes(" ")) {
-    return false;
-  }
-  const amount = Number(value);
-  return Number.isInteger(amount) && amount >= 1 && amount <= 5;
+function isValidHours(hours) {
+  return Number.isInteger(hours) && hours >= MIN_HOURS && hours <= MAX_HOURS;
+}
+
+function readBooking() {
+  return {
+    offerId: selectedOfferId,
+    hours: Number(hoursInput.value),
+  };
+}
+
+function setFieldError(elementId, message) {
+  document.getElementById(elementId).textContent = message;
+}
+
+function clearFieldErrors() {
+  setFieldError("name-error", "");
+  setFieldError("email-error", "");
+  setFieldError("package-error", "");
+  setFieldError("quantity-error", "");
 }
 
 function isValidName(name) {
@@ -71,77 +135,39 @@ function isValidEmail(email) {
   return dotIndex > 0 && dotIndex < domain.length - 1;
 }
 
-function setFieldError(elementId, message) {
-  document.getElementById(elementId).textContent = message;
-}
-
-function clearFieldErrors() {
-  setFieldError("name-error", "");
-  setFieldError("email-error", "");
-  setFieldError("package-error", "");
-  setFieldError("quantity-error", "");
-}
-
-const clown_room_packages = [
-  {
-    id: "clown-funhouse",
-    name: "Funhouse",
-    description:
-      "60 minutes among crooked mirrors and laughter from nowhere. Hints included.",
-    price: 250,
-  },
-  {
-    id: "clown-red-balloon",
-    name: "Red Balloon",
-    description:
-      "Follow the balloons to find the way out. Just don't follow them too far.",
-    price: 310,
-  },
-  {
-    id: "clown-showtime",
-    name: "Showtime",
-    description:
-      "90 minutes with a live clown. He decides when the show is over.",
-    price: 400,
-  },
-];
-
-const clownOffers = document.getElementById("clown-prices");
-const packageSelect = document.getElementById("package-select");
-
-if (clownOffers) {
-  renderOfferCards(clownOffers, clown_room_packages);
-}
-if (packageSelect) {
-  renderPackageSelect(packageSelect, clown_room_packages);
-}
-const quantityInput = document.getElementById("quantity-input");
-const totalPrice = document.getElementById("total-price");
-const bookingForm = document.getElementById("booking-form");
-const nameInput = document.getElementById("name");
-const emailInput = document.getElementById("email");
-const startOverButton = document.getElementById("start-over");
-const bookingSummary = document.getElementById("booking-summary");
-
 function updatePriceDisplay() {
-  const offer = getOfferById(packageSelect.value, clown_room_packages);
+  const booking = readBooking();
+  const offer = getOfferById(booking.offerId);
+
   if (!offer) {
     totalPrice.textContent = "Välj ett erbjudande för att se totalpriset.";
     return;
   }
-  if (!isValidQuantity(quantityInput.value)) {
-    totalPrice.textContent = "Ange antal timmar som ett heltal mellan 1 och 5.";
+
+  if (!isValidHours(booking.hours)) {
+    totalPrice.textContent = HOURS_ERROR;
     return;
   }
 
-  const quantity = Number(quantityInput.value);
-  const total = calculateTotalPrice(offer.price, quantity);
-  totalPrice.textContent = `Totalpris: ${total} kr`;
+  const total = calculateTotalPrice(offer.pricePerHour, booking.hours);
+  totalPrice.textContent = `Totalpris: ${formatPrice(total)}`;
+}
+
+function handleOfferClick(event) {
+  const card = event.target.closest("[data-id]");
+  if (card === null || card.disabled) {
+    return;
+  }
+  selectedOfferId = card.dataset.id;
+  setFieldError("package-error", "");
+  updateSelection();
+  updatePriceDisplay();
 }
 
 function validateBookingForm() {
   clearFieldErrors();
   let isValid = true;
+  const booking = readBooking();
 
   if (!isValidName(nameInput.value)) {
     setFieldError(
@@ -162,28 +188,34 @@ function validateBookingForm() {
     isValid = false;
   }
 
-  if (!getOfferById(packageSelect.value, clown_room_packages)) {
+  if (!getOfferById(booking.offerId)) {
     setFieldError("package-error", "Välj ett giltigt erbjudande.");
     isValid = false;
   }
 
-  if (!isValidQuantity(quantityInput.value)) {
-    setFieldError(
-      "quantity-error",
-      "Antal timmar måste vara ett heltal mellan 1 och 5.",
-    );
+  if (!isValidHours(booking.hours)) {
+    setFieldError("quantity-error", HOURS_ERROR);
     isValid = false;
   }
 
   return isValid;
 }
 
+function setOfferCardsLocked(locked) {
+  if (!offersList) {
+    return;
+  }
+  for (const card of offersList.children) {
+    card.disabled = locked;
+  }
+}
+
 function setFormLocked(locked) {
   nameInput.disabled = locked;
   emailInput.disabled = locked;
-  packageSelect.disabled = locked;
-  quantityInput.disabled = locked;
+  hoursInput.disabled = locked;
   document.getElementById("confirm-booking").disabled = locked;
+  setOfferCardsLocked(locked);
 }
 
 function showConfirmation(name, email, offer, quantity, total) {
@@ -191,33 +223,41 @@ function showConfirmation(name, email, offer, quantity, total) {
   document.getElementById("summary-email").textContent = email;
   document.getElementById("summary-offer").textContent = offer.name;
   document.getElementById("summary-quantity").textContent = String(quantity);
-  document.getElementById("summary-total").textContent = `${total} kr`;
+  document.getElementById("summary-total").textContent = formatPrice(total);
   bookingSummary.classList.remove("booking-form-hidden");
 }
 
 function resetBooking() {
   nameInput.value = "";
   emailInput.value = "";
-  packageSelect.value = "";
-  quantityInput.value = "1";
+  selectedOfferId = null;
+  hoursInput.value = "1";
   clearFieldErrors();
   bookingSummary.classList.add("booking-form-hidden");
   setFormLocked(false);
+  updateSelection();
   updatePriceDisplay();
 }
 
-if (packageSelect && quantityInput && totalPrice) {
-  packageSelect.addEventListener("change", () => {
-    setFieldError("package-error", "");
-    updatePriceDisplay();
-  });
-  quantityInput.addEventListener("input", () => {
+renderOffers();
+updatePriceDisplay();
+
+if (offersList) {
+  offersList.addEventListener("click", handleOfferClick);
+}
+
+if (hoursInput && totalPrice) {
+  hoursInput.addEventListener("input", () => {
     setFieldError("quantity-error", "");
     updatePriceDisplay();
   });
+}
+
+if (nameInput) {
   nameInput.addEventListener("input", () => setFieldError("name-error", ""));
+}
+if (emailInput) {
   emailInput.addEventListener("input", () => setFieldError("email-error", ""));
-  updatePriceDisplay();
 }
 
 if (bookingForm) {
@@ -228,15 +268,15 @@ if (bookingForm) {
       return;
     }
 
-    const offer = getOfferById(packageSelect.value, clown_room_packages);
-    const quantity = Number(quantityInput.value);
-    const total = calculateTotalPrice(offer.price, quantity);
+    const booking = readBooking();
+    const offer = getOfferById(booking.offerId);
+    const total = calculateTotalPrice(offer.pricePerHour, booking.hours);
 
     showConfirmation(
       nameInput.value.trim(),
       emailInput.value.trim(),
       offer,
-      quantity,
+      booking.hours,
       total,
     );
     setFormLocked(true);
