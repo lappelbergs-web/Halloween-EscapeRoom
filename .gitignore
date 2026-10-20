@@ -1,0 +1,7 @@
+# Inställningar för editorer, gäller bara den egna datorn
+.vscode/
+.idea/
+
+# Filer som operativsystemen skapar
+.DS_Store
+Thumbs.db
