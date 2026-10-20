@@ -4,43 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Creepy Clown Room</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IM+Fell+English&display=swap" rel="stylesheet">
-    <!-- Gemensam design för sidhuvud, meny och sidfot -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IM+Fell+English&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <!-- Jons egen design, laddas efter den gemensamma -->
     <link rel="stylesheet" href="creepy-clown.css">
-    <!-- Gemensam JavaScript: mobilmenyn och markeringen av aktuell sida -->
     <script src="app.js" defer></script>
 </head>
 <body data-activity="clown">
-  <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Gemensamt sidhuvud: samma på alla sidor -->
-  <header class="site-header">
-    <div class="header-inner">
-      <a class="logo" href="index.html">
-        <span class="logo-name">WorkHub</span>
-        <span class="logo-sub">Haunted Rooms</span>
-      </a>
-
-      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
-        Menu
-      </button>
-
-      <nav id="site-nav" class="site-nav" aria-label="Main menu">
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="haunted-mansion.html">Haunted Mansion</a></li>
-          <li><a href="possessed-doll.html">Possessed Doll</a></li>
-          <li><a href="abandoned-asylum.html">Abandoned Asylum</a></li>
-          <li><a href="creepy-clown.html">Creepy Clown Room</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="logo" href="index.html">
+                <span class="logo-name">WorkHub</span>
+                <span class="logo-sub">Haunted Rooms</span>
+            </a>
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+                Menu
+            </button>
+            <nav id="site-nav" class="site-nav" aria-label="Main menu">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="haunted-mansion.html">Haunted Mansion</a></li>
+                    <li><a href="possessed-doll.html">Possessed Doll</a></li>
+                    <li><a href="abandoned-asylum.html">Abandoned Asylum</a></li>
+                    <li><a href="creepy-clown.html">Creepy Clown Room</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
     <main id="main" class="creepy-clown-room">
         <section class="room-card">
@@ -51,67 +44,64 @@
                 <p class="room-intro">Välkommen in i cirkusens mörkaste sal. Välj paket, ange timmar och boka ditt äventyr.</p>
             </header>
 
-            <div class="price-panel">
-                <h2>1. Välj erbjudande</h2>
-                <div id="clown-prices" class="offer-cards"></div>
-                <p class="field-error" id="package-error"></p>
+            <section class="booking-section">
+                <form id="booking-form" class="booking-form" novalidate>
+                    <h2>1. Välj erbjudande</h2>
+                    <div id="clown-prices" class="offer-cards"></div>
+                    <p class="field-error" id="package-error"></p>
 
-                <h2 class="hours-heading">2. Antal timmar</h2>
-                <label for="hours">Antal timmar</label>
-                <input type="number" id="hours" name="hours" value="1">
-                <p class="hours-help">Ange ett heltal mellan 1 och 5.</p>
-                <p class="field-error" id="quantity-error"></p>
+                    <div class="booking-steps-grid">
+                        <div class="booking-step booking-step--hours">
+                            <h2>2. Timmar och pris</h2>
+                            <div class="hours-field">
+                                <label for="hours">Antal timmar</label>
+                                <input type="number" id="hours" name="hours" value="1">
+                                <p class="hours-help">Ange ett heltal mellan 1 och 5.</p>
+                                <p class="field-error" id="quantity-error"></p>
+                            </div>
+                            <div id="total-price-box" class="total-price-box" aria-live="polite">
+                                <p class="total-price-box__label">Totalpris</p>
+                                <p id="total-price" class="total-price-box__value"></p>
+                            </div>
+                        </div>
 
-                <p id="total-price" class="total-price"></p>
-            </div>
+                        <div class="booking-step booking-step--details">
+                            <h2>3. Dina uppgifter</h2>
+                            <label for="name">Namn:</label>
+                            <input type="text" id="name" name="name" autocomplete="name">
+                            <p class="field-error" id="name-error"></p>
 
-            <div class="booking-panel">
-                <h2>3. Bokning</h2>
-                <form id="booking-form" novalidate>
-                    <label for="name">Namn:</label>
-                    <input type="text" id="name" name="name" autocomplete="name">
-                    <p class="field-error" id="name-error"></p>
-
-                    <label for="email">E-postadress:</label>
-                    <input type="text" id="email" name="email" autocomplete="email">
-                    <p class="field-error" id="email-error"></p>
+                            <label for="email">E-postadress:</label>
+                            <input type="text" id="email" name="email" autocomplete="email">
+                            <p class="field-error" id="email-error"></p>
+                        </div>
+                    </div>
 
                     <div class="form-actions">
                         <button type="submit" id="confirm-booking">Bekräfta bokning</button>
                         <button type="button" id="start-over">Börja om</button>
                     </div>
                 </form>
-            </div>
+            </section>
 
             <div id="booking-summary" class="booking-summary booking-form-hidden">
                 <h2>Bokningsbekräftelse</h2>
                 <p><strong>Namn:</strong> <span id="summary-name"></span></p>
                 <p><strong>E-post:</strong> <span id="summary-email"></span></p>
                 <p><strong>Erbjudande:</strong> <span id="summary-offer"></span></p>
-                <p><strong>Antal timmar:</strong> <span id="summary-quantity"></span></p>
+                <p><strong>Antal:</strong> <span id="summary-quantity"></span></p>
                 <p class="summary-total"><strong>Totalpris:</strong> <span id="summary-total"></span></p>
             </div>
         </section>
-        <img
-            class="standing-clown-image"
-            src="https://png.pngtree.com/png-vector/20240611/ourmid/pngtree-scary-clown-cartoon-creepy-halloween-character-png-image_12686020.png"
-            alt=""
-        >
-        <img
-            class="floating-clown-image"
-            src="https://png.pngtree.com/png-vector/20230728/ourmid/pngtree-pennywise-face-vector-png-image_6899714.png"
-            alt=""
-        >
     </main>
 
-  <!-- Gemensam sidfot: samma på alla sidor -->
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p><strong>WorkHub Haunted Rooms</strong><br>Cemetery Lane 13</p>
-      <p>book@workhub-haunted.example<br>Open every night until the last team escapes</p>
-      <p class="footer-note">Fictional company in a course assignment. &copy; <span id="current-year">2026</span></p>
-    </div>
-  </footer>
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p><strong>WorkHub Haunted Rooms</strong><br>Cemetery Lane 13</p>
+            <p>book@workhub-haunted.example<br>Open every night until the last team escapes</p>
+            <p class="footer-note">Fictional company in a course assignment. &copy; <span id="current-year">2026</span></p>
+        </div>
+    </footer>
 
     <script src="creepy-clown.js"></script>
 </body>
