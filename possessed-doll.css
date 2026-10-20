@@ -136,6 +136,78 @@
   text-align: center;
 }
 
+/* ---------- Två kolumner på större skärmar ----------
+
+   Medaljongerna ligger till vänster och antal spelare med totalpriset
+   i en egen ruta till höger. Rutan följer med när man skrollar, så att
+   priset syns medan man fyller i sina uppgifter. På smala skärmar
+   ligger stegen kvar under varandra. */
+@media (min-width: 960px) {
+  /* Formuläret får bli bredare än på de andra rummen */
+  .booking-layout > .booking-form {
+    max-width: var(--content-width);
+  }
+
+  .booking-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 19rem;
+    column-gap: 2.5rem;
+    align-items: start;
+  }
+
+  .offer-group {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .details-step {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  /* Rutan till höger sträcker sig över båda raderna och stannar
+     strax under sidhuvudet när man skrollar */
+  .players-step {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    position: sticky;
+    top: 5.5rem;
+    padding: 1.5rem;
+    background: var(--paper);
+    border: 2px solid var(--line);
+    border-top: 5px solid var(--room-accent);
+    border-radius: var(--radius-small);
+  }
+
+  .players-step #quantity {
+    max-width: none;
+  }
+
+  .players-step .price-output.is-total {
+    font-size: 1.05rem;
+    line-height: 1.4;
+  }
+
+  /* Lite mindre medaljonger, så att tre får plats bredvid varandra */
+  .doll-offers {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .doll-offer {
+    width: 13rem;
+    padding: 1.6rem 1.4rem;
+  }
+
+  .doll-offer-name {
+    font-size: 1.25rem;
+  }
+
+  .doll-offer-description {
+    font-size: 0.8rem;
+  }
+}
+
 /* ---------- Respektera inställningen "minska rörelse" ---------- */
 @media (prefers-reduced-motion: reduce) {
   .doll-offer {
