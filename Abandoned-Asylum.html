@@ -1,173 +1,125 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Abandoned Asylum | WorkHub Bookings</title>
-    <link rel="stylesheet" href="Abandoned-Asylum.css">
-    <style>
-       main {
-            display: flex;
-            align-items: center;
-            text-align: center;
-
-        }
-
-        .asylum-header {
-            /* Takes up the full width at the top */
-            display: flex;
-            width: 100%;
-            
-            /* Optional: keeps it pinned at the top even when scrolling */
-            position: sticky; /* or position: fixed; */
-            top: 0;
-            left: 0;
-            z-index: 1000; /* ensures it stays above other content */
-        }
-
-        .asylum-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 40px;
-            box-shadow: 0 2px 4px var(--shadow);
-        }
-
-        .asylum-nav-links {
-            list-style: none;
-            padding: 0;
-            margin: 0; 
-            display: flex;
-            gap: 25px;
-            list-style: none;
-        }
-        /* Center the main container horizontally and vertically */
-        .booking-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            max-width: 400px;
-            margin: 3rem auto;
-            text-align: center;
-        }
-
-        /* Stack the form and set full width */
-        #asylumBookingForm {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        /* Stack label above input and center them */
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.25rem;
-        }
-
-        .field-error {
-            min-height: 1.25em;
-            color: #8b1e1e;
-            font-size: 0.9rem;
-        }
-
-        .form-group input[aria-invalid="true"],
-        .form-group select[aria-invalid="true"] {
-            border: 2px solid #8b1e1e;
-        }
-
-        /* Make inputs uniform */
-        .form-group input,
-        .form-group select,
-        #asylumSubmitBtn {
-            width: 100%;
-            max-width: 300px;
-            box-sizing: border-box;
-        }
-
-        /* Keep summary hidden until needed */
-        .summary-section.hidden {
-            display: none !important;
-        }
-
-        /* Center summary section when visible */
-        .summary-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Abandoned Asylum – Haunted Rooms by WorkHub</title>
+  <link rel="stylesheet" href="Abandoned-Asylum.css">
+  <script src="Abandoned-Asylum.js" defer></script>
 </head>
-<body>
-  <header class="asylum-header">
-    <nav class="asylum-nav">
-      <a href="Abandoned-Asylum.html" class="asylum-nav-logo">WorkHub</a>
-      <ul class="asylum-nav-links">
-        <li><a href="room1.html">1escaperoom</a></li>
-        <li><a href="room2.html">2escaperoom</a></li>
-        <li><a href="room3.html">3escaperoom</a></li>
-        <li><a href="room4.html">4escaperoom</a></li>
-      </ul>
-    </nav>
+<body data-activity="asylum">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html">
+        <span class="logo-name">WorkHub</span>
+        <span class="logo-sub">Haunted Rooms</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Main menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="haunted-mansion.html">Haunted Mansion</a></li>
+          <li><a href="possessed-doll.html">Possessed Doll</a></li>
+          <li><a href="Abandoned-Asylum.html" aria-current="page">Abandoned Asylum</a></li>
+          <li><a href="creepy-clown.html">Creepy Clown Room</a></li>
+        </ul>
+      </nav>
+    </div>
   </header>
 
-  <main class="booking-container">
-    <h2>Bokningsförfrågan – Abandoned Asylum</h2>
-
-    <!-- Form Section -->
-    <form id="asylumBookingForm" novalidate>
-      <div class="form-group">
-        <label for="asylumOfferSelect">Välj erbjudande:</label>
-        <select id="asylumOfferSelect" name="offer" aria-describedby="asylumOfferError" aria-invalid="false">
-          <option value="">Välj ett erbjudande</option>
-        </select>
-        <span id="asylumOfferError" class="field-error" aria-live="polite"></span>
+  <main id="main">
+    <section class="page-intro">
+      <div class="container">
+        <p class="breadcrumb"><a href="index.html">Home</a> / The Abandoned Asylum</p>
+        <h1>The Abandoned Asylum</h1>
+        <p class="page-lead">The asylum has been empty for decades... or so everyone thought.</p>
       </div>
+    </section>
 
-      <div class="form-group">
-        <label for="asylumQuantityInput">Antal paket (1-5):</label>
-        <input type="number" id="asylumQuantityInput" name="quantity" min="1" max="5" value="1"
-          aria-describedby="asylumQuantityError" aria-invalid="false">
-        <span id="asylumQuantityError" class="field-error" aria-live="polite"></span>
+    <section class="section booking" aria-label="Booking form">
+      <div class="container booking-layout">
+        <form id="booking-form" class="booking-form" novalidate>
+          <fieldset id="booking-fields" class="booking-fields">
+            <legend class="visually-hidden">Booking details</legend>
+
+            <fieldset class="form-step offer-group">
+              <legend><span class="step-number">1</span> Choose an experience</legend>
+              <div id="offer-list" class="offer-cards"></div>
+              <p id="selected-offer" class="selected-offer" aria-live="polite">
+                No experience selected yet.
+              </p>
+              <p id="offer-error" class="field-error" aria-live="polite" hidden></p>
+            </fieldset>
+
+            <div class="form-step">
+              <h2 class="step-title"><span class="step-number">2</span> Count your players</h2>
+              <div class="field">
+                <label for="quantity">Number of players (1–5)</label>
+                <input id="quantity" name="quantity" type="text" inputmode="numeric" value="1"
+                  autocomplete="off" aria-describedby="quantity-error" aria-invalid="false">
+                <p id="quantity-error" class="field-error" aria-live="polite" hidden></p>
+              </div>
+              <p id="price-output" class="price-output" aria-live="polite">
+                Choose an experience to see the price.
+              </p>
+            </div>
+
+            <div class="form-step">
+              <h2 class="step-title"><span class="step-number">3</span> Your details</h2>
+              <div class="field">
+                <label for="customer-name">Name</label>
+                <input id="customer-name" name="name" type="text" autocomplete="name"
+                  aria-describedby="name-error" aria-invalid="false">
+                <p id="name-error" class="field-error" aria-live="polite" hidden></p>
+              </div>
+              <div class="field">
+                <label for="customer-email">Email address</label>
+                <input id="customer-email" name="email" type="text" inputmode="email"
+                  autocomplete="email" aria-describedby="email-error" aria-invalid="false">
+                <p id="email-error" class="field-error" aria-live="polite" hidden></p>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="form-actions">
+            <button id="submit-button" type="submit" class="button button-primary">
+              Send booking request
+            </button>
+            <button id="restart-button" type="button" class="button button-secondary">
+              Start over
+            </button>
+          </div>
+        </form>
+
+        <section id="confirmation" class="confirmation" tabindex="-1"
+          aria-labelledby="confirmation-title" hidden>
+          <h2 id="confirmation-title">Your booking request has been confirmed</h2>
+          <dl class="summary">
+            <dt>Name</dt>
+            <dd id="summary-name"></dd>
+            <dt>Email address</dt>
+            <dd id="summary-email"></dd>
+            <dt>Experience</dt>
+            <dd id="summary-offer"></dd>
+            <dt>Players</dt>
+            <dd id="summary-quantity"></dd>
+            <dt>Total price</dt>
+            <dd id="summary-total"></dd>
+          </dl>
+          <p>Your request is complete. Choose Start over to make a new request.</p>
+        </section>
       </div>
-
-      <div class="form-group">
-        <label for="asylumNameInput">Namn:</label>
-        <input type="text" id="asylumNameInput" name="name" placeholder="Ditt namn"
-          aria-describedby="asylumNameError" aria-invalid="false">
-        <span id="asylumNameError" class="field-error" aria-live="polite"></span>
-      </div>
-
-      <div class="form-group">
-        <label for="asylumEmailInput">E-post:</label>
-        <input type="email" id="asylumEmailInput" name="email" placeholder="din.epost@example.com"
-          aria-describedby="asylumEmailError" aria-invalid="false">
-        <span id="asylumEmailError" class="field-error" aria-live="polite"></span>
-      </div>
-
-      <div id="asylumPriceDisplay" class="price-display" aria-live="polite">
-        Välj ett erbjudande för att se priset.
-      </div>
-
-      <button type="submit" id="asylumSubmitBtn">Skicka förfrågan</button>
-      <button type="button" id="asylumResetBtn">Börja om</button>
-    </form>
-
-    <!-- Summary Section (Hidden initially) -->
-    <section id="asylumSummarySection" class="summary-section hidden">
-      <h3>Förfrågan bekräftad</h3>
-      <p>Din bokningsförfrågan är avslutad. Välj Börja om om du vill göra en ny.</p>
-      <p><strong>Namn:</strong> <span id="asylumSummaryName"></span></p>
-      <p><strong>E-post:</strong> <span id="asylumSummaryEmail"></span></p>
-      <p><strong>Erbjudande:</strong> <span id="asylumSummaryOffer"></span></p>
-      <p><strong>Antal paket:</strong> <span id="asylumSummaryQuantity"></span></p>
-      <p><strong>Totalt:</strong> <span id="asylumSummaryTotal"></span></p>
     </section>
   </main>
-    <script src="Abandoned-Asylum.js"></script>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p><strong>WorkHub Haunted Rooms</strong><br>Cemetery Lane 13</p>
+      <p>book@workhub-haunted.example<br>Open every night until the last team escapes</p>
+      <p class="footer-note">Fictional company in a course assignment. &copy; 2026</p>
+    </div>
+  </footer>
 </body>
 </html>
