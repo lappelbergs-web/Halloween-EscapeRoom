@@ -63,6 +63,18 @@
             <fieldset class="form-step offer-group">
               <legend><span class="step-number">1</span> Choose an experience</legend>
               <div id="offer-list" class="doll-offers"></div>
+              <!-- Mall för en medaljong. JavaScript gör en kopia per erbjudande och fyller i texterna. -->
+              <template id="offer-template">
+                <button type="button" class="doll-offer" aria-pressed="false">
+                  <span class="doll-offer-fear">
+                    <span class="fear-dots" aria-hidden="true"></span>
+                    <span class="fear-text visually-hidden"></span>
+                  </span>
+                  <span class="doll-offer-name"></span>
+                  <span class="doll-offer-description"></span>
+                  <span class="doll-offer-price"><span class="price-amount"></span> <small></small></span>
+                </button>
+              </template>
               <p id="selected-offer" class="selected-offer" aria-live="polite">No experience selected yet.</p>
               <p id="offer-error" class="field-error" hidden></p>
             </fieldset>

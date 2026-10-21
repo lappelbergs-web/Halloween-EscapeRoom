@@ -4,13 +4,17 @@
  * The Possessed Doll – JavaScript för bokningssidan possessed-doll.html
  * Ansvarig: Peter
  *
- * Samma funktioner som de andra rummen, men med ett eget upplägg:
- * - Allt som ändras under bokningen ligger samlat i objektet state.
- * - Valideringsreglerna ligger i objektet rules, med en regel per fält.
- * - Erbjudandena har en gemensam klicklyssnare på listan (event delegation)
- *   i stället för en lyssnare per erbjudande.
- * - Prisvisningen är uppdelad i en funktion som bestämmer meddelandet
- *   och en som skriver ut det på sidan.
+ * Upplägget i den här filen:
+ * - Tillståndet styr sidan. Allt som ändras ligger i objektet state.
+ *   Händelserna ändrar bara state och anropar sedan render(), som
+ *   uppdaterar sidan utifrån state. Sidan kan då aldrig visa något
+ *   annat än det som står i state.
+ * - Valideringen är data. Varje fält har en lista med kontroller,
+ *   och samma funktion, findProblem(), går igenom listan för alla fält.
+ * - Medaljongerna byggs från en <template> i HTML-koden, som kopieras
+ *   en gång per erbjudande.
+ * - En enda klicklyssnare på listan tar hand om alla medaljonger
+ *   (event delegation).
  *
  * Navigeringen ligger i den gemensamma filen app.js.
  */
@@ -60,7 +64,8 @@ const OFFERS = [
 // Allt som ändras medan besökaren använder sidan
 const state = {
   selectedId: null,   // id för valt erbjudande, eller null
-  confirmed: false    // true när förfrågan är bekräftad och låst
+  confirmed: false,   // true när förfrågan är bekräftad och låst
+  booking: null       // den bekräftade förfrågan, eller null
 };
 
 // Referenser till element på sidan, fylls i init()
@@ -83,6 +88,7 @@ function init() {
 
   el.fields = document.getElementById("booking-fields");
   el.offers = document.getElementById("offer-list");
+  el.template = document.getElementById("offer-template");
   el.selectedText = document.getElementById("selected-offer");
   el.price = document.getElementById("price-output");
   el.submit = document.getElementById("submit-button");
@@ -96,77 +102,83 @@ function init() {
     email: document.getElementById("customer-email")
   };
 
-  // Hämtar felelementen med en loop: "offer" -> "offer-error" och så vidare
+  // Felelementen och sammanfattningen hämtas med loopar, eftersom
+  // deras id:n följer ett mönster: "offer-error", "summary-name" och så vidare.
   el.errors = {};
-  FIELD_ORDER.forEach((field) => {
+  for (const field of FIELD_ORDER) {
     el.errors[field] = document.getElementById(`${field}-error`);
-  });
+  }
 
-  el.summary = {
-    name: document.getElementById("summary-name"),
-    email: document.getElementById("summary-email"),
-    offer: document.getElementById("summary-offer"),
-    quantity: document.getElementById("summary-quantity"),
-    total: document.getElementById("summary-total")
-  };
+  el.summary = {};
+  for (const key of ["name", "email", "offer", "quantity", "total"]) {
+    el.summary[key] = document.getElementById(`summary-${key}`);
+  }
 
   renderOffers();
-  showPrice();
+  render();
 
   // En enda lyssnare för alla erbjudanden
   el.offers.addEventListener("click", onOfferClick);
   el.form.addEventListener("submit", onSubmit);
   el.restart.addEventListener("click", restart);
 
-  ["quantity", "name", "email"].forEach((field) => {
+  for (const field of ["quantity", "name", "email"]) {
     el.inputs[field].addEventListener("input", () => onFieldInput(field));
-  });
+  }
+}
+
+/* ==========================================================
+   Uppdatera sidan utifrån state
+   ========================================================== */
+
+// Den enda funktionen som visar tillståndet på sidan.
+// Den anropas efter varje ändring av state.
+function render() {
+  paintSelection();
+  showPrice();
+
+  // Låst efter bekräftelse, öppet annars
+  el.fields.disabled = state.confirmed;
+  el.submit.hidden = state.confirmed;
+  el.confirmation.hidden = !state.confirmed;
+
+  // Sammanfattningen visar state.booking, eller töms om det inte finns någon.
+  // textContent skriver över, så det kan aldrig bli dubbla bekräftelser.
+  for (const [key, element] of Object.entries(el.summary)) {
+    element.textContent = state.booking ? state.booking[key] : "";
+  }
 }
 
 /* ==========================================================
    Erbjudanden
    ========================================================== */
 
-// Ritar ut erbjudandena som runda medaljonger.
+// Gör en kopia av mallen för varje erbjudande och lägger in den på sidan.
 function renderOffers() {
   el.offers.replaceChildren();
-  OFFERS.forEach((offer) => {
+  for (const offer of OFFERS) {
     el.offers.append(createOfferElement(offer));
-  });
+  }
 }
 
 function createOfferElement(offer) {
-  const button = makeElement("button", "doll-offer");
-  button.type = "button";
+  // content är mallens innehåll. cloneNode(true) kopierar knappen med allt inuti.
+  const button = el.template.content.firstElementChild.cloneNode(true);
   button.dataset.offerId = offer.id;
-  button.setAttribute("aria-pressed", "false");
 
-  const fear = makeElement("span", "doll-offer-fear");
-  const dots = makeElement("span", "", fearDots(offer.fearLevel));
-  dots.setAttribute("aria-hidden", "true");
-  const fearText = makeElement("span", "visually-hidden", `Fear level ${offer.fearLevel} of ${MAX_FEAR_LEVEL}`);
-  fear.append(dots, fearText);
+  // Texterna sätts med textContent, så de visas exakt som de står i OFFERS.
+  fillText(button, ".fear-dots", fearDots(offer.fearLevel));
+  fillText(button, ".fear-text", `Fear level ${offer.fearLevel} of ${MAX_FEAR_LEVEL}`);
+  fillText(button, ".doll-offer-name", offer.name);
+  fillText(button, ".doll-offer-description", offer.description);
+  fillText(button, ".price-amount", formatSek(offer.pricePerUnit));
+  fillText(button, ".doll-offer-price small", `per ${PLAYERS.singular}`);
 
-  const price = makeElement("span", "doll-offer-price", formatSek(offer.pricePerUnit));
-  price.append(makeElement("small", "", ` per ${PLAYERS.singular}`));
-
-  button.append(
-    fear,
-    makeElement("span", "doll-offer-name", offer.name),
-    makeElement("span", "doll-offer-description", offer.description),
-    price
-  );
   return button;
 }
 
-// Skapar ett element med klass och text. Texten sätts med textContent.
-function makeElement(tag, className, text = "") {
-  const element = document.createElement(tag);
-  if (className) {
-    element.className = className;
-  }
-  element.textContent = text;
-  return element;
+function fillText(parent, selector, text) {
+  parent.querySelector(selector).textContent = text;
 }
 
 // Fear level 2 av 3 blir "●●○"
@@ -180,23 +192,19 @@ function onOfferClick(event) {
   if (!button || state.confirmed) {
     return;
   }
-  selectOffer(button.dataset.offerId);
-}
 
-function selectOffer(offerId) {
-  state.selectedId = offerId;
-  paintSelection();
-  showPrice();
+  state.selectedId = button.dataset.offerId;
   setError("offer", "");
+  render();
 }
 
 // Visar valet med klass, aria-pressed och text.
 function paintSelection() {
-  el.offers.querySelectorAll(".doll-offer").forEach((button) => {
+  for (const button of el.offers.querySelectorAll(".doll-offer")) {
     const isSelected = button.dataset.offerId === state.selectedId;
     button.classList.toggle("is-selected", isSelected);
     button.setAttribute("aria-pressed", String(isSelected));
-  });
+  }
 
   const offer = findOffer(state.selectedId);
   el.selectedText.textContent = offer
@@ -264,69 +272,84 @@ function showPrice() {
    Validering
    ========================================================== */
 
-// En regel per fält. Varje regel returnerar ett felmeddelande, eller "" om allt är rätt.
-const rules = {
-  offer: () => {
-    return findOffer(state.selectedId)
-      ? ""
-      : "Choose one of the experiences above before you send your request.";
+// Kontrollerna för e-post, i den ordning de ska göras.
+// En senare kontroll körs bara om de tidigare har gått igenom, så till
+// exempel den sista kan lita på att det finns exakt ett @ och text efter det.
+const EMAIL_CHECKS = [
+  {
+    test: (value) => value !== "",
+    message: "Enter your email address."
   },
-
-  quantity: (value) => {
-    if (value.trim() === "") {
-      return `Enter the number of ${PLAYERS.plural}.`;
-    }
-    if (toPlayerCount(value) === null) {
-      return `The number of ${PLAYERS.plural} must be a whole number between ${PLAYERS.min} and ${PLAYERS.max}.`;
-    }
-    return "";
+  {
+    test: (value) => !/\s/.test(value),
+    message: "The email address can't contain spaces."
   },
-
-  name: (value) => {
-    return value.trim() === ""
-      ? "Enter your name. The field can't be empty or contain only spaces."
-      : "";
+  {
+    test: (value) => value.split("@").length === 2,
+    message: "The email address must contain exactly one @, for example name@example.com."
   },
-
-  email: (value) => {
-    if (value === "") {
-      return "Enter your email address.";
-    }
-    if (/\s/.test(value)) {
-      return "The email address can't contain spaces.";
-    }
-
-    const at = value.indexOf("@");
-    if (at === -1 || at !== value.lastIndexOf("@")) {
-      return "The email address must contain exactly one @, for example name@example.com.";
-    }
-
-    const localPart = value.slice(0, at);
-    const domain = value.slice(at + 1);
-    if (localPart === "") {
-      return "There must be text before the @ in the email address.";
-    }
-    if (domain === "") {
-      return "There must be text after the @ in the email address.";
-    }
-
-    // Domänen ska ha minst en punkt, och varje del runt punkterna ska innehålla text.
-    const domainParts = domain.split(".");
-    if (domainParts.length < 2 || domainParts.includes("")) {
-      return "The part after @ needs a dot with text on both sides, for example example.com.";
-    }
-    return "";
+  {
+    test: (value) => value.split("@")[0] !== "",
+    message: "There must be text before the @ in the email address."
+  },
+  {
+    test: (value) => value.split("@")[1] !== "",
+    message: "There must be text after the @ in the email address."
+  },
+  {
+    test: (value) => {
+      const domainParts = value.split("@")[1].split(".");
+      return domainParts.length >= 2 && domainParts.every((part) => part !== "");
+    },
+    message: "The part after @ needs a dot with text on both sides, for example example.com."
   }
+];
+
+// Kontrollerna för alla fält. Varje kontroll har ett test som ska
+// returnera true när värdet är rätt, och ett meddelande om det inte är det.
+const CHECKS = {
+  offer: [
+    {
+      test: (offerId) => findOffer(offerId) !== null,
+      message: "Choose one of the experiences above before you send your request."
+    }
+  ],
+  quantity: [
+    {
+      test: (value) => value.trim() !== "",
+      message: `Enter the number of ${PLAYERS.plural}.`
+    },
+    {
+      test: (value) => toPlayerCount(value) !== null,
+      message: `The number of ${PLAYERS.plural} must be a whole number between ${PLAYERS.min} and ${PLAYERS.max}.`
+    }
+  ],
+  name: [
+    {
+      test: (value) => value.trim() !== "",
+      message: "Enter your name. The field can't be empty or contain only spaces."
+    }
+  ],
+  email: EMAIL_CHECKS
 };
 
-// Hämtar värdet som regeln för ett fält ska kontrollera.
+// Hämtar värdet som kontrollerna för ett fält ska testa.
 function readValue(field) {
   return field === "offer" ? state.selectedId : el.inputs[field].value;
 }
 
+// Går igenom fältets kontroller och returnerar meddelandet från den
+// första som inte går igenom, eller "" om alla går igenom.
+// find stannar vid den första kontroll där test returnerar false.
+function findProblem(field) {
+  const value = readValue(field);
+  const failedCheck = CHECKS[field].find((check) => !check.test(value));
+  return failedCheck ? failedCheck.message : "";
+}
+
 // Kontrollerar ett fält, visar resultatet och returnerar true om fältet är giltigt.
 function checkField(field) {
-  const message = rules[field](readValue(field));
+  const message = findProblem(field);
   setError(field, message);
   return message === "";
 }
@@ -346,14 +369,12 @@ function setError(field, message) {
   }
 }
 
-// Vid inmatning: uppdatera priset, och kontrollera fältet igen om det visar ett fel.
+// Vid inmatning: uppdatera sidan, och kontrollera fältet igen om det visar ett fel.
 function onFieldInput(field) {
-  if (field === "quantity") {
-    showPrice();
-  }
   if (!el.errors[field].hidden) {
     checkField(field);
   }
+  render();
 }
 
 /* ==========================================================
@@ -376,7 +397,10 @@ function onSubmit(event) {
     return;
   }
 
-  confirmBooking(buildBooking());
+  state.booking = buildBooking();
+  state.confirmed = true;
+  render();
+  el.confirmation.focus();
 }
 
 function focusField(field) {
@@ -387,6 +411,7 @@ function focusField(field) {
 }
 
 // Ögonblicksbild av det som bekräftas, färdig att visa.
+// Nycklarna är desamma som i el.summary.
 function buildBooking() {
   const offer = findOffer(state.selectedId);
   const count = toPlayerCount(el.inputs.quantity.value);
@@ -400,23 +425,6 @@ function buildBooking() {
   };
 }
 
-function confirmBooking(booking) {
-  state.confirmed = true;
-
-  // Nycklarna i booking är desamma som i el.summary.
-  // textContent skriver över, så det kan aldrig bli dubbla bekräftelser.
-  Object.entries(booking).forEach(([key, value]) => {
-    el.summary[key].textContent = value;
-  });
-
-  // Lås formuläret så att de bekräftade uppgifterna inte kan ändras.
-  el.fields.disabled = true;
-  el.submit.hidden = true;
-
-  el.confirmation.hidden = false;
-  el.confirmation.focus();
-}
-
 /* ==========================================================
    Start over
    ========================================================== */
@@ -424,22 +432,17 @@ function confirmBooking(booking) {
 function restart() {
   state.selectedId = null;
   state.confirmed = false;
+  state.booking = null;
 
-  // Låser upp formuläret och tömmer det. reset() sätter varje fält till sitt
-  // värde i HTML-koden: namn och e-post blir tomma och antal blir 1 (value="1").
-  el.fields.disabled = false;
+  // reset() sätter varje fält till sitt värde i HTML-koden:
+  // namn och e-post blir tomma och antal blir 1 (value="1").
   el.form.reset();
 
-  paintSelection();
-  FIELD_ORDER.forEach((field) => setError(field, ""));
+  for (const field of FIELD_ORDER) {
+    setError(field, "");
+  }
 
-  Object.values(el.summary).forEach((element) => {
-    element.textContent = "";
-  });
-  el.confirmation.hidden = true;
-  el.submit.hidden = false;
-
-  showPrice();
+  render();
   el.form.scrollIntoView({ block: "start" });
 }
 

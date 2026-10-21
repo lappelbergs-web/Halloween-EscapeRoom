@@ -161,7 +161,8 @@
   border-color: var(--error);
 }
 
-.doll-offers + .selected-offer {
+/* Texten om valet centreras under medaljongerna */
+.offer-group .selected-offer {
   margin-top: 1.5rem;
   text-align: center;
 }
