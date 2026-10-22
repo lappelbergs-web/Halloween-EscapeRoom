@@ -17,7 +17,7 @@ Projektet är en gruppuppgift i JavaScript och utvecklas löpande. README-filen 
 
 | Sida | Fil | Ansvarig |
 |---|---|---|
-| Startsida | `index.html` | _Fylls i_ |
+| Startsida | `index.html` | Gemensam, framtagen av hela gruppen |
 | The Haunted Mansion | `haunted-mansion.html` | Minna |
 | The Possessed Doll | `possessed-doll.html` | Peter |
 | The Abandoned Asylum | `abandoned-asylum.html` | Leo |
@@ -94,10 +94,19 @@ Färgerna ligger som variabler överst i `styles.css`. Gruppens gemensamma färg
 | `--accent-purple` | `#5a2a82` |
 | `--accent-green` | `#2f6b3a` |
 
+## Grenar
+
+| Gren | Innehåll |
+|---|---|
+| `main` | Gruppens gemensamma huvudgren, med den första versionen av startsidan, navigeringen och färgvariablerna |
+| `peter-branch` | Arbetsgren där de fyra bokningssidorna har samlats och passats in i den gemensamma designen |
+| `redovisning-branch` | Slutversionen som redovisas |
+
 ## Arbetssätt med Git
 
 - Varje gruppmedlem arbetar i en egen gren, till exempel `peter-branch`.
 - Ingen pushar direkt till `main`. Ändringar kommer in via en pull request som gruppen granskar.
+- Börja varje arbetspass med `git pull --rebase` på den gren du arbetar i, så att du har den senaste versionen.
 - Använd aldrig `git push --force` på en gemensam gren.
 
 ## Att göra
