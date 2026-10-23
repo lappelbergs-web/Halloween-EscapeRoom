@@ -98,15 +98,16 @@ Färgerna ligger som variabler överst i `styles.css`. Gruppens gemensamma färg
 
 | Gren | Innehåll |
 |---|---|
-| `main` | Gruppens gemensamma huvudgren, med den första versionen av startsidan, navigeringen och färgvariablerna |
-| `peter-branch` | Arbetsgren där de fyra bokningssidorna har samlats och passats in i den gemensamma designen |
-| `redovisning-branch` | Slutversionen som redovisas |
+| `redovisning-branch` | **Den gren alla arbetar mot.** Här ligger de senaste versionerna av alla sidor, och det är den här versionen som redovisas |
+| `main` | Gruppens gemensamma huvudgren från början av projektet |
+| `peter-branch` | Tidigare arbetsgren där de fyra bokningssidorna samlades och passades in i den gemensamma designen. Används inte längre |
 
 ## Arbetssätt med Git
 
-- Varje gruppmedlem arbetar i en egen gren, till exempel `peter-branch`.
-- Ingen pushar direkt till `main`. Ändringar kommer in via en pull request som gruppen granskar.
-- Börja varje arbetspass med `git pull --rebase` på den gren du arbetar i, så att du har den senaste versionen.
+- Alla arbetar mot `redovisning-branch`.
+- Börja varje arbetspass med `git pull --rebase origin redovisning-branch`, så att du har den senaste versionen innan du ändrar något.
+- Ändra bara i dina egna filer. Ändringar i gemensamma filer, som `index.html`, `styles.css` och `app.js`, stäms av med gruppen först.
+- Kontrollera med `git status` före varje commit att bara de filer du har ändrat finns med.
 - Använd aldrig `git push --force` på en gemensam gren.
 
 ## Att göra
