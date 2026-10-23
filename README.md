@@ -53,27 +53,40 @@ possessed-doll.js            Bokningslogik och erbjudanden för The Possessed Do
 abandoned-asylum.js          Leos bokningslogik och erbjudanden för The Abandoned Asylum
 creepy-clown.js              Jons bokningslogik och erbjudanden för The Creepy Clown Room
 images/                      En bild per rum samt bakgrundsbilderna till The Haunted Mansion och The Abandoned Asylum
-docs/
-  forklaring-app-js.md       Förklaring av JavaScript-koden
-  forklaring-styles-css.md   Förklaring av koden i styles.css
+docs/                        Förklaringar av koden, se avsnittet Dokumentation
 ```
 
 Varje bokningssida laddar två CSS-filer och två JavaScript-filer: de gemensamma `styles.css` och `app.js`, och rummets egna filer. Rummets CSS-fil laddas efter den gemensamma, så att egna regler går före. Var och en ändrar bara i sina egna filer, så att arbetet i olika grenar inte krockar.
 
 ## Dokumentation
 
-Mappen `docs/` innehåller utförligare förklaringar av koden:
+Mappen `docs/` innehåller förklaringar av koden.
 
-- [Förklaring av app.js](docs/forklaring-app-js.md): data, navigering, erbjudanden, prisberäkning, validering, bekräftelse och Start over, med exempel på hur en användarhandling leder till ett resultat på sidan.
-- [Förklaring av styles.css](docs/forklaring-styles-css.md): färgvariabler, layout, responsivitet, komponenterna på sidorna och tillgänglighet.
+**Den gemensamma delen**, som gruppen tagit fram tillsammans:
+
+- [Förklaring av app.js](docs/forklaring-app-js.md): mobilmenyn, markeringen av aktuell sida och årtalet i sidfoten.
+- [Förklaring av styles.css](docs/forklaring-styles-css.md): färgvariabler, startsidan med spökhuset, rummens färger och bilder, grunden för bokningssidorna, layout och tillgänglighet.
+
+**Varje rum**, med rummets egen JavaScript- och CSS-fil:
+
+| Rum | Ansvarig | Dokument |
+|---|---|---|
+| The Haunted Mansion | Minna | [forklaring-haunted-mansion.md](docs/forklaring-haunted-mansion.md) |
+| The Possessed Doll | Peter | [forklaring-possessed-doll.md](docs/forklaring-possessed-doll.md) |
+| The Abandoned Asylum | Leo | [forklaring-abandoned-asylum.md](docs/forklaring-abandoned-asylum.md) |
+| The Creepy Clown Room | Jon | [forklaring-creepy-clown.md](docs/forklaring-creepy-clown.md) |
+
+Den som ansvarar för ett rum går igenom och uppdaterar dokumentet för sitt rum när koden ändras.
 
 ## Så fungerar en bokning
 
-1. **Välj ett erbjudande.** Varje rum har tre spelvarianter. Det valda kortet markeras med mörk bakgrund, en bock och texten "Selected: …".
-2. **Ange antal spelare.** Ett heltal mellan 1 och 5. Totalpriset (pris per spelare × antal) uppdateras direkt.
-3. **Fyll i namn och e-postadress.** Felaktiga uppgifter visas med ett felmeddelande direkt under fältet.
+Varje rum har sin egen design och sin egen kod, men flödet är detsamma:
+
+1. **Välj ett erbjudande.** Varje rum har tre erbjudanden. Det valda erbjudandet markeras tydligt.
+2. **Ange antal.** Ett heltal mellan 1 och 5. Antalet avser spelare eller timmar beroende på rum, och totalpriset (pris per enhet × antal) uppdateras direkt.
+3. **Fyll i namn och e-postadress.** Felaktiga uppgifter visas med ett felmeddelande vid fältet.
 4. **Skicka förfrågan.** En sammanfattning visas utan att sidan laddas om, och formuläret låses.
-5. **Start over.** Tömmer formuläret och gör det möjligt att göra en ny förfrågan. Knappen fungerar både under ifyllnaden och efter bekräftelsen.
+5. **Börja om.** Tömmer formuläret och gör det möjligt att göra en ny förfrågan, både under ifyllnaden och efter bekräftelsen.
 
 ## Teknik
 
@@ -115,4 +128,4 @@ Färgerna ligger som variabler överst i `styles.css`. Gruppens gemensamma färg
 - [ ] Bestämma gemensamt färgtema
 - [x] Fördela vem som ansvarar för vilken sida
 - [x] Bestämma om JavaScript ska ligga i en gemensam fil eller en fil per sida
-- [ ] Uppdatera förklaringen av JavaScript-koden i `docs/` efter uppdelningen i en fil per rum
+- [x] Uppdatera förklaringen av JavaScript-koden i `docs/` efter uppdelningen i en fil per rum
