@@ -94,7 +94,7 @@ bookingForm.addEventListener("submit", function(event) {
         dotIndex < domain.length - 1;
 
     if (!validEmail) {
-        emailError.textContent = "Please enter a valid email address.";
+        emailError.textContent = "Please enter a valid email address in the format name@example.com.";
     }
     const bookingError = document.getElementById("booking-error");
 bookingError.textContent = "";
@@ -125,14 +125,27 @@ if (
 
 const total = selectedOffer.price * quantity;
 
-document.getElementById("booking-confirmation").innerHTML = `
-    <h2>Booking Confirmed!</h2>
-    <p>Name: ${name}</p>
-    <p>Email: ${email}</p>
-    <p>Experience: ${selectedOffer.name}</p>
-    <p>Players: ${quantity}</p>
-    <p>Total Price: ${total} SEK</p>
-`;
+const confirmation = document.getElementById("booking-confirmation");
+
+confirmation.replaceChildren();
+
+const heading = document.createElement("h2");
+heading.textContent = "Booking Confirmed!";
+confirmation.appendChild(heading);
+
+const details = [
+    ["Name", name],
+    ["Email", email],
+    ["Experience", selectedOffer.name],
+    ["Players", quantity],
+    ["Total Price", `${total} SEK`]
+];
+
+details.forEach(function([label, value]) {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = `${label}: ${value}`;
+    confirmation.appendChild(paragraph);
+});
 customerName.disabled = true;
 customerEmail.disabled = true;
 quantityInput.disabled = true;
@@ -162,4 +175,16 @@ bookingForm.addEventListener("reset", function() {
     });
 
     totalPrice.textContent = "Choose an experience to see the price.";
+});
+
+customerName.addEventListener("input", function() {
+    if (customerName.value.trim() !== "") {
+        document.getElementById("name-error").textContent = "";
+    }
+});
+
+customerEmail.addEventListener("input", function() {
+    if (customerEmail.validity.valid && customerEmail.value.trim() !== "") {
+        document.getElementById("email-error").textContent = "";
+    }
 });
