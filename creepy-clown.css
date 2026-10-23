@@ -452,7 +452,8 @@
         font-weight: bold;
         background: #c4bdb4;
         color: #f8f8f8;
-        cursor: not-allowed;
+        /* Knappen går att klicka på för att visa vad som saknas */
+        cursor: pointer;
         box-shadow: none;
 
         &.btn-ready:not(.btn-sent) {
