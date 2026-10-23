@@ -52,7 +52,7 @@ haunted-mansion.js           Minnas bokningslogik och erbjudanden för The Haunt
 possessed-doll.js            Bokningslogik och erbjudanden för The Possessed Doll
 abandoned-asylum.js          Leos bokningslogik och erbjudanden för The Abandoned Asylum
 creepy-clown.js              Jons bokningslogik och erbjudanden för The Creepy Clown Room
-images/                      En bild per rum samt bakgrundsbilderna till The Haunted Mansion och The Abandoned Asylum
+images/                      En bild per rum, som används på startsidan och som rummets bild. The Haunted Mansion har dessutom en egen bakgrundsbild
 docs/                        Förklaringar av koden, se avsnittet Dokumentation
 ```
 

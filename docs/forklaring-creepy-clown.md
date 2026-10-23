@@ -29,7 +29,7 @@ Priset räknas per timme. Felmeddelandet för antal timmar ligger i konstanten `
 | Läsa formuläret | `readBooking()` returnerar valt erbjudande och antal timmar som ett objekt. Det används av både priset, valideringen och bekräftelsen |
 | Pris | `calculateTotalPrice(pricePerHour, hours)` multiplicerar. `updatePriceDisplay()` visar priset eller ett meddelande, och lägger klassen `total-price-box--ready` på prisrutan när priset går att räkna ut |
 | Validering | Små funktioner med en regel var: `isValidName`, `isValidEmail` och `isValidHours`. `validateForm()` använder dem och visar ett felmeddelande vid varje fält som är fel |
-| Knapparna | `updateActionButtons()` körs vid varje ändring. Bekräfta-knappen är aktiv först när `isFormComplete()` säger att allt är ifyllt rätt, och Börja om markeras när något har fyllts i |
+| Knapparna | `updateActionButtons()` körs vid varje ändring. Bekräfta-knappen går att klicka på ända tills förfrågan är bekräftad, så att felmeddelandena kan visas om något saknas. När `isFormComplete()` säger att allt är rätt ifyllt får knappen klassen `btn-ready` och blir orange. Börja om markeras när något har fyllts i |
 | Bekräftelse | `showConfirmation()` skriver in uppgifterna med `textContent`, och antalet visas med enhet, till exempel "2 timmar". `setFormLocked(true)` låser fälten och korten |
 | Börja om | `resetBooking()` tömmer fälten, nollställer valt erbjudande, sätter antalet till 1, tar bort fel och bekräftelse och låser upp formuläret |
 
@@ -38,7 +38,7 @@ Priset räknas per timme. Felmeddelandet för antal timmar ligger i konstanten `
 1. Besökaren klickar på "Red Balloon". Lyssnaren på listan hittar kortet med `closest` och sparar `"clown-red-balloon"` i `selectedOfferId`.
 2. `updateSelection()` sätter `aria-pressed="true"` på kortet, och CSS byter "Välj" mot "✓ Vald".
 3. `updatePriceDisplay()` räknar ut `calculateTotalPrice(310, 1)` och visar 310 kr.
-4. `updateActionButtons()` kontrollerar om hela formuläret är ifyllt och aktiverar bekräfta-knappen om det är det.
+4. `updateActionButtons()` kontrollerar om hela formuläret är ifyllt. Om det är det blir bekräfta-knappen orange. Klickar man innan allt är ifyllt visar `validateForm()` ett felmeddelande vid varje fält som behöver rättas.
 
 ## creepy-clown.css
 
