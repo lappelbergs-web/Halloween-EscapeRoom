@@ -40,7 +40,7 @@
 /* Varje rum har en egen bild (används som bakgrund i bokningssidans inledning) */
 [data-activity="mansion"] { --room-image: url("images/haunted-mansion.jpg"); }
 [data-activity="doll"]    { --room-image: url("images/possessed-doll.jpg"); }
-[data-activity="asylum"]  { --room-image: url("images/abandoned-asylum.jpg"); }
+[data-activity="asylum"]  { --room-image: url("images/abandoned-asylum-background.jpg"); }
 [data-activity="clown"]   { --room-image: url("images/creepy-clown.jpg"); }
 
 /* Vilken del av bilden som visas när den beskärs, så att rummets motiv syns */
