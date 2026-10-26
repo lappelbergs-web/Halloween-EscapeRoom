@@ -43,6 +43,7 @@ offers.forEach(function(offer) {
 
     offerCard.addEventListener("click", function() {
     selectedOffer = offer;
+    document.getElementById("booking-error").textContent = "";
     document.querySelectorAll("#offers-container div").forEach(function(card) {
         card.style.outline = "none";
     });
@@ -62,9 +63,37 @@ offers.forEach(function(offer) {
 
 quantityInput.addEventListener("input", updateTotalPrice);
 
+quantityInput.addEventListener("input", function() {
+    const quantity = Number(quantityInput.value);
+
+    if (
+        quantityInput.value.trim() !== "" &&
+        Number.isInteger(quantity) &&
+        quantity >= 1 &&
+        quantity <= 5
+    ){
+        document.getElementById("booking-error").textContent = "";
+    }
+}); 
+
+
 const bookingForm = document.getElementById("booking-form");
 const customerName = document.getElementById("customer-name");
 const customerEmail = document.getElementById("customer-email");
+
+function isValidEmail(email) {
+    const atIndex = email.indexOf("@");
+    const domain =email.slice(atIndex + 1);
+    const dotIndex = domain.lastIndexOf(".");
+
+    return (
+        !email.includes(" ") &&
+        atIndex > 0 &&
+        atIndex === email.lastIndexOf("@") &&
+        dotIndex > 0 &&
+        dotIndex < domain.length - 1
+    );
+}
 
 bookingForm.addEventListener("submit", function(event) {
     event.preventDefault();
@@ -82,16 +111,7 @@ bookingForm.addEventListener("submit", function(event) {
         nameError.textContent = "Please enter your name.";
     }
 
-    const atIndex = email.indexOf("@");
-    const domain = email.slice(atIndex + 1);
-    const dotIndex = domain.lastIndexOf(".");
-
-    const validEmail =
-        !email.includes(" ") &&
-        atIndex > 0 &&
-        atIndex === email.lastIndexOf("@") &&
-        dotIndex > 0 &&
-        dotIndex < domain.length - 1;
+    const validEmail = isValidEmail(email);
 
     if (!validEmail) {
         emailError.textContent = "Please enter a valid email address in the format name@example.com.";
@@ -137,7 +157,7 @@ const details = [
     ["Name", name],
     ["Email", email],
     ["Experience", selectedOffer.name],
-    ["Players", quantity],
+    ["Players", `${quantity} players`],
     ["Total Price", `${total} SEK`]
 ];
 
@@ -184,7 +204,7 @@ customerName.addEventListener("input", function() {
 });
 
 customerEmail.addEventListener("input", function() {
-    if (customerEmail.validity.valid && customerEmail.value.trim() !== "") {
+    if (isValidEmail(customerEmail.value.trim())) {
         document.getElementById("email-error").textContent = "";
     }
 });
