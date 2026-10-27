@@ -12,7 +12,7 @@ body:has(.haunted-mansion) {
     min-height: 100vh;
     padding: 80px 30px;
     background:
-        linear-gradient(rgba(5, 2, 9, 0.25), rgba(5, 2, 9, 0.55)), url("images/haunted-background.png") center top / cover no-repeat;
+        linear-gradient(rgba(5, 2, 9, 0.25), rgba(5, 2, 9, 0.55)), url("images/haunted-background.jpg") center top / cover no-repeat;
     color: #f5e9ff;
     font-family: Georgia, serif;
     text-align: center;
@@ -272,7 +272,7 @@ h1 {
     radial-gradient(
         ellipse at 20% 90%,
         rgba(220, 225, 240, 0.5), 
-        tranparent 45%
+        transparent 45%
     ),
     radial-gradient(
         ellipse at 75% 85%,
@@ -304,4 +304,12 @@ h1 {
         transform: translateX(25%);
         opacity: 0.2;
     }
+}
+
+/* ANPASSNING TILL GRUPPENS GEMENSAMMA styles.css */
+
+/* styles.css begränsar alla stycken till 65 tecken per rad. Här ska
+   styckena kunna vara centrerade över hela bredden, så gränsen tas bort. */
+body .haunted-mansion p {
+    max-width: none;
 }
