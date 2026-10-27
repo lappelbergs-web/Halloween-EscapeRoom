@@ -168,9 +168,6 @@ function updateActionButtons() {
   bookingForm.classList.remove("booking-form--confirmed");
   confirmButton.classList.remove("btn-sent");
 
-  // Knappen går att klicka på ända tills förfrågan är bekräftad, så att
-  // validateForm() kan visa felmeddelanden om något saknas eller är fel.
-  // Klassen btn-ready visar när allt är rätt ifyllt.
   const ready = isFormComplete();
   confirmButton.disabled = false;
   confirmButton.classList.toggle("btn-ready", ready);

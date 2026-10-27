@@ -12,7 +12,6 @@
     --border: #c9b896;
 }
 
-/* Creepy Clown Room */
 .creepy-clown-room {
     position: relative;
     display: flex;
@@ -452,7 +451,6 @@
         font-weight: bold;
         background: #c4bdb4;
         color: #f8f8f8;
-        /* Knappen går att klicka på för att visa vad som saknas */
         cursor: pointer;
         box-shadow: none;
 
@@ -541,11 +539,8 @@
 
 }
 
-/* ANPASSNING TILL GRUPPENS GEMENSAMMA styles.css */
-
 .creepy-clown-room {
-    /* styles.css ger h1 och h2 ett annat typsnitt och normal vikt.
-       Här används rummets egna typsnitt och fetstil. */
+
     h1 {
         font-weight: 700;
     }
@@ -555,15 +550,13 @@
         font-weight: 700;
     }
 
-    /* styles.css ger felmeddelanden en röd linje till vänster. Här finns
-       felraderna alltid på sidan, även när de är tomma, så linjen tas bort. */
+
     .field-error {
         border-left: none;
         padding-left: 0;
         font-weight: normal;
     }
 
-    /* styles.css färgar totalpriset i bekräftelsen orange via id:t summary-total */
     #summary-total {
         color: inherit;
         font-weight: inherit;
@@ -571,11 +564,6 @@
 
 }
 
-/* ERBJUDANDENA PÅ BREDD
-
-   På bredare skärmar blir kortet bredare och de tre erbjudandena
-   läggs bredvid varandra, så att sidan inte blir så lång.
-   På smala skärmar ligger de kvar under varandra. */
 
 @media (min-width: 800px) {
     .creepy-clown-room {
@@ -592,7 +580,6 @@
             flex: 1;
         }
 
-        /* Priset och "Välj" hamnar längst ned, så att korten linjerar */
         .offer-card__price {
             margin-top: auto;
             padding-top: 0.75rem;
