@@ -2,7 +2,7 @@
 
 En bokningswebbplats för det fiktiva företaget **WorkHub**, som driver fyra escape rooms med Halloween-tema. Besökare kan se rummens erbjudanden, räkna ut ett pris och skicka en bokningsförfrågan. Förfrågan simuleras i webbläsaren och skickas inte till någon server.
 
-Projektet är en gruppuppgift i JavaScript och utvecklas löpande. README-filen fylls på efter hand.
+Projektet är en gruppuppgift i JavaScript. Den här versionen är slutversionen som redovisades.
 
 ## Gruppen
 
@@ -44,19 +44,19 @@ abandoned-asylum.html        Bokningssida (Leo)
 creepy-clown.html            Bokningssida (Jon)
 styles.css                   Gemensam design för alla sidor
 haunted-mansion.css          Minnas design för The Haunted Mansion
-possessed-doll.css           Egen design för The Possessed Doll (runda erbjudanden)
+possessed-doll.css           Peters design för The Possessed Doll
 abandoned-asylum.css         Leos design för The Abandoned Asylum
 creepy-clown.css             Jons design för The Creepy Clown Room
 app.js                       Gemensam JavaScript: mobilmeny, aktuell sida i menyn, årtal
 haunted-mansion.js           Minnas bokningslogik och erbjudanden för The Haunted Mansion
-possessed-doll.js            Bokningslogik och erbjudanden för The Possessed Doll
+possessed-doll.js            Peters bokningslogik och erbjudanden för The Possessed Doll
 abandoned-asylum.js          Leos bokningslogik och erbjudanden för The Abandoned Asylum
 creepy-clown.js              Jons bokningslogik och erbjudanden för The Creepy Clown Room
 images/                      En bild per rum, som används på startsidan och som rummets bild. The Haunted Mansion har dessutom en egen bakgrundsbild
 docs/                        Förklaringar av koden, se avsnittet Dokumentation
 ```
 
-Varje bokningssida laddar två CSS-filer och två JavaScript-filer: de gemensamma `styles.css` och `app.js`, och rummets egna filer. Rummets CSS-fil laddas efter den gemensamma, så att egna regler går före. Var och en ändrar bara i sina egna filer, så att arbetet i olika grenar inte krockar.
+Varje bokningssida laddar två CSS-filer och två JavaScript-filer: de gemensamma `styles.css` och `app.js`, och rummets egna filer. Rummets CSS-fil laddas efter den gemensamma, så att egna regler går före. Var och en har skrivit sina egna filer.
 
 ## Dokumentation
 
@@ -76,7 +76,7 @@ Mappen `docs/` innehåller förklaringar av koden.
 | The Abandoned Asylum | Leo | [forklaring-abandoned-asylum.md](docs/forklaring-abandoned-asylum.md) |
 | The Creepy Clown Room | Jon | [forklaring-creepy-clown.md](docs/forklaring-creepy-clown.md) |
 
-Den som ansvarar för ett rum går igenom och uppdaterar dokumentet för sitt rum när koden ändras.
+Dokumenten beskriver koden som den såg ut vid redovisningen.
 
 ## Så fungerar en bokning
 
@@ -97,7 +97,7 @@ Varje rum har sin egen design och sin egen kod, men flödet är detsamma:
 
 ## Design
 
-Färgerna ligger som variabler överst i `styles.css`. Gruppens gemensamma färgtema är inte bestämt än, så variablerna kan komma att ändras.
+Gruppens gemensamma färger ligger som variabler överst i `styles.css`. Rummens egna CSS-filer använder samma variabler.
 
 | Variabel | Färg |
 |---|---|
@@ -111,21 +111,14 @@ Färgerna ligger som variabler överst i `styles.css`. Gruppens gemensamma färg
 
 | Gren | Innehåll |
 |---|---|
-| `redovisning-branch` | **Den gren alla arbetar mot.** Här ligger de senaste versionerna av alla sidor, och det är den här versionen som redovisas |
-| `main` | Gruppens gemensamma huvudgren från början av projektet |
-| `peter-branch` | Tidigare arbetsgren där de fyra bokningssidorna samlades och passades in i den gemensamma designen. Används inte längre |
+| `main` | **Slutversionen.** Samma innehåll som `redovisning-branch` hade vid redovisningen |
+| `redovisning-branch` | Grenen som alla arbetade mot i slutet av projektet. Slutversionen kommer härifrån |
+| `main-backup` | Säkerhetskopia av hur `main` såg ut innan slutversionen lades in |
+| `peter-branch`, `minna-booking`, `jonssida`, `leo-branch` | Gruppmedlemmarnas tidigare arbetsgrenar. De innehåller äldre versioner av filerna och används inte längre |
 
 ## Arbetssätt med Git
 
-- Alla arbetar mot `redovisning-branch`.
-- Börja varje arbetspass med `git pull --rebase origin redovisning-branch`, så att du har den senaste versionen innan du ändrar något.
-- Ändra bara i dina egna filer. Ändringar i gemensamma filer, som `index.html`, `styles.css` och `app.js`, stäms av med gruppen först.
-- Kontrollera med `git status` före varje commit att bara de filer du har ändrat finns med.
-- Använd aldrig `git push --force` på en gemensam gren.
-
-## Att göra
-
-- [ ] Bestämma gemensamt färgtema
-- [x] Fördela vem som ansvarar för vilken sida
-- [x] Bestämma om JavaScript ska ligga i en gemensam fil eller en fil per sida
-- [x] Uppdatera förklaringen av JavaScript-koden i `docs/` efter uppdelningen i en fil per rum
+- Varje gruppmedlem arbetade först i en egen gren. De fyra rummen samlades sedan på `peter-branch` och passades in i den gemensamma designen.
+- I slutet av projektet arbetade alla mot `redovisning-branch`. Varje arbetspass började med `git pull --rebase origin redovisning-branch`, så att alla hade den senaste versionen.
+- Var och en ändrade bara i sina egna filer. Ändringar i gemensamma filer, som `index.html`, `styles.css` och `app.js`, stämdes av med gruppen först.
+- Slutversionen fördes över till `main` med en pull request.
