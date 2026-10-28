@@ -1,0 +1,355 @@
+/* ==========================================================
+   The Abandoned Asylum – egen design för abandoned-asylum.html
+   Ansvarig: Leo
+
+   Laddas efter styles.css. Sidhuvud, meny och sidfot kommer från
+   styles.css. Den här filen styr rummets eget innehåll i <main>.
+   ========================================================== */
+
+/* Rummets färger. De gäller bara inne i <main>, så att gruppens
+   sidhuvud och sidfot behåller gruppens färger från styles.css. */
+[data-activity="asylum"] main {
+    --background: #171514;
+    --surface: #24201f;
+    --foreground: #eee6d8;
+    --muted: #c5b9a8;
+    --accent-orange: #c46b32;
+    --accent-purple: #493044;
+    --accent-green: #b4a36a;
+    --error: #f19a8e;
+
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+}
+
+[data-activity="asylum"] main a {
+    color: #d59a69;
+}
+
+.page-intro {
+    display: flex;
+    min-height: 22rem;
+    align-items: center;
+    padding: 3rem 0;
+    background:
+        linear-gradient(90deg, rgb(15 13 13 / 78%), rgb(15 13 13 / 35%)),
+        url("images/abandoned-asylum-background.jpg") center 45% / cover no-repeat;
+    color: var(--foreground);
+}
+
+.page-intro a {
+    color: #e6b185;
+}
+
+.breadcrumb {
+    margin-top: 0;
+}
+
+.page-intro h1 {
+    margin: 0.5rem 0;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.page-lead {
+    margin-bottom: 0;
+    font-size: 1.2rem;
+}
+
+.section {
+    padding: 3rem 0;
+}
+
+.booking-layout {
+    max-width: 48rem;
+}
+
+.booking-form {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.booking-fields,
+.form-step {
+    min-width: 0;
+    margin: 0;
+    padding: 1.25rem;
+    border: 1px solid rgb(238 230 216 / 18%);
+    border-radius: 0.5rem;
+    background: var(--surface);
+}
+
+.booking-fields {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.form-step > legend,
+.step-title {
+    padding: 0;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.step-number {
+    display: inline-grid;
+    width: 1.8rem;
+    height: 1.8rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--accent-orange);
+    color: #171514;
+}
+
+.offer-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.offer-card {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1rem;
+    border: 1px solid rgb(238 230 216 / 20%);
+    border-radius: 0.5rem;
+    background: #2b2624;
+    cursor: pointer;
+    transition: border-color 140ms ease, background-color 140ms ease, transform 140ms ease;
+}
+
+.offer-card:hover {
+    border-color: rgb(212 150 98 / 70%);
+    transform: translateY(-2px);
+}
+
+.offer-card.is-selected {
+    border-color: #d58a50;
+    outline: 2px solid #d58a50;
+    background: #382a29;
+}
+
+.offer-choice {
+    margin-right: 0.4rem;
+}
+
+.offer-price {
+    color: var(--accent-green);
+    font-weight: 700;
+}
+
+.selected-offer,
+.price-output {
+    font-weight: 700;
+}
+
+.field {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 1rem;
+}
+
+.field input {
+    width: 100%;
+    max-width: 24rem;
+    padding: 0.65rem;
+    border: 1px solid rgb(238 230 216 / 35%);
+    border-radius: 0.25rem;
+    background: #171514;
+    color: var(--foreground);
+    font: inherit;
+}
+
+.field input[aria-invalid="true"] {
+    border: 2px solid var(--error);
+}
+
+.field-error {
+    margin: 0;
+    color: var(--error);
+    font-weight: 600;
+}
+
+.field-error[hidden],
+.confirmation[hidden] {
+    display: none;
+}
+
+.booking-fields:disabled {
+    opacity: 0.7;
+}
+
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.button {
+    padding: 0.7rem 1rem;
+    border: 0;
+    border-radius: 0.25rem;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.button-primary {
+    background: #76506d;
+    color: var(--foreground);
+}
+
+.button-secondary {
+    background: var(--accent-orange);
+    color: #171514;
+}
+
+.button:hover {
+    filter: brightness(1.12);
+}
+
+.button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+    outline: 3px solid #d7b875;
+    outline-offset: 2px;
+}
+
+.confirmation {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-left: 0.4rem solid var(--accent-green);
+    background: var(--surface);
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: minmax(8rem, auto) 1fr;
+    gap: 0.5rem 1rem;
+}
+
+.summary dt {
+    font-weight: 700;
+}
+
+.summary dd {
+    margin: 0;
+}
+
+/* ANPASSNING TILL GRUPPENS GEMENSAMMA styles.css
+
+   styles.css har regler för samma klasser som används här. Reglerna
+   nedan återställer rummets eget utseende där de gemensamma reglerna
+   annars skulle ta över. Alla börjar med [data-activity="asylum"] main,
+   så att de bara gäller på den här sidan. */
+
+[data-activity="asylum"] main {
+    font-size: 1rem;
+
+    /* Rubriker och inledning: rummets typsnitt i fetstil */
+    h1,
+    h2,
+    .page-lead {
+        font-family: inherit;
+    }
+
+    h1,
+    .confirmation h2 {
+        font-weight: 700;
+    }
+
+    /* styles.css begränsar stycken till 65 tecken och tar bort marginalen
+       ovanför. Här får styckena vara fullt breda, med luft ovanför ingressen. */
+    p {
+        max-width: none;
+    }
+
+    .page-lead {
+        margin-top: 1em;
+    }
+
+    /* Erbjudandenas texter i normal vikt och färg, som i rummets design */
+    .offer-name,
+    .offer-description {
+        padding-right: 0;
+        color: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+    }
+
+    /* Inledningen: ingen färgad kant eller textskugga */
+    .page-intro {
+        border-bottom: none;
+    }
+
+    .page-intro .container {
+        text-shadow: none;
+    }
+
+    /* Valt erbjudande: ljus text och grönt pris, utan gruppens bock */
+    .offer-card.is-selected {
+        color: var(--foreground);
+        box-shadow: none;
+    }
+
+    .offer-card.is-selected::after {
+        content: none;
+    }
+
+    .offer-card.is-selected .offer-price {
+        color: var(--accent-green);
+    }
+
+    /* Fält: normal vikt på etiketterna och samma bredd på antal-fältet */
+    .field label {
+        margin-bottom: 0;
+        font-weight: 400;
+    }
+
+    #quantity {
+        max-width: 24rem;
+    }
+
+    .field input:disabled {
+        background: #171514;
+        color: var(--muted);
+    }
+
+    /* Felmeddelanden utan gruppens röda linje till vänster */
+    .field-error {
+        padding-left: 0;
+        border-left: none;
+        font-size: inherit;
+    }
+
+    /* Priset som vanlig text, inte som gruppens ruta */
+    .price-output {
+        padding: 0;
+        border-radius: 0;
+        background: none;
+        color: inherit;
+        font-size: inherit;
+    }
+
+    /* Knapparna utan linje ovanför */
+    .form-actions {
+        padding-top: 0;
+        border-top: none;
+    }
+
+    /* Bekräftelsen: ljus text på mörk yta */
+    .confirmation {
+        color: var(--foreground);
+    }
+
+    .summary dt {
+        color: inherit;
+    }
+
+    #summary-total {
+        color: inherit;
+        font-weight: inherit;
+    }
+}

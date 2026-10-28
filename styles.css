@@ -1,656 +1,879 @@
+/* ==========================================================
+   WorkHub Haunted Rooms – gemensam design för alla sidor
+   ========================================================== */
+
+/* ---------- Gruppens gemensamma färger ---------- */
 :root {
-    --background: #f2e8d5;
-    --foreground: #1b1b1f;
-    --accent-orange: #ff6a00;
-    --accent-purple: #5a2a82;
-    --accent-green: #2f6b3a;
-    --card: #fff8ec;
-    --border: #c9b896;
+  --background: #f2e8d5;
+  --foreground: #1b1b1f;
+  --accent-orange: #ff6a00;
+  --accent-purple: #5a2a82;
+  --accent-green: #2f6b3a;
 }
 
-.haunted-rooms {
-    background: linear-gradient(135deg, #08050d, #21112f, #09050d);;
-    color: var(--background);
-    min-height: 100vh;
-    padding: 40px;
+/* ---------- Kompletterande variabler ---------- */
+:root {
+  --night: #121116;          /* mörkaste ytorna: hero, sidfot */
+  --night-soft: #24212b;     /* kullar, mörka fönster */
+  --paper: #fbf5ea;          /* kort och fält på pergamentbakgrunden */
+  --line: #ddcfb4;           /* tunna linjer på pergament */
+  --muted: #5b5560;          /* sekundär text */
+  --error: #a3171f;          /* felmeddelanden – läsbar mot pergament */
+  --error-bg: #f6dcd3;
+  --accent-red: #b3122b;     /* clownrummets färg */
+  --room-accent: var(--accent-orange);
+
+  --font-display: "IM Fell English", Georgia, "Times New Roman", serif;
+  --font-body: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+
+  --radius-small: 4px;
+  --radius-button: 999px;
+  --content-width: 68rem;
 }
 
-.haunted-rooms .room-card {
-    background-color: #17121f;
-    color: var(--background);
-    padding: 20px;
-    margin: 20px 0;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(138, 43, 226, 0.6);
-    display: flex;
-}
-.haunted-rooms .room-info {
-    flex: 1;
-    padding-left: 25px;
-}
+/* Varje rum har en egen accentfärg (används på bokningssidan och i rumslistan) */
+[data-activity="mansion"], [data-room="mansion"] { --room-accent: var(--accent-purple); }
+[data-activity="doll"],    [data-room="doll"]    { --room-accent: var(--accent-orange); }
+[data-activity="asylum"],  [data-room="asylum"]  { --room-accent: var(--accent-green); }
+[data-activity="clown"],   [data-room="clown"]   { --room-accent: var(--accent-red); }
 
-.haunted-rooms .room-card img {
-    width: 380px;
-    height: 240px;
-    object-fit: cover;
-    border-radius: 10px;
-}
-.haunted-rooms #rooms-container > div {
-    padding: 20px;
-    border-radius: 12px;
-    border: 2px solid var(--accent-purple);
+/* Varje rum har en egen bild (används som bakgrund i bokningssidans inledning) */
+[data-activity="mansion"] { --room-image: url("images/haunted-mansion.jpg"); }
+[data-activity="doll"]    { --room-image: url("images/possessed-doll.jpg"); }
+[data-activity="asylum"]  { --room-image: url("images/abandoned-asylum-background.jpg"); }
+[data-activity="clown"]   { --room-image: url("images/creepy-clown.jpg"); }
+
+/* Vilken del av bilden som visas när den beskärs, så att rummets motiv syns */
+[data-activity="mansion"] { --room-image-position: center 40%; }
+[data-activity="doll"]    { --room-image-position: 25% 30%; }
+[data-activity="asylum"]  { --room-image-position: center 45%; }
+[data-activity="clown"]   { --room-image-position: center 25%; }
+
+/* ---------- Grundinställningar ---------- */
+/* Element med attributet hidden ska alltid döljas, även om en klass sätter display */
+[hidden] {
+  display: none !important;
 }
 
-.haunted-rooms .select-room {
-    background-color: var(--accent-orange);
-    color: var(--background);
-    border: none;
-    padding: 10px 18px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-.haunted-rooms .room-card h2 {
-    color: var(--accent-purple);
-}
-
-.haunted-rooms .select-room:hover {
-    background-color: var(--accent-purple);
-    color: var(--background);
-}
-
-.haunted-rooms .room-card:hover {
-    transform: translateY(-5px);
-    transition: 0.3s;
-}
-
-.haunted-rooms .selected-room-box {
-    border: 2px solid var(--accent-orange);
-    padding: 20px;
-    border-radius: 10px;
-    margin-top:  25px;
-}
-
-.haunted-rooms .selected-room-box h2 {
-    color: var(--accent-orange);
-}
-
-.haunted-rooms .room-card.selected {
-    border: 3px solid var(--accent-orange);
-}
-
-.haunted-rooms h1 {
-    font-size: 60px;
-    color: #b30000;
-    text-transform: uppercase;
-    text-shadow: 3px 3px 8px #000;
-}
-
-.haunted-rooms .room-card:hover {
-    transform: scale(1.02);
-    box-shadow: 0 0 30px rgba(138, 43, 226, 0.9);
-    transition: 0.3s ease;
-}
-
-.haunted-rooms .select-room:hover {
-    background-color: #ff4500;
-    box-shadow: 0 0 20px rgba(255, 106, 0, 0.9);
-    transform: scale(1.05);
-    cursor: pointer;
-}
-
-.haunted-rooms .room-info p {
-    font-size: 24px;
-    line-height: 1.6;
-}
-
-.haunted-rooms .room-info h2 {
-    font-size: 32px;
-    margin-bottom: 15px;
-}
-
-.haunted-rooms .select-room {
-    font-size: 20px;
-    padding: 15px 30px;
-}
-
-.haunted-rooms #selected-room {
-    background-color: #120608;
-    border: 2px solid #b30000;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(179, 0, 0, 0.7);
-    padding: 20px;
-}
-
-@media (max-width: 768px) {
-    .haunted-rooms .room-card {
-        flex-direction: column;
-    }
-
-    .haunted-rooms .room-card img {
-        width: 100%;
-        height: auto;
-    }
-
-    .haunted-rooms .room-info {
-        padding-left: 0;
-        width: 100%;
-    }
-
-    .haunted-rooms h1 {
-        font-size: 28px;
-        text-align: center;
-    }
-
-    .haunted-rooms {
-        padding: 15px;
-    }
-
-    .haunted-rooms .room.card {
-        padding: 15px
-    }
-
-    .haunted-rooms .room-card img {
-        width: 100%;
-        max-width: 100%;
-        height: 220px;
-        object-fit: cover;
-    }
-}
-
-.haunted-rooms .room-card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.haunted-rooms .room-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 25px rgba(150, 50, 255, 0.7);
-}
-
-.haunted-rooms .room-card button {
-    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.haunted-rooms .room-card button:hover {
-    background-color: #b91c1c;
-    transform: scale(1.05);
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-}
-
-.haunted-rooms .room-card.selected {
-    border: 2px solid #ff0000;
-    box-shadow: 0 0 25px rgba(255, 0, 0, 0.8);
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background-color: var(--background);
-    color: var(--foreground);
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.5;
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--foreground);
+  background: var(--background);
+}
+
+h1, h2, h3 {
+  line-height: 1.1;
+  margin: 0 0 0.6em;
+}
+
+h1, h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+h2 {
+  font-size: clamp(2rem, 4.5vw, 2.9rem);
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+p {
+  margin: 0 0 1em;
+  max-width: 65ch;
 }
 
 a {
-    color: var(--accent-purple);
+  color: inherit;
+  text-underline-offset: 0.15em;
 }
 
-a:hover {
-    color: var(--accent-orange);
+:focus-visible {
+  outline: 3px solid var(--accent-orange);
+  outline-offset: 3px;
 }
 
-/* Startsida */
-/* .main-nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
-    background: var(--card);
-    border-bottom: 2px solid var(--border);
+.container {
+  width: min(100% - 2.5rem, var(--content-width));
+  margin-inline: auto;
 }
 
-.nav-logo {
-    font-weight: bold;
-    font-size: 1.25rem;
-    text-decoration: none;
+.section {
+  padding-block: clamp(3rem, 7vw, 5.5rem);
 }
 
-.nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.section-intro {
+  color: var(--muted);
+  margin-bottom: 2rem;
 }
 
-.nav-links a {
-    text-decoration: none;
-    font-weight: 600;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
-.nav-links a:hover {
-    text-decoration: underline;
-} */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  background: var(--accent-orange);
+  color: var(--foreground);
+  padding: 0.6rem 1rem;
+  z-index: 100;
+}
 
-/* Creepy Clown Room */
-.creepy-clown-room {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 2.5rem 1rem 3rem;
-    min-height: 100vh;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    background:
-        radial-gradient(circle at 15% 10%, rgba(255, 106, 0, 0.18), transparent 40%),
-        radial-gradient(circle at 85% 20%, rgba(90, 42, 130, 0.35), transparent 45%),
-        linear-gradient(165deg, #1a0a12 0%, #2d1438 40%, #12080e 100%);
+.skip-link:focus {
+  top: 1rem;
+}
 
-    
+/* ---------- Knappar ---------- */
+.button {
+  display: inline-block;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius-button);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
 
-    .booking-form-hidden {
-        display: none;
-    }
+/* Orange knapp med mörk text: god kontrast */
+.button-primary {
+  background: var(--accent-orange);
+  color: var(--foreground);
+}
 
-    .booking-form-visible {
-        display: block;
-    }
+.button-primary:hover {
+  background: #ff8a3d;
+}
 
-    .room-card {
-        position: relative;
-        z-index: 2;
-        width: 100%;
-        max-width: 560px;
-        background: linear-gradient(180deg, #fff9f0 0%, var(--card) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        border-radius: 16px;
-        padding: 0 0 1.75rem;
-        box-shadow:
-            0 20px 50px rgba(0, 0, 0, 0.45),
-            0 0 0 1px rgba(90, 42, 130, 0.15);
-        overflow: hidden;
+/* Kantlinjeknapp på ljus bakgrund */
+.button-secondary {
+  background: transparent;
+  color: var(--foreground);
+  border-color: var(--foreground);
+}
 
-        &::before {
-            content: "";
-            display: block;
-            height: 6px;
-            background: repeating-linear-gradient(
-                90deg,
-                var(--accent-orange) 0 14px,
-                var(--accent-purple) 14px 28px
-            );
-        }
-    }
+.button-secondary:hover {
+  background: var(--foreground);
+  color: var(--background);
+}
 
-    .back-link {
-        display: inline-block;
-        margin: 1.25rem 1.75rem 0;
-        padding: 0.35rem 0.75rem;
-        border-radius: 999px;
-        background: rgba(90, 42, 130, 0.08);
-        color: var(--accent-purple);
-        text-decoration: none;
-        font-size: 0.9rem;
-        font-weight: 600;
-        transition: background 0.2s, color 0.2s;
+/* Kantlinjeknapp på mörk bakgrund */
+.button-light {
+  background: transparent;
+  color: var(--background);
+  border-color: var(--background);
+}
 
-        &:hover {
-            background: var(--accent-purple);
-            color: #fff;
-        }
-    }
+.button-light:hover {
+  background: var(--background);
+  color: var(--foreground);
+}
 
-    .room-header {
-        padding: 1rem 1.75rem 0.5rem;
-        text-align: center;
-    }
+/* ---------- Sidhuvud och navigering ---------- */
+.site-header {
+  background: var(--foreground);
+  color: var(--background);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #2e2b33;
+}
 
-    .room-tag {
-        display: inline-block;
-        margin: 0;
-        padding: 0.2rem 0.65rem;
-        border-radius: 999px;
-        background: #2a1038;
-        color: #f8e8ff;
-        font-size: 0.75rem;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-    }
+.header-inner {
+  width: min(100% - 2.5rem, var(--content-width));
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 2rem;
+  padding-block: 0.9rem;
+}
 
-    h1 {
-        margin: 0.65rem 0 0.5rem;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: clamp(1.85rem, 5vw, 2.35rem);
-        color: #2a1038;
-        letter-spacing: 0.02em;
-        text-shadow: 0 2px 0 rgba(255, 106, 0, 0.25);
-    }
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  color: var(--background);
+  text-decoration: none;
+}
 
-    .room-intro {
-        margin: 0 auto;
-        max-width: 42ch;
-        color: #4a3f52;
-        font-size: 0.95rem;
-    }
+.logo-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
 
-    h2 {
-        margin: 0 0 1rem;
-        font-size: 1.1rem;
-        color: #2a1038;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-    }
+.logo-sub {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--accent-orange);
+}
 
-    .price-panel,
-    .booking-panel {
-        margin: 1.25rem 1.75rem 0;
-        padding: 1.25rem;
-        border-radius: 12px;
-        background: rgba(255, 255, 255, 0.55);
-        border: 1px solid var(--border);
-    }
+.site-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.4rem;
+}
 
-    .offer-cards {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-    }
+.site-nav a {
+  color: var(--background);
+  text-decoration: none;
+  font-weight: 500;
+  padding-block: 0.3rem;
+  border-bottom: 2px solid transparent;
+}
 
-    .offer-card {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: 100%;
-        padding: 1rem 1.1rem;
-        border-radius: 10px;
-        background: #fff;
-        border: 2px solid var(--border);
-        border-left: 5px solid var(--accent-orange);
-        box-shadow: 0 3px 10px rgba(27, 27, 31, 0.08);
-        font: inherit;
-        text-align: left;
-        color: inherit;
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s,
-            background 0.2s;
+.site-nav a:hover {
+  border-bottom-color: var(--background);
+}
 
-        &:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(90, 42, 130, 0.12);
-            border-color: #b89fd4;
-        }
+/* Aktuell sida markeras av app.js med aria-current="page" */
+.site-nav a[aria-current="page"] {
+  border-bottom-color: var(--accent-orange);
+}
 
-        &[aria-pressed="true"] {
-            border-color: var(--accent-purple);
-            background: #f3ebff;
-            box-shadow: 0 4px 14px rgba(90, 42, 130, 0.18);
-        }
+.nav-toggle {
+  display: none;
+  font: inherit;
+  font-weight: 700;
+  color: var(--background);
+  background: transparent;
+  border: 2px solid var(--background);
+  border-radius: var(--radius-button);
+  padding: 0.35rem 1rem;
+  cursor: pointer;
+}
 
-        &:disabled {
-            opacity: 0.65;
-            cursor: not-allowed;
-            transform: none;
-        }
-    }
+/* Mobil: menyn fälls ihop, men bara när JavaScript är igång (klassen .js) */
+@media (max-width: 900px) {
+  .js .nav-toggle {
+    display: block;
+  }
 
-    .offer-card__title {
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: #2a1038;
-    }
+  .js .site-nav {
+    display: none;
+    width: 100%;
+  }
 
-    .offer-card__description {
-        margin-top: 0.35rem;
-        font-size: 0.9rem;
-        line-height: 1.45;
-        color: #4a3f52;
-    }
+  .js .site-nav.is-open {
+    display: block;
+  }
 
-    .offer-card__price {
-        margin-top: 0.75rem;
-        display: flex;
-        align-items: baseline;
-        gap: 0.35rem;
-        font-weight: 600;
-    }
+  .site-nav ul {
+    flex-direction: column;
+    padding-block: 0.5rem 0.75rem;
+  }
+}
 
-    .offer-card__amount {
-        font-size: 1.2rem;
-        color: var(--accent-green);
-    }
+/* ---------- Hero ---------- */
+.hero {
+  /* Himlen ljusnar mot horisonten så att husets siluett syns tydligt */
+  background: linear-gradient(180deg, var(--night) 0%, #1d1a24 55%, #3a3346 100%);
+  color: var(--background);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
 
-    .offer-card__unit {
-        font-size: 0.85rem;
-        font-weight: normal;
-        color: #5c5368;
-    }
+.hero-text {
+  width: min(100% - 2.5rem, var(--content-width));
+  margin-inline: auto;
+  padding-top: clamp(3rem, 9vw, 6rem);
+  padding-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+}
 
-    .offer-card__pick {
-        margin-top: 0.65rem;
-        font-size: 0.85rem;
-        color: #5c5368;
-    }
+.hero-kicker {
+  color: var(--accent-orange);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
 
-    .offer-card__picked {
-        display: none;
-        margin-top: 0.65rem;
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: var(--accent-purple);
-    }
+.hero h1 {
+  font-size: clamp(3.2rem, 11vw, 7.5rem);
+  line-height: 0.95;
+  margin-bottom: 0.25em;
+}
 
-    .offer-card[aria-pressed="true"] .offer-card__pick {
-        display: none;
-    }
+.hero-lead {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+  line-height: 1.25;
+  max-width: 24ch;
+}
 
-    .offer-card[aria-pressed="true"] .offer-card__picked {
-        display: block;
-    }
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
 
-    .price-panel label {
-        display: block;
-        margin-top: 0.35rem;
-        font-weight: 600;
-        font-size: 0.92rem;
-        color: #34283f;
-    }
+/* Höjden följer bredden (samma proportioner som bildens viewBox), så att
+   huset och månen syns hela på breda skärmar. På mobil hindrar min-height
+   att scenen blir för liten – då beskärs sidorna i stället. */
+.scene {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1200 / 400;
+  min-height: 220px;
+  max-height: 600px;
+  margin-top: -3rem;
+}
 
-    .hours-heading {
-        margin-top: 1.25rem;
-    }
+.moon { fill: var(--background); }
+.moon-crater { fill: #e2d4b8; }
+.bats path { fill: #0a090c; }
+.hills { fill: #2a2633; }
+.house,
+.ground,
+.fence { fill: #0a090c; }
+.tree {
+  fill: none;
+  stroke: #0a090c;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.window { fill: var(--accent-orange); }
+.window-dark { fill: var(--night-soft); }
+.door { fill: var(--accent-purple); }
 
-    .hours-help {
-        margin: 0.35rem 0 0;
-        font-size: 0.85rem;
-        color: #5c5368;
-    }
+/* Det enda som rör sig av sig självt: ett fönster som flimrar svagt */
+.window-flicker {
+  animation: flicker 7s infinite;
+}
 
-    #hours {
-        display: block;
-        width: 100%;
-        max-width: 10rem;
-        box-sizing: border-box;
-        margin-top: 0.35rem;
-        padding: 0.55rem 0.7rem;
-        border: 1px solid #c4b08a;
-        border-radius: 8px;
-        font: inherit;
-        background: #fff;
-    }
+@keyframes flicker {
+  0%, 18%, 22%, 60%, 64%, 100% { opacity: 1; }
+  20%, 62% { opacity: 0.25; }
+}
 
-    #hours:focus {
-        border-color: var(--accent-purple);
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(90, 42, 130, 0.2);
-    }
+/* ---------- Om företaget ---------- */
+.about-grid {
+  display: grid;
+  gap: 1.5rem 4rem;
+}
 
-    .total-price {
-        margin: 1rem 0 0;
-        padding: 0.85rem 1rem;
-        text-align: center;
-        background: linear-gradient(135deg, #2f6b3a, #245530);
-        color: #f4fff6;
-        border-radius: 10px;
-        font-weight: bold;
-        font-size: 1.05rem;
-        letter-spacing: 0.02em;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
-    }
+@media (min-width: 860px) {
+  .about-grid {
+    grid-template-columns: 1fr 1.6fr;
+  }
+}
 
-    .field-error {
-        color: #8b0000;
-        min-height: 1.25rem;
-        margin: 0 0 0.35rem;
-        font-size: 0.85rem;
+/* ---------- Rumslistan på startsidan ---------- */
+.rooms {
+  background: var(--paper);
+  border-block: 1px solid var(--line);
+}
 
-        &:not(:empty)::before {
-            content: "! ";
-            font-weight: bold;
-        }
-    }
+.room-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 2px solid var(--foreground);
+}
 
-    #booking-form {
-        label {
-            display: block;
-            margin-top: 0.65rem;
-            font-weight: 600;
-            font-size: 0.92rem;
-            color: #34283f;
-        }
+.room-row {
+  display: grid;
+  gap: 0.75rem 2rem;
+  align-items: center;
+  padding: 1.6rem 0 1.6rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  border-left: 6px solid var(--room-accent);
+}
 
-        input,
-        select {
-            display: block;
-            width: 100%;
-            box-sizing: border-box;
-            margin-top: 0.35rem;
-            padding: 0.55rem 0.7rem;
-            border: 1px solid #c4b08a;
-            border-radius: 8px;
-            font: inherit;
-            background: #fff;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
+/* Bilden behåller formatet 16:9 och beskärs i stället för att förvrängas */
+.room-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-small);
+  background: var(--night);
+}
 
-        input:focus,
-        select:focus {
-            border-color: var(--accent-purple);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(90, 42, 130, 0.2);
-        }
-    }
+.room-row h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.65rem;
+  margin: 0;
+}
 
-    .form-actions {
-        margin-top: 1.35rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-    }
+.room-row p {
+  margin: 0;
+  color: var(--muted);
+}
 
-    button {
-        font: inherit;
-        cursor: pointer;
-        border-radius: 8px;
-        padding: 0.6rem 1.1rem;
-        border: 2px solid transparent;
-        transition: transform 0.15s, background 0.2s, color 0.2s;
+.room-row .button {
+  justify-self: start;
+}
 
-        &:active:not(:disabled) {
-            transform: translateY(1px);
-        }
-    }
+@media (min-width: 640px) {
+  .room-row {
+    grid-template-columns: 14rem 1fr;
+  }
 
-    #confirm-booking {
-        flex: 1;
-        min-width: 10rem;
-        background: linear-gradient(180deg, #ff7a1a, var(--accent-orange));
-        color: #fff;
-        font-weight: bold;
-        box-shadow: 0 4px 12px rgba(255, 106, 0, 0.35);
+  .room-image {
+    grid-row: span 3;
+  }
+}
 
-        &:hover:not(:disabled) {
-            background: linear-gradient(180deg, #ff6a00, #e05500);
-        }
+@media (min-width: 1000px) {
+  .room-row {
+    grid-template-columns: 14rem 15rem 1fr auto;
+  }
 
-        &:disabled {
-            opacity: 0.55;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-    }
+  .room-image {
+    grid-row: auto;
+  }
+}
 
-    #start-over {
-        background: #fff;
-        border-color: var(--accent-purple);
-        color: var(--accent-purple);
+/* ---------- Så fungerar det ---------- */
+.steps {
+  list-style: none;
+  counter-reset: step;
+  margin: 2rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 2rem;
+}
 
-        &:hover {
-            background: var(--accent-purple);
-            color: #fff;
-        }
-    }
+@media (min-width: 760px) {
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 
-    .booking-summary {
-        margin: 1.25rem 1.75rem 0;
-        padding: 1.15rem 1.25rem;
-        border-radius: 12px;
-        border: 2px solid var(--accent-green);
-        background: linear-gradient(180deg, #f6fff8, #e8f5eb);
-        animation: clown-summary-in 0.35s ease-out;
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding-top: 3.2rem;
+}
 
-        h2 {
-            margin-top: 0;
-            color: var(--accent-green);
-        }
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--foreground);
+  color: var(--accent-orange);
+  font-weight: 700;
+}
 
-        p {
-            margin: 0.45rem 0;
-            padding-bottom: 0.45rem;
-            border-bottom: 1px dashed rgba(47, 107, 58, 0.25);
+.steps p {
+  color: var(--muted);
+}
 
-            &:last-child {
-                border-bottom: none;
-                padding-bottom: 0;
-            }
-        }
-    }
+/* ==========================================================
+   Bokningssidor
+   ========================================================== */
 
-    .summary-total {
-        margin-top: 0.75rem;
-        padding: 0.65rem 0.75rem;
-        border-radius: 8px;
-        background: rgba(47, 107, 58, 0.12);
-        font-size: 1.05rem;
-    }
+/* ---------- Sidans inledning ---------- */
+.page-intro {
+  color: var(--background);
+  border-bottom: 10px solid var(--room-accent);
+  /* Texten ligger längst ned, så att den övre delen av bilden syns fritt */
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(22rem, 48vw, 36rem);
+  padding-block: 3rem clamp(2rem, 4vw, 3rem);
+  background-color: var(--night);
+  /* Mörkt lager som börjar genomskinligt upptill och blir mörkt där texten ligger */
+  background-image:
+    linear-gradient(180deg,
+      rgba(18, 17, 22, 0.1) 0%,
+      rgba(18, 17, 22, 0.15) 40%,
+      rgba(18, 17, 22, 0.85) 78%,
+      rgba(18, 17, 22, 0.97) 100%),
+    var(--room-image, none);
+  background-size: cover;
+  background-position: var(--room-image-position, center);
+}
 
-    .standing-clown-image {
-        position:absolute;
-        bottom: 0;
-        left: 200px;
-        max-height: 60rem;
-        width: 20rem;
-    }
-    .floating-clown-image {
-        position:absolute;
-        top: 100px;
-        right: 180px;
-        width: 20rem;
-    }
+/* På smala skärmar tar texten större del av höjden, så inledningen blir högre */
+@media (max-width: 640px) {
+  .page-intro {
+    min-height: 30rem;
+  }
+}
 
-    @keyframes clown-summary-in {
-        from {
-            opacity: 0;
-            transform: translateY(6px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+.page-intro .container {
+  /* Lätt skugga gör texten tydlig även där bilden är ljus */
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+}
 
+.page-intro h1 {
+  font-size: clamp(2.5rem, 7vw, 4.5rem);
+  margin-bottom: 0.3em;
+}
 
+.page-lead {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  line-height: 1.35;
+  margin: 0;
+  max-width: 40ch;
+}
+
+.breadcrumb {
+  margin-bottom: 0.8rem;
+  color: #c9bfae;
+  font-size: 0.95rem;
+}
+
+/* ---------- Formulärets uppbyggnad ---------- */
+/* Formuläret linjerar till vänster med rubriken men blir inte för brett */
+.booking-layout > * {
+  max-width: 48rem;
+}
+
+.booking-fields {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.form-step {
+  border: 0;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  min-width: 0;
+}
+
+.form-step > legend,
+.step-title {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-body);
+  font-size: 1.4rem;
+  font-weight: 700;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.step-number {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--foreground);
+  color: var(--accent-orange);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* ---------- Erbjudandekort ---------- */
+.offer-cards {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .offer-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.offer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+  font: inherit;
+  color: var(--foreground);
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-top: 5px solid var(--room-accent);
+  border-radius: var(--radius-small);
+  padding: 1rem 1rem 1.1rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.offer-card:hover {
+  border-color: var(--foreground);
+  border-top-color: var(--room-accent);
+}
+
+.offer-name {
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding-right: 1.8rem;
+}
+
+.offer-description {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.45;
+  flex: 1;
+}
+
+.offer-price {
+  font-weight: 700;
+}
+
+/* Valt kort: mörkt kort med orange ram och en bock */
+.offer-card.is-selected {
+  background: var(--foreground);
+  color: var(--background);
+  border-color: var(--accent-orange);
+  box-shadow: 0 0 0 1px var(--accent-orange);
+}
+
+.offer-card.is-selected .offer-description {
+  color: #d6ccbb;
+}
+
+.offer-card.is-selected .offer-price {
+  color: var(--accent-orange);
+}
+
+.offer-card.is-selected::after {
+  content: "✓";
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-orange);
+  color: var(--foreground);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.offer-card:disabled {
+  cursor: default;
+}
+
+.offer-card:disabled:not(.is-selected) {
+  opacity: 0.45;
+}
+
+.offer-cards[aria-invalid="true"] .offer-card {
+  border-color: var(--error);
+  border-top-color: var(--room-accent);
+}
+
+.selected-offer {
+  margin: 0.9rem 0 0;
+  font-weight: 600;
+}
+
+/* ---------- Fält ---------- */
+.field {
+  margin-bottom: 1.25rem;
+}
+
+.field label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.field input {
+  width: 100%;
+  max-width: 26rem;
+  font: inherit;
+  color: var(--foreground);
+  background: var(--paper);
+  border: 2px solid #b9aa8d;
+  border-radius: var(--radius-small);
+  padding: 0.6rem 0.75rem;
+}
+
+#quantity {
+  max-width: 6rem;
+}
+
+.field input:focus-visible {
+  border-color: var(--foreground);
+}
+
+.field input[aria-invalid="true"] {
+  border-color: var(--error);
+}
+
+.field input:disabled {
+  background: #e9dfcc;
+  color: var(--muted);
+}
+
+/* ---------- Felmeddelanden ---------- */
+.field-error {
+  color: var(--error);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 0.4rem 0 0;
+  padding-left: 0.7rem;
+  border-left: 3px solid var(--error);
+}
+
+/* ---------- Prisvisning ---------- */
+.price-output {
+  margin: 0;
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius-small);
+  background: #e9dfcc;
+  color: var(--muted);
+  max-width: none;
+}
+
+.price-output.is-warning {
+  background: var(--error-bg);
+  color: var(--error);
+}
+
+.price-output.is-total {
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-left: 6px solid var(--accent-orange);
+}
+
+/* ---------- Knappar under formuläret ---------- */
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Bekräftelse ---------- */
+.confirmation {
+  margin-top: 2.5rem;
+  padding: clamp(1.5rem, 4vw, 2.2rem);
+  background: var(--night);
+  color: var(--background);
+  border-left: 10px solid var(--room-accent);
+  border-radius: var(--radius-small);
+}
+
+.confirmation:focus {
+  outline: none;
+}
+
+.confirmation:focus-visible {
+  outline: 3px solid var(--accent-orange);
+  outline-offset: 3px;
+}
+
+.confirmation h2 {
+  font-size: clamp(1.7rem, 4vw, 2.3rem);
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1.5rem;
+  margin: 0 0 1.5rem;
+}
+
+.summary dt {
+  font-weight: 600;
+  color: #c9bfae;
+}
+
+.summary dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+#summary-total {
+  font-weight: 700;
+  color: var(--accent-orange);
+}
+
+@media (max-width: 480px) {
+  .summary {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+
+  .summary dd {
+    margin-bottom: 0.6rem;
+  }
+}
+
+/* ---------- Sidfot ---------- */
+.site-footer {
+  background: var(--night);
+  color: #c9bfae;
+  padding-block: 2.5rem;
+  font-size: 0.95rem;
+}
+
+.site-footer strong {
+  color: var(--background);
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 4rem;
+}
+
+.footer-note {
+  margin-left: auto;
+  align-self: end;
+  opacity: 0.8;
+}
+
+/* ---------- Respektera inställningen "minska rörelse" ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .window-flicker {
+    animation: none;
+  }
+
+  .button {
+    transition: none;
+  }
 }

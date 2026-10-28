@@ -1,0 +1,588 @@
+/* ==========================================================
+   The Creepy Clown Room – egen design för creepy-clown.html
+   Ansvarig: Jon
+
+   Laddas efter styles.css. Gruppens färgvariabler (--background,
+   --foreground, --accent-orange, --accent-purple, --accent-green)
+   kommer från styles.css. Här läggs bara rummets egna variabler till.
+   ========================================================== */
+
+:root {
+    --card: #fff8ec;
+    --border: #c9b896;
+}
+
+.creepy-clown-room {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2.5rem 1rem 3rem;
+    min-height: 100vh;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    background-color: #12080e;
+    background-image:
+        linear-gradient(
+            165deg,
+            rgba(26, 10, 18, 0.88) 0%,
+            rgba(45, 20, 56, 0.82) 45%,
+            rgba(18, 8, 14, 0.9) 100%
+        ),
+        var(--room-image, url("images/creepy-clown.jpg"));
+    background-size: cover;
+    background-position: var(--room-image-position, center 25%);
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+
+    
+
+    a {
+        color: var(--accent-purple);
+    }
+
+    a:hover {
+        color: var(--accent-orange);
+    }
+
+    .booking-form-hidden {
+        display: none;
+    }
+
+    .booking-form-visible {
+        display: block;
+    }
+
+    .room-card {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 560px;
+        background: linear-gradient(180deg, #fff9f0 0%, var(--card) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 16px;
+        padding: 0 0 1.75rem;
+        box-shadow:
+            0 20px 50px rgba(0, 0, 0, 0.45),
+            0 0 0 1px rgba(90, 42, 130, 0.15);
+        overflow: hidden;
+
+        &::before {
+            content: "";
+            display: block;
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--accent-orange) 0 14px,
+                var(--accent-purple) 14px 28px
+            );
+        }
+    }
+
+    .back-link {
+        display: inline-block;
+        margin: 1.25rem 1.75rem 0;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        background: rgba(90, 42, 130, 0.08);
+        color: var(--accent-purple);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: background 0.2s, color 0.2s;
+
+        &:hover {
+            background: var(--accent-purple);
+            color: #fff;
+        }
+    }
+
+    .room-header {
+        padding: 1rem 1.75rem 0.5rem;
+        text-align: center;
+    }
+
+    .room-tag {
+        display: inline-block;
+        margin: 0;
+        padding: 0.2rem 0.65rem;
+        border-radius: 999px;
+        background: #2a1038;
+        color: #f8e8ff;
+        font-size: 0.75rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    h1 {
+        margin: 0.65rem 0 0.5rem;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(1.85rem, 5vw, 2.35rem);
+        color: #2a1038;
+        letter-spacing: 0.02em;
+        text-shadow: 0 2px 0 rgba(255, 106, 0, 0.25);
+    }
+
+    .room-intro {
+        margin: 0 auto;
+        max-width: 42ch;
+        color: #4a3f52;
+        font-size: 0.95rem;
+    }
+
+    h2 {
+        margin: 0 0 1rem;
+        font-size: 1.1rem;
+        color: #2a1038;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+    }
+
+    .booking-section {
+        margin: 1.25rem 1.75rem 0;
+        padding: 1.25rem;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid var(--border);
+    }
+
+    .booking-section h2 {
+        margin-top: 1.25rem;
+    }
+
+    .booking-section h2:first-child {
+        margin-top: 0;
+    }
+
+    .offer-cards {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .offer-card {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+        padding: 1rem 1.1rem;
+        border-radius: 10px;
+        background: #fff;
+        border: 2px solid var(--border);
+        border-left: 5px solid var(--accent-orange);
+        box-shadow: 0 3px 10px rgba(27, 27, 31, 0.08);
+        font: inherit;
+        text-align: left;
+        color: inherit;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s,
+            background 0.2s;
+
+        &:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(90, 42, 130, 0.12);
+            border-color: #b89fd4;
+        }
+
+        &[aria-pressed="true"] {
+            border-color: var(--accent-purple);
+            background: #f3ebff;
+            box-shadow: 0 4px 14px rgba(90, 42, 130, 0.18);
+        }
+
+        &:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            transform: none;
+        }
+    }
+
+    .offer-card__title {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #2a1038;
+    }
+
+    .offer-card__description {
+        margin-top: 0.35rem;
+        font-size: 0.9rem;
+        line-height: 1.45;
+        color: #4a3f52;
+    }
+
+    .offer-card__price {
+        margin-top: 0.75rem;
+        display: flex;
+        align-items: baseline;
+        gap: 0.35rem;
+        font-weight: 600;
+    }
+
+    .offer-card__amount {
+        font-size: 1.2rem;
+        color: var(--accent-green);
+    }
+
+    .offer-card__unit {
+        font-size: 0.85rem;
+        font-weight: normal;
+        color: #5c5368;
+    }
+
+    .offer-card__pick {
+        margin-top: 0.65rem;
+        font-size: 0.85rem;
+        color: #5c5368;
+    }
+
+    .offer-card__picked {
+        display: none;
+        margin-top: 0.65rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--accent-purple);
+    }
+
+    .offer-card[aria-pressed="true"] .offer-card__pick {
+        display: none;
+    }
+
+    .offer-card[aria-pressed="true"] .offer-card__picked {
+        display: block;
+    }
+
+    .booking-steps-grid {
+        display: grid;
+        gap: 1rem;
+        margin-top: 1.25rem;
+    }
+
+    .booking-step {
+        padding: 1rem 1.1rem;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid var(--border);
+    }
+
+    .booking-step h2 {
+        margin: 0 0 0.85rem;
+        font-size: 1rem;
+    }
+
+    .booking-step--hours {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .booking-step--hours .hours-field label {
+        margin-top: 0;
+    }
+
+    .booking-step--hours .total-price-box {
+        max-width: none;
+        margin: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .booking-step--details label:first-of-type {
+        margin-top: 0;
+    }
+
+    @media (min-width: 640px) {
+        .booking-steps-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            align-items: stretch;
+        }
+    }
+
+    .hours-help {
+        margin: 0.35rem 0 0;
+        font-size: 0.85rem;
+        color: #5c5368;
+    }
+
+    #hours {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin-top: 0.35rem;
+        padding: 0.55rem 0.7rem;
+        border: 1px solid #c4b08a;
+        border-radius: 8px;
+        font: inherit;
+        background: #fff;
+    }
+
+    #hours:focus {
+        border-color: var(--accent-purple);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(90, 42, 130, 0.2);
+    }
+
+    .total-price-box {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 20rem;
+        margin: 0.25rem auto 0.5rem;
+        padding: 0.4rem 1.35rem;
+        text-align: center;
+        border-radius: 12px;
+        border: 2px dashed var(--border);
+        background: linear-gradient(180deg, #fff 0%, #faf6ef 100%);
+        box-shadow: 0 4px 14px rgba(27, 27, 31, 0.06);
+        transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+    }
+
+    .total-price-box__label {
+        margin: 0;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent-purple);
+    }
+
+    .total-price-box__value {
+        margin: 0.35rem auto 0;
+        max-width: 18rem;
+        font-size: 1rem;
+        line-height: 1.45;
+        font-weight: 600;
+        color: #4a3f52;
+    }
+
+    .total-price-box--ready {
+        border-style: solid;
+        border-color: var(--accent-purple);
+        background: linear-gradient(145deg, #3d1a5c 0%, #2a1038 100%);
+        box-shadow:
+            0 8px 20px rgba(90, 42, 130, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .total-price-box--ready .total-price-box__label {
+        color: #e8cfff;
+    }
+
+    .total-price-box--ready .total-price-box__value {
+        font-size: clamp(1.75rem, 5vw, 2.25rem);
+        font-weight: 800;
+        letter-spacing: 0.02em;
+        color: #fff;
+        text-shadow: 0 2px 0 rgba(255, 106, 0, 0.35);
+    }
+
+    .field-error {
+        color: #8b0000;
+        min-height: 1.25rem;
+        margin: 0 0 0.35rem;
+        font-size: 0.85rem;
+
+        &:not(:empty)::before {
+            content: "! ";
+            font-weight: bold;
+        }
+    }
+
+    #booking-form {
+        label {
+            display: block;
+            margin-top: 0.65rem;
+            font-weight: 600;
+            font-size: 0.92rem;
+            color: #34283f;
+        }
+
+        input,
+        select {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 0.35rem;
+            padding: 0.55rem 0.7rem;
+            border: 1px solid #c4b08a;
+            border-radius: 8px;
+            font: inherit;
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--accent-purple);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(90, 42, 130, 0.2);
+        }
+    }
+
+    .form-actions {
+        margin-top: 1.25rem;
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--border);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+    button {
+        font: inherit;
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 0.6rem 1.1rem;
+        border: 2px solid transparent;
+        transition: transform 0.15s, background 0.2s, color 0.2s;
+
+        &:active:not(:disabled) {
+            transform: translateY(1px);
+        }
+    }
+
+    #confirm-booking {
+        flex: 1;
+        min-width: 6rem;
+        font-weight: bold;
+        background: #c4bdb4;
+        color: #f8f8f8;
+        cursor: pointer;
+        box-shadow: none;
+
+        &.btn-ready:not(.btn-sent) {
+            background: linear-gradient(180deg, #ff7a1a, var(--accent-orange));
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 106, 0, 0.35);
+
+            &:hover {
+                background: linear-gradient(180deg, #ff6a00, #e05500);
+            }
+        }
+
+        &.btn-sent {
+            background: linear-gradient(180deg, #6b3d8f, var(--accent-purple));
+            color: #f3e8ff;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+    }
+
+    #start-over {
+        flex: 1;
+        max-width: 20rem;
+        background: #f0ebe3;
+        border-color: #c4bdb4;
+        color: #8a8278;
+        cursor: pointer;
+
+        &.btn-active {
+            background: #fff;
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
+
+            &:hover {
+                background: var(--accent-purple);
+                color: #fff;
+            }
+        }
+    }
+
+    .booking-summary {
+        margin: 1.25rem 1.75rem 0;
+        padding: 1.15rem 1.25rem;
+        border-radius: 12px;
+        border: 2px solid var(--accent-green);
+        background: linear-gradient(180deg, #f6fff8, #e8f5eb);
+        animation: clown-summary-in 0.35s ease-out;
+
+        h2 {
+            margin-top: 0;
+            color: var(--accent-green);
+        }
+
+        p {
+            margin: 0.45rem 0;
+            padding-bottom: 0.45rem;
+            border-bottom: 1px dashed rgba(47, 107, 58, 0.25);
+
+            &:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    .summary-total {
+        margin-top: 0.75rem;
+        padding: 0.65rem 0.75rem;
+        border-radius: 8px;
+        background: rgba(47, 107, 58, 0.12);
+        font-size: 1.05rem;
+    }
+    @keyframes clown-summary-in {
+        from {
+            opacity: 0;
+            transform: translateY(6px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+}
+
+.creepy-clown-room {
+
+    h1 {
+        font-weight: 700;
+    }
+
+    h2 {
+        font-family: inherit;
+        font-weight: 700;
+    }
+
+
+    .field-error {
+        border-left: none;
+        padding-left: 0;
+        font-weight: normal;
+    }
+
+    #summary-total {
+        color: inherit;
+        font-weight: inherit;
+    }
+
+}
+
+
+@media (min-width: 800px) {
+    .creepy-clown-room {
+        .room-card {
+            max-width: 960px;
+        }
+
+        .offer-cards {
+            flex-direction: row;
+            align-items: stretch;
+        }
+
+        .offer-card {
+            flex: 1;
+        }
+
+        .offer-card__price {
+            margin-top: auto;
+            padding-top: 0.75rem;
+        }
+    }
+}
