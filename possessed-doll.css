@@ -1,0 +1,251 @@
+/* ==========================================================
+   The Possessed Doll – egen design för possessed-doll.html
+   Ansvarig: Peter
+
+   Laddas efter styles.css och använder dess variabler.
+   Erbjudandena visas som runda porslinsmedaljonger i stället
+   för rektangulära kort.
+   ========================================================== */
+
+/* ---------- Lägre inledning ----------
+
+   Inledningen med bilden är lägre än på de andra rummen, så att
+   medaljongerna och priset syns utan att man behöver skrolla. */
+.page-intro {
+  min-height: clamp(16rem, 26vw, 21rem);
+  padding-block: 2.5rem 1.75rem;
+}
+
+.page-intro h1 {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  margin-bottom: 0.2em;
+}
+
+.page-intro .breadcrumb {
+  margin-bottom: 0.4rem;
+}
+
+/* Mindre luft mellan inledningen och formuläret */
+.booking {
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+/* På mobilen ligger texten över bilden, så den behöver lite mer höjd */
+@media (max-width: 640px) {
+  .page-intro {
+    min-height: 22rem;
+  }
+}
+
+/* ---------- Medaljongerna ---------- */
+.doll-offers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+  padding-block: 0.5rem;
+}
+
+.doll-offer {
+  position: relative;
+  width: 15rem;
+  aspect-ratio: 1;          /* lika hög som bred */
+  border-radius: 50%;       /* gör kvadraten till en cirkel */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 2rem 1.75rem;
+  text-align: center;
+  font: inherit;
+  color: var(--foreground);
+  cursor: pointer;
+
+  /* Porslinsyta: ljusast uppe till vänster, som om ljuset faller därifrån */
+  background: radial-gradient(circle at 35% 28%, #fffaf2 0%, var(--paper) 45%, #e6d8bd 100%);
+  border: 3px solid var(--line);
+  /* Två inre ringar ger en kant som på ett gammalt porslinsfat */
+  box-shadow:
+    inset 0 0 0 7px var(--paper),
+    inset 0 0 0 9px var(--line);
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.doll-offer:hover {
+  transform: translateY(-3px);
+  border-color: var(--foreground);
+}
+
+.doll-offer-fear {
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+
+.doll-offer-name {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  line-height: 1.1;
+}
+
+.doll-offer-description {
+  font-size: 0.85rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.doll-offer-price {
+  margin-top: 0.15rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.doll-offer-price small {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* ---------- Vald medaljong: mörk med orange glöd och en bock ---------- */
+.doll-offer.is-selected {
+  color: var(--background);
+  background: radial-gradient(circle at 35% 28%, #3b302b 0%, var(--foreground) 70%);
+  border-color: var(--accent-orange);
+  box-shadow:
+    inset 0 0 0 7px var(--foreground),
+    inset 0 0 0 9px var(--accent-orange),
+    0 0 0 4px rgba(255, 106, 0, 0.25),
+    0 0 30px rgba(255, 106, 0, 0.45);
+}
+
+.doll-offer.is-selected .doll-offer-fear,
+.doll-offer.is-selected .doll-offer-description,
+.doll-offer.is-selected .doll-offer-price small {
+  color: #d6ccbb;
+}
+
+.doll-offer.is-selected .doll-offer-price {
+  color: var(--accent-orange);
+}
+
+/* Bocken sitter mitt på medaljongens nederkant */
+.doll-offer.is-selected::after {
+  content: "✓";
+  position: absolute;
+  bottom: -0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-orange);
+  color: var(--foreground);
+  font-weight: 700;
+  border: 3px solid var(--background);
+}
+
+/* ---------- Efter bekräftelse och vid fel ---------- */
+.doll-offer:disabled {
+  cursor: default;
+  transform: none;
+}
+
+.doll-offer:disabled:not(.is-selected) {
+  opacity: 0.45;
+}
+
+.doll-offers[aria-invalid="true"] .doll-offer {
+  border-color: var(--error);
+}
+
+/* Texten om valet centreras under medaljongerna */
+.offer-group .selected-offer {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+/* ---------- Två kolumner på större skärmar ----------
+
+   Medaljongerna ligger till vänster och antal spelare med totalpriset
+   i en egen ruta till höger. Rutan följer med när man skrollar, så att
+   priset syns medan man fyller i sina uppgifter. På smala skärmar
+   ligger stegen kvar under varandra. */
+@media (min-width: 960px) {
+  /* Formuläret får bli bredare än på de andra rummen */
+  .booking-layout > .booking-form {
+    max-width: var(--content-width);
+  }
+
+  .booking-fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 19rem;
+    column-gap: 2.5rem;
+    align-items: start;
+  }
+
+  .offer-group {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .details-step {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  /* Rutan till höger sträcker sig över båda raderna och stannar
+     strax under sidhuvudet när man skrollar */
+  .players-step {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    position: sticky;
+    top: 5.5rem;
+    padding: 1.5rem;
+    background: var(--paper);
+    border: 2px solid var(--line);
+    border-top: 5px solid var(--room-accent);
+    border-radius: var(--radius-small);
+  }
+
+  .players-step #quantity {
+    max-width: none;
+  }
+
+  .players-step .price-output.is-total {
+    font-size: 1.05rem;
+    line-height: 1.4;
+  }
+
+  /* Lite mindre medaljonger, så att tre får plats bredvid varandra */
+  .doll-offers {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .doll-offer {
+    width: 13rem;
+    padding: 1.6rem 1.4rem;
+  }
+
+  .doll-offer-name {
+    font-size: 1.25rem;
+  }
+
+  .doll-offer-description {
+    font-size: 0.8rem;
+  }
+}
+
+/* ---------- Respektera inställningen "minska rörelse" ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .doll-offer {
+    transition: none;
+  }
+
+  .doll-offer:hover {
+    transform: none;
+  }
+}

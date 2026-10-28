@@ -1,26 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IM+Fell+English&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+  <title>Haunted Rooms – WorkHub escape rooms</title>
+  <meta name="description" content="Four escape rooms from WorkHub. Choose your nightmare and book for 1 to 5 players.">
 </head>
 <body>
-    <main>
-        <header>
-            <nav class="main-nav">
-                <a href="index.html" class="nav-logo">WorkHub</a>
-                <ul class="nav-links">
-                    <li><a href="creepy-clown-room.html">1escaperoom</a></li>
-                    <li><a href="">2escaperoom</a></li>
-                    <li><a href="">3escaperoom</a></li>
-                    <li><a href="">4escaperoom</a></li>
-                </ul>
-            </nav>
-        </header>
-        <section></section>
-    </main>
-    
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Gemensamt sidhuvud: samma på alla sidor -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html">
+        <span class="logo-name">WorkHub</span>
+        <span class="logo-sub">Haunted Rooms</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        Menu
+      </button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Main menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="haunted-mansion.html">Haunted Mansion</a></li>
+          <li><a href="possessed-doll.html">Possessed Doll</a></li>
+          <li><a href="abandoned-asylum.html">Abandoned Asylum</a></li>
+          <li><a href="creepy-clown.html">Creepy Clown Room</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-text">
+        <p class="hero-kicker">WorkHub presents</p>
+        <h1 id="hero-title">Haunted Rooms</h1>
+        <p class="hero-lead">Choose your nightmare. Can you escape before it's too late?</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#rooms">Choose a room</a>
+          <a class="button button-light" href="#how">How it works</a>
+        </div>
+      </div>
+
+      <!-- Spökhus i månsken: ren SVG, inga bildfiler -->
+      <svg class="scene" viewBox="0 -80 1200 400" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+        <circle class="moon" cx="930" cy="105" r="62"/>
+        <circle class="moon-crater" cx="905" cy="90" r="11"/>
+        <circle class="moon-crater" cx="950" cy="128" r="7"/>
+
+        <g class="bats">
+          <path d="M0 0 Q5 -7 10 0 Q15 -7 20 0 Q15 -2 10 3 Q5 -2 0 0Z" transform="translate(820 70) scale(1.4)"/>
+          <path d="M0 0 Q5 -7 10 0 Q15 -7 20 0 Q15 -2 10 3 Q5 -2 0 0Z" transform="translate(1030 150)"/>
+          <path d="M0 0 Q5 -7 10 0 Q15 -7 20 0 Q15 -2 10 3 Q5 -2 0 0Z" transform="translate(300 90) scale(1.1)"/>
+        </g>
+
+        <path class="hills" d="M0 255 Q200 205 400 240 T800 230 T1200 245 V320 H0 Z"/>
+
+        <!-- Huset -->
+        <path class="house" d="M420 285 V170 H400 L590 95 L780 170 H760 V285 Z
+                               M450 170 V110 H440 L485 40 L530 110 H520 V170 Z
+                               M690 170 V130 H680 L715 85 L750 130 H740 V170 Z
+                               M620 140 V100 H642 V140 Z"/>
+        <rect class="window" x="474" y="122" width="22" height="30"/>
+        <circle class="window window-flicker" cx="590" cy="140" r="12"/>
+        <rect class="window window-dark" x="705" y="138" width="18" height="24"/>
+        <rect class="window" x="452" y="195" width="24" height="32"/>
+        <rect class="window window-dark" x="502" y="195" width="24" height="32"/>
+        <rect class="window window-dark" x="654" y="195" width="24" height="32"/>
+        <rect class="window" x="704" y="195" width="24" height="32"/>
+        <rect class="door" x="576" y="236" width="28" height="49"/>
+
+        <!-- Kala träd -->
+        <path class="tree" d="M180 300 L186 200 L160 150 M185 215 L218 172 L244 162 M176 176 L146 166 M214 177 L211 140"/>
+        <path class="tree" d="M1020 300 L1014 195 L1040 148 M1015 210 L982 170 L956 160 M1024 172 L1054 160 M986 175 L989 138"/>
+
+        <path class="ground" d="M0 290 Q300 278 600 288 T1200 286 V320 H0 Z"/>
+        <path class="fence" d="M0 300 V272 L3 265 L6 272 V300 Z M18 300 V272 L21 265 L24 272 V300 Z M36 300 V272 L39 265 L42 272 V300 Z M54 300 V272 L57 265 L60 272 V300 Z M72 300 V272 L75 265 L78 272 V300 Z M90 300 V272 L93 265 L96 272 V300 Z M108 300 V272 L111 265 L114 272 V300 Z M126 300 V272 L129 265 L132 272 V300 Z M144 300 V272 L147 265 L150 272 V300 Z M162 300 V272 L165 265 L168 272 V300 Z M180 300 V272 L183 265 L186 272 V300 Z M198 300 V272 L201 265 L204 272 V300 Z M216 300 V272 L219 265 L222 272 V300 Z M234 300 V272 L237 265 L240 272 V300 Z M252 300 V272 L255 265 L258 272 V300 Z M270 300 V272 L273 265 L276 272 V300 Z M288 300 V272 L291 265 L294 272 V300 Z M306 300 V272 L309 265 L312 272 V300 Z M324 300 V272 L327 265 L330 272 V300 Z M342 300 V272 L345 265 L348 272 V300 Z M360 300 V272 L363 265 L366 272 V300 Z M378 300 V272 L381 265 L384 272 V300 Z M396 300 V272 L399 265 L402 272 V300 Z M414 300 V272 L417 265 L420 272 V300 Z M432 300 V272 L435 265 L438 272 V300 Z M450 300 V272 L453 265 L456 272 V300 Z M468 300 V272 L471 265 L474 272 V300 Z M486 300 V272 L489 265 L492 272 V300 Z M504 300 V272 L507 265 L510 272 V300 Z M522 300 V272 L525 265 L528 272 V300 Z M540 300 V272 L543 265 L546 272 V300 Z M558 300 V272 L561 265 L564 272 V300 Z M576 300 V272 L579 265 L582 272 V300 Z M594 300 V272 L597 265 L600 272 V300 Z M612 300 V272 L615 265 L618 272 V300 Z M630 300 V272 L633 265 L636 272 V300 Z M648 300 V272 L651 265 L654 272 V300 Z M666 300 V272 L669 265 L672 272 V300 Z M684 300 V272 L687 265 L690 272 V300 Z M702 300 V272 L705 265 L708 272 V300 Z M720 300 V272 L723 265 L726 272 V300 Z M738 300 V272 L741 265 L744 272 V300 Z M756 300 V272 L759 265 L762 272 V300 Z M774 300 V272 L777 265 L780 272 V300 Z M792 300 V272 L795 265 L798 272 V300 Z M810 300 V272 L813 265 L816 272 V300 Z M828 300 V272 L831 265 L834 272 V300 Z M846 300 V272 L849 265 L852 272 V300 Z M864 300 V272 L867 265 L870 272 V300 Z M882 300 V272 L885 265 L888 272 V300 Z M900 300 V272 L903 265 L906 272 V300 Z M918 300 V272 L921 265 L924 272 V300 Z M936 300 V272 L939 265 L942 272 V300 Z M954 300 V272 L957 265 L960 272 V300 Z M972 300 V272 L975 265 L978 272 V300 Z M990 300 V272 L993 265 L996 272 V300 Z M1008 300 V272 L1011 265 L1014 272 V300 Z M1026 300 V272 L1029 265 L1032 272 V300 Z M1044 300 V272 L1047 265 L1050 272 V300 Z M1062 300 V272 L1065 265 L1068 272 V300 Z M1080 300 V272 L1083 265 L1086 272 V300 Z M1098 300 V272 L1101 265 L1104 272 V300 Z M1116 300 V272 L1119 265 L1122 272 V300 Z M1134 300 V272 L1137 265 L1140 272 V300 Z M1152 300 V272 L1155 265 L1158 272 V300 Z M1170 300 V272 L1173 265 L1176 272 V300 Z M1188 300 V272 L1191 265 L1194 272 V300 Z M0 276 H1200 V279 H0 Z M0 290 H1200 V293 H0 Z"/>
+      </svg>
+    </section>
+
+    <!-- Om företaget -->
+    <section class="about section" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <h2 id="about-title">About WorkHub</h2>
+        <div class="about-text">
+          <p>
+            WorkHub runs four escape rooms in an old house at the end of
+            Cemetery Lane. Each room has its own story, its own puzzles and
+            its own reason to make you look over your shoulder.
+          </p>
+          <p>
+            You play as a team of 1 to 5 players. Lock in, find the clues and
+            get out before the time runs out. Our game masters watch every
+            room, so help is never far away – even when it feels like it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Länkar till alla bokningssidor -->
+    <section id="rooms" class="rooms section" aria-labelledby="rooms-title">
+      <div class="container">
+        <h2 id="rooms-title">Choose your nightmare</h2>
+        <p class="section-intro">Every room has three ways to play. Pick a room to see them, calculate your price and send a booking request.</p>
+
+        <ul class="room-list">
+          <li class="room-row" data-room="mansion">
+            <img class="room-image" src="images/haunted-mansion.jpg" alt="A gothic mansion with glowing windows behind an iron gate under a full moon" width="1600" height="900" loading="lazy">
+            <h3>The Haunted Mansion</h3>
+            <p>Enter an abandoned mansion where the previous owners never truly left.</p>
+            <a class="button button-primary" href="haunted-mansion.html">Book the mansion</a>
+          </li>
+          <li class="room-row" data-room="doll">
+            <img class="room-image" src="images/possessed-doll.jpg" alt="A cracked porcelain doll sitting in a velvet armchair among candles" width="1600" height="900" loading="lazy">
+            <h3>The Possessed Doll</h3>
+            <p>A cursed doll has awakened. Solve the mystery before she finds you.</p>
+            <a class="button button-primary" href="possessed-doll.html">Book the doll</a>
+          </li>
+          <li class="room-row" data-room="asylum">
+            <img class="room-image" src="images/abandoned-asylum-background.jpg" alt="An abandoned asylum at night with glowing windows, jack-o'-lanterns and fog behind an iron fence" width="1920" height="815" loading="lazy">
+            <h3>The Abandoned Asylum</h3>
+            <p>The asylum has been empty for decades... or so everyone thought.</p>
+            <a class="button button-primary" href="abandoned-asylum.html">Book the asylum</a>
+          </li>
+          <li class="room-row" data-room="clown">
+            <img class="room-image" src="images/creepy-clown.jpg" alt="A clown in a top hat sitting in a red armchair in a candlelit dressing room" width="1600" height="900" loading="lazy">
+            <h3>The Creepy Clown Room</h3>
+            <p>The circus left town years ago. One clown stayed behind – and he still wants to play.</p>
+            <a class="button button-primary" href="creepy-clown.html">Book the clown</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Bokningsflödet steg för steg -->
+    <section id="how" class="how section" aria-labelledby="how-title">
+      <div class="container">
+        <h2 id="how-title">How it works</h2>
+        <ol class="steps">
+          <li>
+            <h3>Choose an experience</h3>
+            <p>Each room has three ways to play. Your choice is clearly marked.</p>
+          </li>
+          <li>
+            <h3>Count your players</h3>
+            <p>Choose 1 to 5 players and the total price updates right away.</p>
+          </li>
+          <li>
+            <h3>Send your request</h3>
+            <p>Enter your name and email. You get a summary as soon as it's sent.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+  </main>
+
+  <!-- Gemensam sidfot: samma på alla sidor -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p><strong>WorkHub Haunted Rooms</strong><br>Cemetery Lane 13</p>
+      <p>book@workhub-haunted.example<br>Open every night until the last team escapes</p>
+      <p class="footer-note">Fictional company in a course assignment. &copy; <span id="current-year">2026</span></p>
+    </div>
+  </footer>
 </body>
 </html>

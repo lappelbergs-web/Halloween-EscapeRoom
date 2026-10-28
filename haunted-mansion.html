@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Haunted Mansion | Workhub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&family=IM+Fell+English&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="haunted-mansion.css">
+    <script src="app.js" defer></script>
+</head>
+<body data-activity="mansion">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="index.html">
+        <span class="logo-name">WorkHub</span>
+        <span class="logo-sub">Haunted Rooms</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        Menu
+      </button>
+
+      <nav id="site-nav" class="site-nav" aria-label="Main menu">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="haunted-mansion.html">Haunted Mansion</a></li>
+          <li><a href="possessed-doll.html">Possessed Doll</a></li>
+          <li><a href="abandoned-asylum.html">Abandoned Asylum</a></li>
+          <li><a href="creepy-clown.html">Creepy Clown Room</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+    <main id="main" class="haunted-mansion">
+        <h1>The Haunted Mansion</h1>
+        <p>Welcome to the Haunted Mansion! Get ready for a spine-chilling adventure.</p>
+        <section id="offers">
+            <h2>Choose Your Experience</h2>
+            <div id="offers-container"></div>
+        </section>
+        
+        
+        <form id="booking-form" novalidate>
+            <h2>Book Your Experience</h2>
+
+        <label for="quantity">Number of players (1-5)</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="5" value="1">
+        
+        <p id="total-price">Choose an experience to see the price.</p>
+    <label for="customer-name">Your Name</label>
+    <input type="text" id="customer-name">
+    <p id="name-error"></p>
+
+    <label for="customer-email">Your Email</label>
+    <input type="email" id="customer-email">
+    <p id="email-error"></p>
+
+    <p id="booking-error"></p>
+
+    <button type="submit">Confirm Booking</button>
+    <button type="reset">Reset Booking</button>
+</form>
+
+<div id="booking-confirmation"></div>
+    </main>
+
+  <!-- Gemensam sidfot: samma på alla sidor -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p><strong>WorkHub Haunted Rooms</strong><br>Cemetery Lane 13</p>
+      <p>book@workhub-haunted.example<br>Open every night until the last team escapes</p>
+      <p class="footer-note">Fictional company in a course assignment. &copy; <span id="current-year">2026</span></p>
+    </div>
+  </footer>
+
+    <script src="haunted-mansion.js"></script>
+</body>
+</html>
