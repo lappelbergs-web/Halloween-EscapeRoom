@@ -1,7 +1,7 @@
-const MIN_HOURS = 1;
-const MAX_HOURS = 5;
-const HOURS_ERROR = `Ange ett heltal mellan ${MIN_HOURS} och ${MAX_HOURS} timmar.`;
-const NO_OFFER_MESSAGE = "Välj ett erbjudande för att se totalpriset.";
+const MIN_PEOPLE = 1;
+const MAX_PEOPLE = 5;
+const PEOPLE_ERROR = `Enter a whole number between ${MIN_PEOPLE} and ${MAX_PEOPLE} people.`;
+const NO_OFFER_MESSAGE = "Select an offer to see the total price.";
 
 const offers = [
   {
@@ -9,26 +9,26 @@ const offers = [
     name: "Funhouse",
     description:
       "60 minutes among crooked mirrors and laughter from nowhere. Hints included.",
-    pricePerHour: 250,
+    pricePerPerson: 250,
   },
   {
     id: "clown-red-balloon",
     name: "Red Balloon",
     description:
       "Follow the balloons to find the way out. Just don't follow them too far.",
-    pricePerHour: 310,
+    pricePerPerson: 310,
   },
   {
     id: "clown-showtime",
     name: "Showtime",
     description:
       "90 minutes with a live clown. He decides when the show is over.",
-    pricePerHour: 400,
+    pricePerPerson: 400,
   },
 ];
 
 const offersList = document.getElementById("clown-prices");
-const hoursInput = document.getElementById("hours");
+const peopleInput = document.getElementById("people");
 const totalPriceBox = document.getElementById("total-price-box");
 const totalPriceEl = document.getElementById("total-price");
 const bookingForm = document.getElementById("booking-form");
@@ -41,33 +41,33 @@ const bookingSummary = document.getElementById("booking-summary");
 let selectedOfferId = null;
 let bookingConfirmed = false;
 
-hoursInput.min = MIN_HOURS;
-hoursInput.max = MAX_HOURS;
+peopleInput.min = MIN_PEOPLE;
+peopleInput.max = MAX_PEOPLE;
 
 function formatPrice(amount) {
-  return amount.toLocaleString("sv-SE") + " kr";
+  return amount.toLocaleString("sv-SE") + " SEK";
 }
 
-function formatHours(hours) {
-  return hours === 1 ? "1 timme" : hours + " timmar";
+function formatPeople(people) {
+  return people === 1 ? "1 person" : people + " people";
 }
 
 function getOfferById(id) {
   return offers.find((offer) => offer.id === id) ?? null;
 }
 
-function calculateTotalPrice(pricePerHour, hours) {
-  return pricePerHour * hours;
+function calculateTotalPrice(pricePerPerson, people) {
+  return pricePerPerson * people;
 }
 
-function isValidHours(hours) {
-  return Number.isInteger(hours) && hours >= MIN_HOURS && hours <= MAX_HOURS;
+function isValidPeople(people) {
+  return Number.isInteger(people) && people >= MIN_PEOPLE && people <= MAX_PEOPLE;
 }
 
 function readBooking() {
   return {
     offerId: selectedOfferId,
-    hours: Number(hoursInput.value),
+    people: Number(peopleInput.value),
   };
 }
 
@@ -105,11 +105,11 @@ function createOfferCard(offer) {
       <span class="offer-card__title">${offer.name}</span>
       <span class="offer-card__description">${offer.description}</span>
       <span class="offer-card__price">
-        <span class="offer-card__amount">${formatPrice(offer.pricePerHour)}</span>
-        <span class="offer-card__unit">/ timme</span>
+        <span class="offer-card__amount">${formatPrice(offer.pricePerPerson)}</span>
+        <span class="offer-card__unit">/ person</span>
       </span>
-      <span class="offer-card__pick">Välj</span>
-      <span class="offer-card__picked">✓ Vald</span>
+      <span class="offer-card__pick">Select</span>
+      <span class="offer-card__picked">✓ Selected</span>
     </button>
   `;
 }
@@ -126,7 +126,7 @@ function updateSelection() {
 }
 
 function updatePriceDisplay() {
-  const { offerId, hours } = readBooking();
+  const { offerId, people } = readBooking();
   const offer = getOfferById(offerId);
 
   totalPriceBox.classList.remove("total-price-box--ready");
@@ -135,21 +135,21 @@ function updatePriceDisplay() {
     totalPriceEl.textContent = NO_OFFER_MESSAGE;
     return;
   }
-  if (!isValidHours(hours)) {
-    totalPriceEl.textContent = HOURS_ERROR;
+  if (!isValidPeople(people)) {
+    totalPriceEl.textContent = PEOPLE_ERROR;
     return;
   }
 
-  const total = calculateTotalPrice(offer.pricePerHour, hours);
+  const total = calculateTotalPrice(offer.pricePerPerson, people);
   totalPriceEl.textContent = formatPrice(total);
   totalPriceBox.classList.add("total-price-box--ready");
 }
 
 function isFormComplete() {
-  const { offerId, hours } = readBooking();
+  const { offerId, people } = readBooking();
   return (
     getOfferById(offerId) &&
-    isValidHours(hours) &&
+    isValidPeople(people) &&
     isValidName(nameInput.value) &&
     isValidEmail(emailInput.value)
   );
@@ -176,41 +176,41 @@ function updateActionButtons() {
     selectedOfferId !== null ||
     nameInput.value.trim() !== "" ||
     emailInput.value.trim() !== "" ||
-    hoursInput.value !== "1";
+    peopleInput.value !== "1";
   startOverButton.classList.toggle("btn-active", hasAnyInput);
 }
 
 function validateForm() {
   clearFieldErrors();
   let valid = true;
-  const { offerId, hours } = readBooking();
+  const { offerId, people } = readBooking();
 
   if (!isValidName(nameInput.value)) {
     setFieldError(
       "name-error",
-      "Namn måste fyllas i och får inte bara vara blanksteg.",
+      "Name is required and cannot be only spaces.",
     );
     valid = false;
   }
 
   if (!emailInput.value.trim()) {
-    setFieldError("email-error", "E-postadress måste fyllas i.");
+    setFieldError("email-error", "Email address is required.");
     valid = false;
   } else if (!isValidEmail(emailInput.value)) {
     setFieldError(
       "email-error",
-      "E-post ska ha ett @, text före och efter, samt en domän med punkt och text på båda sidor.",
+      "Email must contain one @, text before and after it, and a domain with a dot and text on both sides.",
     );
     valid = false;
   }
 
   if (!getOfferById(offerId)) {
-    setFieldError("package-error", "Välj ett giltigt erbjudande.");
+    setFieldError("package-error", "Select a valid offer.");
     valid = false;
   }
 
-  if (!isValidHours(hours)) {
-    setFieldError("quantity-error", HOURS_ERROR);
+  if (!isValidPeople(people)) {
+    setFieldError("quantity-error", PEOPLE_ERROR);
     valid = false;
   }
 
@@ -220,17 +220,17 @@ function validateForm() {
 function setFormLocked(locked) {
   nameInput.disabled = locked;
   emailInput.disabled = locked;
-  hoursInput.disabled = locked;
+  peopleInput.disabled = locked;
   for (const card of offersList.children) {
     card.disabled = locked;
   }
 }
 
-function showConfirmation(name, email, offer, hours, total) {
+function showConfirmation(name, email, offer, people, total) {
   document.getElementById("summary-name").textContent = name;
   document.getElementById("summary-email").textContent = email;
   document.getElementById("summary-offer").textContent = offer.name;
-  document.getElementById("summary-quantity").textContent = formatHours(hours);
+  document.getElementById("summary-quantity").textContent = formatPeople(people);
   document.getElementById("summary-total").textContent = formatPrice(total);
   bookingSummary.classList.remove("booking-form-hidden");
 }
@@ -239,7 +239,7 @@ function resetBooking() {
   nameInput.value = "";
   emailInput.value = "";
   selectedOfferId = null;
-  hoursInput.value = "1";
+  peopleInput.value = "1";
   bookingConfirmed = false;
   clearFieldErrors();
   bookingSummary.classList.add("booking-form-hidden");
@@ -261,7 +261,7 @@ offersList.addEventListener("click", (event) => {
   updateActionButtons();
 });
 
-hoursInput.addEventListener("input", () => {
+peopleInput.addEventListener("input", () => {
   setFieldError("quantity-error", "");
   updatePriceDisplay();
   updateActionButtons();
@@ -283,11 +283,17 @@ bookingForm.addEventListener("submit", (event) => {
     return;
   }
 
-  const { offerId, hours } = readBooking();
+  const { offerId, people } = readBooking();
   const offer = getOfferById(offerId);
-  const total = calculateTotalPrice(offer.pricePerHour, hours);
+  const total = calculateTotalPrice(offer.pricePerPerson, people);
 
-  showConfirmation(nameInput.value.trim(), emailInput.value.trim(), offer, hours, total);
+  showConfirmation(
+    nameInput.value.trim(),
+    emailInput.value.trim(),
+    offer,
+    people,
+    total,
+  );
   bookingConfirmed = true;
   setFormLocked(true);
   updateActionButtons();

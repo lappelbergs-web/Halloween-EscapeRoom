@@ -272,16 +272,16 @@
         font-size: 1rem;
     }
 
-    .booking-step--hours {
+    .booking-step--people {
         display: flex;
         flex-direction: column;
     }
 
-    .booking-step--hours .hours-field label {
+    .booking-step--people .people-field label {
         margin-top: 0;
     }
 
-    .booking-step--hours .total-price-box {
+    .booking-step--people .total-price-box {
         max-width: none;
         margin: 0;
         flex: 1;
@@ -302,13 +302,13 @@
         }
     }
 
-    .hours-help {
+    .people-help {
         margin: 0.35rem 0 0;
         font-size: 0.85rem;
         color: #5c5368;
     }
 
-    #hours {
+    #people {
         display: block;
         width: 100%;
         max-width: 100%;
@@ -321,7 +321,7 @@
         background: #fff;
     }
 
-    #hours:focus {
+    #people:focus {
         border-color: var(--accent-purple);
         outline: none;
         box-shadow: 0 0 0 3px rgba(90, 42, 130, 0.2);

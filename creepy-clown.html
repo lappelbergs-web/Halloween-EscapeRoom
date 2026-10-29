@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,60 +37,60 @@
 
     <main id="main" class="creepy-clown-room">
         <section class="room-card">
-            <a class="back-link" href="index.html">← Tillbaka till startsidan</a>
+            <a class="back-link" href="index.html">← Back to home</a>
 
             <header class="room-header">
                 <h1>Creepy Clown Room</h1>
-                <p class="room-intro">Välkommen in i cirkusens mörkaste sal. Välj paket, ange timmar och boka ditt äventyr.</p>
+                <p class="room-intro">Welcome to the circus’s darkest hall. Choose a package, enter the number of people, and book your adventure.</p>
             </header>
 
             <section class="booking-section">
                 <form id="booking-form" class="booking-form" novalidate>
-                    <h2>1. Välj erbjudande</h2>
+                    <h2>1. Choose an offer</h2>
                     <div id="clown-prices" class="offer-cards"></div>
                     <p class="field-error" id="package-error"></p>
 
                     <div class="booking-steps-grid">
-                        <div class="booking-step booking-step--hours">
-                            <h2>2. Timmar och pris</h2>
-                            <div class="hours-field">
-                                <label for="hours">Antal timmar</label>
-                                <input type="number" id="hours" name="hours" value="1">
-                                <p class="hours-help">Ange ett heltal mellan 1 och 5.</p>
+                        <div class="booking-step booking-step--people">
+                            <h2>2. People and price</h2>
+                            <div class="people-field">
+                                <label for="people">Number of people</label>
+                                <input type="number" id="people" name="people" value="1">
+                                <p class="people-help">Enter a whole number between 1 and 5.</p>
                                 <p class="field-error" id="quantity-error"></p>
                             </div>
                             <div id="total-price-box" class="total-price-box" aria-live="polite">
-                                <p class="total-price-box__label">Totalpris</p>
+                                <p class="total-price-box__label">Total price</p>
                                 <p id="total-price" class="total-price-box__value"></p>
                             </div>
                         </div>
 
                         <div class="booking-step booking-step--details">
-                            <h2>3. Dina uppgifter</h2>
-                            <label for="name">Namn:</label>
+                            <h2>3. Your details</h2>
+                            <label for="name">Name:</label>
                             <input type="text" id="name" name="name" autocomplete="name">
                             <p class="field-error" id="name-error"></p>
 
-                            <label for="email">E-postadress:</label>
+                            <label for="email">Email address:</label>
                             <input type="text" id="email" name="email" autocomplete="email">
                             <p class="field-error" id="email-error"></p>
                         </div>
                     </div>
 
                     <div class="form-actions">
-                        <button type="submit" id="confirm-booking">Bekräfta bokning</button>
-                        <button type="button" id="start-over">Börja om</button>
+                        <button type="submit" id="confirm-booking">Confirm booking</button>
+                        <button type="button" id="start-over">Start over</button>
                     </div>
                 </form>
             </section>
 
             <div id="booking-summary" class="booking-summary booking-form-hidden">
-                <h2>Bokningsbekräftelse</h2>
-                <p><strong>Namn:</strong> <span id="summary-name"></span></p>
-                <p><strong>E-post:</strong> <span id="summary-email"></span></p>
-                <p><strong>Erbjudande:</strong> <span id="summary-offer"></span></p>
-                <p><strong>Antal:</strong> <span id="summary-quantity"></span></p>
-                <p class="summary-total"><strong>Totalpris:</strong> <span id="summary-total"></span></p>
+                <h2>Booking confirmation</h2>
+                <p><strong>Name:</strong> <span id="summary-name"></span></p>
+                <p><strong>Email:</strong> <span id="summary-email"></span></p>
+                <p><strong>Offer:</strong> <span id="summary-offer"></span></p>
+                <p><strong>Quantity:</strong> <span id="summary-quantity"></span></p>
+                <p class="summary-total"><strong>Total price:</strong> <span id="summary-total"></span></p>
             </div>
         </section>
     </main>
